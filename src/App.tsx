@@ -92,11 +92,14 @@ const rootRedirect = (
   <Navigate to={ENTERPRISE_NAV_SECTIONS[0].subRoutes[0].path} replace />
 );
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <AppShell />,
-    children: [
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '';
+
+const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <AppShell />,
+      children: [
       { index: true, element: rootRedirect },
       ...sectionRoutes,
       {
@@ -109,8 +112,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
-  },
-]);
+    },
+  ],
+  { basename },
+);
 
 export default function App() {
   return (
