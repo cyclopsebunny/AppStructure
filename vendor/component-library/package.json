@@ -1,0 +1,58 @@
+{
+  "name": "@component-library/core",
+  "version": "0.1.0",
+  "description": "React component library with Figma design tokens",
+  "main": "./dist/index.js",
+  "module": "./dist/index.esm",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./tokens": "./src/tokens/index.ts",
+    "./styles": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "sync-figma": "node scripts/sync-figma-auto.js",
+    "generate-tokens": "node scripts/generate-tokens.js",
+    "generate-components": "node scripts/generate-components.js",
+    "analyze-colors": "node scripts/analyze-color-relationships.js",
+    "validate": "node scripts/validate-extraction.js",
+    "sync-and-generate": "npm run sync-figma && npm run generate-tokens && npm run validate",
+    "code-connect:publish": "cd ../.. && npx figma connect publish",
+    "code-connect:dry-run": "cd ../.. && npx figma connect publish --dry-run",
+    "type-check": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm run validate",
+    "prepack": "npm run build",
+    "version": "npm run build && git add -A dist"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@figma/code-connect": "^1.4.2",
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8",
+    "vite-plugin-dts": "^3.6.4"
+  },
+  "keywords": [
+    "react",
+    "components",
+    "design-system",
+    "figma"
+  ],
+  "license": "MIT"
+}
