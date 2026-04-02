@@ -7,6 +7,6 @@ export { TopNav, type TopNavProps, type TopNavLocation } from './TopNav';
 export { Tabs, TabButton, type TabsProps, type TabItem, type TabButtonProps } from './Tabs';
 export { SubNavLink, type SubNavLinkProps } from './SubNavLink';
 export { SubNav, type SubNavProps, type SubNavItem } from './SubNav';
-export { RightNav, RightNavMobileStrip, type RightNavItem, type RightNavProps, type RightNavMobileStripProps, } from './RightNav';
+export { RightNav, RightNavMobileStrip, UserMenu, BellWithBadge, type RightNavItem, type RightNavProps, type RightNavMobileStripProps, type UserMenuProps, type UserMenuItem, type BellWithBadgeProps, } from './RightNav';
 export { LocationPicker, type PickerLocation, type LocationPickerProps } from './LocationPicker';
 //# sourceMappingURL=index.d.ts.map
