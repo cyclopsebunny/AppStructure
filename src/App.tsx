@@ -39,27 +39,80 @@ const FACILITY_SUB_PAGES: SubPage[] = [
   { id: 'integrations',             label: 'Integrations',             path: '/settings/facility/integrations' },
 ];
 
+// ── Billing settings sub-pages (3rd-level navigation, same pattern as Facility) ─
+
+const BILLING_SUB_PAGES: SubPage[] = [
+  { id: 'plans',            label: 'Plans',            path: '/settings/billing/plans' },
+  { id: 'payment-methods',  label: 'Payment Methods',  path: '/settings/billing/payment-methods' },
+];
+
+const DEVICES_SUB_PAGES: SubPage[] = [
+  { id: 'device-schedules',           label: 'Device Schedules',            path: '/settings/devices/device-schedules' },
+  { id: 'audio-video-call-setup',   label: 'Audio Video Call Setup',      path: '/settings/devices/audio-video-call-setup' },
+  { id: 'entrance-and-exit-settings', label: 'Entrance and Exit Settings', path: '/settings/devices/entrance-and-exit-settings' },
+];
+
+const DOCKS_SUB_PAGES: SubPage[] = [
+  { id: 'dock-sessions',   label: 'Dock Sessions',   path: '/settings/docks/dock-sessions' },
+  { id: 'dock-containers', label: 'Dock Containers', path: '/settings/docks/dock-containers' },
+];
+
+const APPOINTMENTS_SUB_PAGES: SubPage[] = [
+  { id: 'appointment-workflow',  label: 'Appointment Workflow',   path: '/settings/appointments/appointment-workflow' },
+  { id: 'check-in-rules',        label: 'Check In Rules',         path: '/settings/appointments/check-in-rules' },
+  { id: 'check-in-schedules',    label: 'Check In Schedules',     path: '/settings/appointments/check-in-schedules' },
+  { id: 'check-in-overrides',    label: 'Check In Overrides',     path: '/settings/appointments/check-in-overrides' },
+  { id: 'ai-scheduling-agent',   label: 'AI Scheduling Agent',    path: '/settings/appointments/ai-scheduling-agent' },
+  { id: 'appointment-details',   label: 'Appointment Details',    path: '/settings/appointments/appointment-details' },
+];
+
+const YARD_SUB_PAGES: SubPage[] = [
+  { id: 'yard-lots',              label: 'Yard Lots',              path: '/settings/yard/yard-lots' },
+  { id: 'trailer-metadata',       label: 'Trailer Metadata',       path: '/settings/yard/trailer-metadata' },
+  { id: 'trailer-quick-filters',  label: 'Trailer Quick Filters',  path: '/settings/yard/trailer-quick-filters' },
+  { id: 'auto-task-creation',     label: 'Auto Task Creation',     path: '/settings/yard/auto-task-creation' },
+];
+
+const NOTIFICATIONS_SUB_PAGES: SubPage[] = [
+  { id: 'facility-notifications',  label: 'Facility Notifications',  path: '/settings/notifications/facility-notifications' },
+  { id: 'shipment-notifications',  label: 'Shipment Notifications',  path: '/settings/notifications/shipment-notifications' },
+  { id: 'access-notifications',    label: 'Access Notifications',    path: '/settings/notifications/access-notifications' },
+];
+
+/** Settings tabs that use SubPageLayout (3rd-level nav). Keys = nav `sub.id`. */
+const SETTINGS_THIRD_LEVEL: Record<string, { pages: SubPage[]; placeholderSection: string }> = {
+  facility:      { pages: FACILITY_SUB_PAGES,       placeholderSection: 'Settings · Facility' },
+  billing:       { pages: BILLING_SUB_PAGES,        placeholderSection: 'Settings · Billing' },
+  devices:       { pages: DEVICES_SUB_PAGES,      placeholderSection: 'Settings · Devices' },
+  docks:         { pages: DOCKS_SUB_PAGES,        placeholderSection: 'Settings · Docks' },
+  appointments:  { pages: APPOINTMENTS_SUB_PAGES, placeholderSection: 'Settings · Appointments' },
+  yard:          { pages: YARD_SUB_PAGES,         placeholderSection: 'Settings · Yard' },
+  notifications: { pages: NOTIFICATIONS_SUB_PAGES, placeholderSection: 'Settings · Notifications' },
+};
+
 // ── Build one route per merged section (covers all enterprise + community routes)
 const sectionRoutes = ALL_SECTIONS.map((section) => {
   const hasSubRoutes = section.subRoutes.length > 0;
 
   const subRouteChildren = section.subRoutes.map((sub) => {
-    // Facility settings gets a third-level sub-page layout.
-      // handle.noCard tells SectionLayout to skip its own card wrapper so
-      // SubPageLayout can render SubNav + card side by side.
-      if (section.id === 'settings' && sub.id === 'facility') {
+    // Settings tabs with a third-level sub-page layout.
+    // handle.noCard lets SubPageLayout render SubNav + card (no SectionLayout card wrapper).
+    if (section.id === 'settings') {
+      const third = SETTINGS_THIRD_LEVEL[sub.id];
+      if (third) {
         return {
           path:    sub.id,
           handle:  { noCard: true },
-          element: <SubPageLayout pages={FACILITY_SUB_PAGES} />,
-          children: [
-            ...FACILITY_SUB_PAGES.map((page) => ({
-              path: page.id,
-              element: <PlaceholderPage section="Settings · Facility" page={page.label} />,
-            })),
-          ],
+          element: <SubPageLayout pages={third.pages} />,
+          children: third.pages.map((page) => ({
+            path: page.id,
+            element: (
+              <PlaceholderPage section={third.placeholderSection} page={page.label} />
+            ),
+          })),
         };
       }
+    }
     return {
       path: sub.id,
       element: <PlaceholderPage section={section.label} page={sub.label} />,

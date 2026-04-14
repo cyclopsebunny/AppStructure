@@ -106,9 +106,17 @@ export function SectionLayout() {
   const hasTabs   = section.subRoutes.length > 0;
   const tabs: TabItem[] = section.subRoutes.map((r) => ({ id: r.id, label: r.label }));
 
+  // Match Settings (and other) tabs when the URL is a nested route, e.g.
+  // /settings/billing/plans → Billing, not the first tab (Facility).
+  const subRoutesMatchingPath = section.subRoutes.filter(
+    (r) =>
+      location.pathname === r.path || location.pathname.startsWith(`${r.path}/`),
+  );
   const activeTab =
-    section.subRoutes.find((r) => location.pathname === r.path)?.id ??
-    (hasTabs ? section.subRoutes[0].id : '');
+    (subRoutesMatchingPath.length > 0
+      ? subRoutesMatchingPath.reduce((a, b) => (a.path.length >= b.path.length ? a : b))
+      : undefined
+    )?.id ?? (hasTabs ? section.subRoutes[0].id : '');
 
   const handleTabChange = (id: string) => {
     const route = section.subRoutes.find((r) => r.id === id);

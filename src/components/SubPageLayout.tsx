@@ -15,6 +15,93 @@ interface SubPageLayoutProps {
   pages: SubPage[];
 }
 
+// ── Mobile-only 3rd-level nav (no selected row; trailing chevron) ─────────────
+
+const MOBILE_SUB_NAV_WRAP: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  padding: 8,
+  width: '100%',
+  height: '100%',
+  background: 'rgba(255, 255, 255, 0.7)',
+  backdropFilter: 'blur(6px)',
+  WebkitBackdropFilter: 'blur(6px)',
+  border: '0.75px solid #d2efff',
+  borderRadius: 16,
+  boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.05)',
+  flexShrink: 0,
+  overflowY: 'auto',
+  boxSizing: 'border-box',
+};
+
+function MobileSubNavList({
+  items,
+  onItemClick,
+}: {
+  items: SubNavItem[];
+  onItemClick: (id: string) => void;
+}) {
+  const [hoverId, setHoverId] = useState<string | null>(null);
+
+  return (
+    <nav aria-label="Sub navigation" style={MOBILE_SUB_NAV_WRAP}>
+      {items.map((item) => {
+        const hovered = hoverId === item.id;
+        return (
+          <button
+            key={item.id}
+            type="button"
+            disabled={item.disabled}
+            onClick={() => !item.disabled && onItemClick(item.id)}
+            onMouseEnter={() => setHoverId(item.id)}
+            onMouseLeave={() => setHoverId(null)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 12,
+              width: '100%',
+              padding: '12px 16px',
+              border: '1px solid transparent',
+              borderRadius: 4,
+              background:
+                hovered && !item.disabled ? 'rgba(10, 118, 219, 0.04)' : 'transparent',
+              cursor: item.disabled ? 'not-allowed' : 'pointer',
+              opacity: item.disabled ? 0.4 : 1,
+              transition: 'background 0.12s ease',
+              fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
+              fontSize: 14,
+              fontWeight: 500,
+              lineHeight: '20px',
+              color: 'var(--secondary, #6b6b6b)',
+              textAlign: 'left',
+              boxSizing: 'border-box',
+            }}
+          >
+            <span style={{ flex: 1, minWidth: 0 }}>{item.label}</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+              style={{ flexShrink: 0, color: 'var(--secondary, #6b6b6b)' }}
+            >
+              <path
+                d="M6 12L10 8L6 4"
+                stroke="currentColor"
+                strokeWidth="1.75"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        );
+      })}
+    </nav>
+  );
+}
+
 // ── Shared frosted card style ─────────────────────────────────────────────────
 
 const FROSTED_CARD: React.CSSProperties = {
@@ -233,14 +320,9 @@ export function SubPageLayout({ pages }: SubPageLayoutProps) {
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* SubNav panel — slides in/out from the left */}
+      {/* SubNav panel — slides in/out from the left (custom list: no selected row, chevron-right) */}
       <div style={{ ...panelBase, transform: `translateX(${subnavX})`, transition: dragPx > 0 ? 'none' : slideEasing, padding: `0 ${mobilePad}px` }}>
-        <SubNav
-          items={navItems}
-          activeItem={activeId}
-          onItemClick={handleItemClick}
-          style={{ width: '100%', height: '100%', borderRadius: 16, boxSizing: 'border-box' }}
-        />
+        <MobileSubNavList items={navItems} onItemClick={handleItemClick} />
       </div>
 
       {/* Content panel — slides in/out from the right */}
