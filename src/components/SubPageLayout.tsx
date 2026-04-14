@@ -20,7 +20,7 @@ interface SubPageLayoutProps {
 const MOBILE_SUB_NAV_WRAP: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  padding: 8,
+  padding: 0,
   width: '100%',
   height: '100%',
   background: 'rgba(255, 255, 255, 0.7)',
@@ -63,6 +63,7 @@ function MobileSubNavList({
               width: '100%',
               padding: '12px 16px',
               border: '1px solid transparent',
+              borderBottom: '0.75px solid #d2efff',
               borderRadius: 4,
               background:
                 hovered && !item.disabled ? 'rgba(10, 118, 219, 0.04)' : 'transparent',
@@ -132,26 +133,40 @@ function BackButton({ label, onClick }: { label: string; onClick: () => void }) 
       style={{
         display:        'flex',
         alignItems:     'center',
-        gap:            6,
-        padding:        '10px 16px',
-        border:         'none',
-        background:     hovered ? 'rgba(10,118,219,0.06)' : 'transparent',
-        cursor:         'pointer',
-        color:          'var(--sds-color-text-brand-default, #0a76db)',
-        fontFamily:     '"Inter", sans-serif',
-        fontSize:       13,
-        fontWeight:     600,
-        flexShrink:     0,
+        gap:            8,
+        padding:        '12px 16px',
+        border:         '1px solid transparent',
         borderBottom:   '0.75px solid #d2efff',
+        borderRadius:   '4px 4px 0 0',
+        background:     hovered ? 'rgba(10, 118, 219, 0.04)' : 'transparent',
+        cursor:         'pointer',
+        color:          'var(--secondary, #6b6b6b)',
+        fontFamily:     'var(--sds-typography-body-font-family, "Inter", sans-serif)',
+        fontSize:       14,
+        fontWeight:     500,
+        lineHeight:     '20px',
+        flexShrink:     0,
         width:          '100%',
         textAlign:      'left',
-        transition:     'background 0.15s ease',
-        borderRadius:   '20px 20px 0 0',
+        boxSizing:      'border-box',
+        transition:     'background 0.12s ease',
       }}
     >
-      {/* Left chevron */}
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden="true"
+        style={{ flexShrink: 0, color: 'var(--secondary, #6b6b6b)' }}
+      >
+        <path
+          d="M10 12L6 8L10 4"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
       {label}
     </button>
