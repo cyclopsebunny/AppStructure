@@ -1001,7 +1001,7 @@ function I1() {
 }
 const Q = E.forwardRef(
   ({ label: C, active: l = !1, onLabelClick: t, onDotsClick: r, style: n, ...i }, d) => {
-    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--sds-color-background-default-secondary-hover, #ececec)" : "transparent", L = V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = "var(--sds-color-text-default-secondary, #636363)";
+    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10, 118, 219, 0.04)" : "transparent", L = V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = "var(--sds-color-text-default-secondary, #636363)";
     return /* @__PURE__ */ o(
       "div",
       {
@@ -1095,7 +1095,7 @@ const K = E.forwardRef(({
     justifyContent: "center",
     padding: "var(--sds-size-space-150, 6px) var(--sds-size-space-600, 24px)",
     borderRadius: "var(--nexus-shape-borderradius-xs, 8px)",
-    background: l ? a ? "var(--sds-color-background-brand-hover, #0966c7)" : "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--sds-color-background-default-secondary-hover, #ececec)" : "transparent",
+    background: l ? a ? "var(--sds-color-background-brand-hover, #0966c7)" : "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10, 118, 219, 0.04)" : "transparent",
     border: "none",
     cursor: r ? "not-allowed" : "pointer",
     opacity: r ? 0.4 : 1,
@@ -1394,8 +1394,8 @@ const R1 = 16, i1 = {
     textAlign: "left",
     padding: "12px 16px",
     border: "1px solid transparent",
-    borderRadius: l ? 8 : 4,
-    background: l ? "var(--sds-color-background-brand-secondary, #e0eeff)" : d && !r ? "rgba(10, 118, 219, 0.04)" : "transparent",
+    borderRadius: l || d && !r ? 8 : 4,
+    background: l ? "#f0f7ff" : d && !r ? "rgba(10, 118, 219, 0.04)" : "transparent",
     cursor: r ? "not-allowed" : "pointer",
     opacity: r ? 0.4 : 1,
     transition: "background 0.12s ease, border-color 0.12s ease",
