@@ -1001,7 +1001,7 @@ function I1() {
 }
 const Q = E.forwardRef(
   ({ label: C, active: l = !1, onLabelClick: t, onDotsClick: r, style: n, showLeftDivider: o1 = !1, onDividerClick: p0, ...i }, d) => {
-    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10, 118, 219, 0.04)" : "transparent", L = l ? V ? "rgba(255,255,255,0.18)" : "transparent" : V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = l ? "#05549E" : "var(--sds-color-text-default-secondary, #636363)";
+    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), [hR, iR] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10, 118, 219, 0.04)" : "transparent", L = l ? V ? "rgba(255,255,255,0.18)" : "transparent" : V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = l ? "#05549E" : "var(--sds-color-text-default-secondary, #636363)";
     return /* @__PURE__ */ o(
       "div",
       {
@@ -1025,6 +1025,8 @@ const Q = E.forwardRef(
             {
               type: "button",
               onClick: p0,
+              onMouseEnter: () => iR(!0),
+              onMouseLeave: () => iR(!1),
               "aria-label": "Show all tabs in a scrollable bar",
               style: {
                 flexShrink: 0,
@@ -1042,9 +1044,9 @@ const Q = E.forwardRef(
               children: /* @__PURE__ */ e(
                 "svg",
                 {
-                  width: 2,
-                  height: 16,
-                  viewBox: "0 0 2 16",
+                  width: 18,
+                  height: 18,
+                  viewBox: "0 0 16 16",
                   fill: "none",
                   xmlns: "http://www.w3.org/2000/svg",
                   "aria-hidden": "true",
@@ -1052,13 +1054,41 @@ const Q = E.forwardRef(
                   style: {
                     display: "block",
                     flex: "0 0 auto",
-                    flexShrink: 0
+                    flexShrink: 0,
+                    overflow: "visible",
+                    color: "var(--sds-color-border-default-secondary, #64748b)"
                   },
-                  children: /* @__PURE__ */ e("rect", {
-                    width: 2,
-                    height: 16,
-                    rx: 0.5,
-                    fill: "var(--sds-color-border-default-secondary, #64748b)"
+                  children: /* @__PURE__ */ o(U, {
+                    children: [
+                      /* @__PURE__ */ e("rect", {
+                        x: 7,
+                        y: 0,
+                        width: 2,
+                        height: 16,
+                        rx: 0.5,
+                        fill: "currentColor",
+                        style: {
+                          opacity: hR ? 0 : 1,
+                          transition: "opacity 0.22s ease, transform 0.22s ease",
+                          transform: hR ? "scaleY(0.35)" : "scaleY(1)",
+                          transformOrigin: "center"
+                        }
+                      }),
+                      /* @__PURE__ */ e("path", {
+                        d: "M6 12L10 8L6 4",
+                        fill: "none",
+                        stroke: "currentColor",
+                        strokeWidth: 2,
+                        strokeLinecap: "round",
+                        strokeLinejoin: "round",
+                        style: {
+                          opacity: hR ? 1 : 0,
+                          transition: "opacity 0.22s ease, transform 0.22s ease",
+                          transform: hR ? "scale(1)" : "scale(0.72)",
+                          transformOrigin: "8px 8px"
+                        }
+                      })
+                    ]
                   })
                 }
               )
