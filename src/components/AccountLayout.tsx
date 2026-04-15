@@ -2,6 +2,7 @@ import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { Tabs } from '@component-library/core';
 import type { TabItem } from '@component-library/core';
 import { useBreakpoint } from '../hooks/useBreakpoint';
+import { topTabGapPx } from '../constants/topTabGap';
 
 const ACCOUNT_TABS: TabItem[] = [
   { id: 'profile',  label: 'User Profile' },
@@ -59,6 +60,7 @@ export function AccountLayout() {
           items={ACCOUNT_TABS}
           activeTab={activeTab}
           onTabChange={handleTabChange}
+          gap={topTabGapPx(breakpoint)}
           style={{ width: '100%' }}
         />
       </div>

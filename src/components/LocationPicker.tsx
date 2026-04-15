@@ -3,6 +3,9 @@ import { createPortal } from 'react-dom';
 import { LOCATIONS } from '../config/locations';
 import { useAppContext } from '../context/AppContext';
 
+/** Icon, title, and checkmark when this location is selected */
+const SELECTED_LOCATION_ACCENT = '#05549E';
+
 interface LocationPickerProps {
   /** px distance from the left edge of the viewport to the right edge of the sidebar */
   offsetLeft: number;
@@ -108,7 +111,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
               padding: '8px 10px',
               border: 'none',
               borderRadius: 8,
-              backgroundColor: isSelected ? '#f0f7ff' : 'transparent',
+              backgroundColor: isSelected ? '#D0EAF8' : 'transparent',
               cursor: 'pointer',
               textAlign: 'left',
               width: '100%',
@@ -132,7 +135,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
-                color: isSelected ? '#0a76db' : '#64748b',
+                color: isSelected ? SELECTED_LOCATION_ACCENT : '#64748b',
               }}
             >
               {loc.icon}
@@ -145,7 +148,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
                   fontFamily: '"Inter", sans-serif',
                   fontWeight: isSelected ? 700 : 500,
                   fontSize: 13,
-                  color: isSelected ? '#0a76db' : '#191919',
+                  color: isSelected ? SELECTED_LOCATION_ACCENT : '#191919',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -181,7 +184,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
               >
                 <path
                   d="M3 8L6.5 11.5L13 4.5"
-                  stroke="#0a76db"
+                  stroke={SELECTED_LOCATION_ACCENT}
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"

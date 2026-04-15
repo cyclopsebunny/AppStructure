@@ -3,6 +3,7 @@ import { Tabs } from '@component-library/core';
 import type { TabItem } from '@component-library/core';
 import { useBreakpoint } from '../hooks/useBreakpoint';
 import { useAppContext } from '../context/AppContext';
+import { topTabGapPx } from '../constants/topTabGap';
 
 // ── Footer ────────────────────────────────────────────────────────────────────
 
@@ -151,7 +152,7 @@ export function SectionLayout() {
             items={tabs}
             activeTab={activeTab}
             onTabChange={handleTabChange}
-            gap={isMobile ? 8 : isDesktop ? 16 : 12}
+            gap={topTabGapPx(breakpoint)}
 
             style={{
               width: '100%',
@@ -195,13 +196,11 @@ export function SectionLayout() {
         </div>
       )}
 
-      {/* Footer below the card on tablet + mobile */}
-      {!isDesktop && (
-        <Footer
-          breakpoint={isMobile ? 'mobile' : 'tablet'}
-          links={footerLinks}
-        />
-      )}
+      {/* Footer below the card — same layout as tablet on all breakpoints (sidebar has no footer on desktop) */}
+      <Footer
+        breakpoint={isMobile ? 'mobile' : 'tablet'}
+        links={footerLinks}
+      />
     </div>
   );
 }

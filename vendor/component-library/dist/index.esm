@@ -838,7 +838,7 @@ const E1 = h1, U1 = {
         }
       )
     ] }),
-    !a && /* @__PURE__ */ o("footer", { style: M, children: [
+    false && /* @__PURE__ */ o("footer", { style: M, children: [
       /* @__PURE__ */ e("div", { style: I, children: H.map((h) => /* @__PURE__ */ e("span", { children: h }, h)) }),
       /* @__PURE__ */ e("p", { style: T, children: V })
     ] })
@@ -1000,50 +1000,105 @@ function I1() {
   ] });
 }
 const Q = E.forwardRef(
-  ({ label: C, active: l = !1, onLabelClick: t, onDotsClick: r, style: n, ...i }, d) => {
-    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10, 118, 219, 0.04)" : "transparent", L = l ? V ? "rgba(255,255,255,0.18)" : "transparent" : V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)";
+  ({ label: C, active: l = !1, onLabelClick: t, onDotsClick: r, style: n, showLeftDivider: o1 = !1, onDividerClick: p0, ...i }, d) => {
+    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10, 118, 219, 0.04)" : "transparent", L = l ? V ? "rgba(255,255,255,0.18)" : "transparent" : V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = l ? "#05549E" : "var(--sds-color-text-default-secondary, #636363)";
     return /* @__PURE__ */ o(
       "div",
       {
         ref: d,
-        "aria-current": l ? "true" : void 0,
         onMouseEnter: () => g(!0),
         onMouseLeave: () => g(!1),
         style: {
-          display: "inline-flex",
+          display: "flex",
           alignItems: "center",
-          borderRadius: "var(--nexus-shape-borderradius-xs, 8px)",
-          background: c,
-          transition: "background 0.12s ease",
-          flexShrink: 0,
-          overflow: "hidden",
+          gap: 6,
+          minWidth: 0,
+          flex: "0 1 auto",
+          maxWidth: "100%",
+          width: "max-content",
+          background: "transparent",
           ...n
         },
         children: [
+          o1 && /* @__PURE__ */ e(
+            "button",
+            {
+              type: "button",
+              onClick: p0,
+              "aria-label": "Show all tabs in a scrollable bar",
+              style: {
+                flexShrink: 0,
+                alignSelf: "center",
+                border: "none",
+                background: "transparent",
+                cursor: "pointer",
+                padding: "0 var(--sds-size-space-200, 8px)",
+                margin: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                boxSizing: "border-box"
+              },
+              children: /* @__PURE__ */ e(
+                "svg",
+                {
+                  width: 2,
+                  height: 16,
+                  viewBox: "0 0 2 16",
+                  fill: "none",
+                  xmlns: "http://www.w3.org/2000/svg",
+                  "aria-hidden": "true",
+                  focusable: "false",
+                  style: {
+                    display: "block",
+                    flex: "0 0 auto",
+                    flexShrink: 0
+                  },
+                  children: /* @__PURE__ */ e("rect", {
+                    width: 2,
+                    height: 16,
+                    rx: 0.5,
+                    fill: "var(--sds-color-border-default-secondary, #64748b)"
+                  })
+                }
+              )
+            }
+          ),
           /* @__PURE__ */ e(
             "button",
             {
               type: "button",
               onClick: t,
+              "aria-current": l ? "true" : void 0,
+              title: typeof C == "string" ? C : void 0,
               style: {
-                display: "inline-flex",
-                alignItems: "center",
-                padding: "var(--sds-size-space-150, 6px) 6px var(--sds-size-space-150, 6px) var(--sds-size-space-600, 24px)",
+                display: "block",
+                minWidth: 0,
+                flex: "0 1 auto",
+                maxWidth: "100%",
+                overflow: "hidden",
+                padding: "var(--sds-size-space-150, 6px) var(--sds-size-space-600, 24px)",
                 border: "none",
-                background: "transparent",
+                borderRadius: "var(--nexus-shape-borderradius-xs, 8px)",
+                background: c,
                 cursor: "pointer",
-                whiteSpace: "nowrap"
+                textAlign: "left",
+                transition: "background 0.12s ease"
               },
               children: /* @__PURE__ */ e(
                 "span",
                 {
                   style: {
+                    display: "block",
                     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
                     fontSize: "var(--sds-typography-body-size-small, 14px)",
                     fontWeight: l ? "var(--sds-typography-weight-bold, 700)" : "var(--sds-typography-weight-medium, 500)",
                     lineHeight: 1.4,
                     color: s,
-                    pointerEvents: "none"
+                    pointerEvents: "none",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap"
                   },
                   children: C
                 }
@@ -1055,13 +1110,16 @@ const Q = E.forwardRef(
             {
               type: "button",
               onClick: r,
-              onMouseEnter: () => u(!0),
+              onMouseEnter: () => {
+                u(!0);
+              },
               onMouseLeave: () => u(!1),
               ...i,
               style: {
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
+                flexShrink: 0,
                 padding: "var(--sds-size-space-150, 6px) var(--sds-size-space-300, 12px)",
                 border: "none",
                 background: L,
@@ -1149,16 +1207,21 @@ const R1 = 16, i1 = {
   className: a = "",
   style: g
 }) => {
-  var z, C1, e1, l1;
   const V = r ?? R1, u = n !== void 0 || i !== void 0 ? `${i ?? 6}px ${n ?? 24}px` : void 0, c = u !== void 0 || d !== void 0 ? {
     ...u ? { padding: u } : {},
     ...d !== void 0 ? { borderRadius: d } : {}
-  } : void 0, L = W(null), s = W([]), H = W([]), v = W(null), [f, b] = p(C.length), [Z, m] = p(!1), [y, M] = p(null), I = C.map((w) => w.id).join("\0");
+  } : void 0, L = W(null), s = W([]), H = W([]), v = W(null), [f, b] = p(C.length), [Z, m] = p(!1), [y, M] = p(null), [w2, x2] = p(!1), [pIn, qIn] = p(null), j2 = W(!1), I = C.map((w) => w.id).join("\0");
   j(() => {
-    b(C.length), m(!1);
-  }, [I]), s1(() => {
+    j2.current = w2;
+  }, [w2]), j(() => {
+    b(C.length), m(!1), x2(!1), qIn(null);
+  }, [I]), j(() => {
+    if (pIn == null) return;
+    const hi = C.slice(f);
+    hi.some((x) => x.id === pIn) || qIn(null);
+  }, [f, pIn, I]), s1(() => {
     const w = () => {
-      if (!L.current) return;
+      if (!L.current || j2.current) return;
       const S = L.current, G = getComputedStyle(S), $ = parseFloat(G.paddingLeft) + parseFloat(G.paddingRight), N = S.clientWidth - $;
       if (N <= 0) return;
       const Y = C.map((x, A) => {
@@ -1195,13 +1258,14 @@ const R1 = 16, i1 = {
       document.removeEventListener("mousedown", w), document.removeEventListener("scroll", k, !0), window.removeEventListener("resize", k);
     };
   }, [Z]);
-  const T = f < C.length, h = C.slice(f), R = h.some((w) => w.id === l), P = ((z = h.find((w) => w.id === l)) == null ? void 0 : z.label) ?? ((C1 = h[0]) == null ? void 0 : C1.label) ?? "", D = ((e1 = h.find((w) => w.id === l)) == null ? void 0 : e1.id) ?? ((l1 = h[0]) == null ? void 0 : l1.id) ?? "", J = () => {
+  const T = f < C.length, h = C.slice(f), R = h.some((w) => w.id === l), h0 = h[0], zA = h.find((w) => w.id === l), zP = pIn != null ? h.find((w) => w.id === pIn) : void 0, P = (zA == null ? void 0 : zA.label) ?? (zP == null ? void 0 : zP.label) ?? (h0 == null ? void 0 : h0.label) ?? "", D = (zA == null ? void 0 : zA.id) ?? (zP == null ? void 0 : zP.id) ?? (h0 == null ? void 0 : h0.id) ?? "", J = () => {
     D && B(D);
   }, F = (w) => {
     const k = w.currentTarget.getBoundingClientRect();
-    M({ top: k.bottom + 4, right: window.innerWidth - k.right }), m((S) => !S);
+    M({ top: k.bottom + 4, right: window.innerWidth - k.right });
+    h.filter((S) => S.id !== D).length > 0 && m((S) => !S);
   }, B = (w) => {
-    t == null || t(w), m(!1);
+    t == null || t(w), m(!1), x2(!1), h.some((x) => x.id === w) && qIn(w);
   };
   return /* @__PURE__ */ o(U, { children: [
     X(
@@ -1256,15 +1320,31 @@ const R1 = 16, i1 = {
           display: "flex",
           alignItems: "center",
           gap: V,
+          minWidth: 0,
+          width: "100%",
           paddingTop: 8,
           paddingBottom: 8,
           paddingLeft: 12,
           paddingRight: 12,
-          overflow: "hidden",
+          overflowX: w2 ? "auto" : "hidden",
+          overflowY: "hidden",
+          flexWrap: "nowrap",
+          msOverflowStyle: w2 ? "none" : void 0,
+          scrollbarWidth: w2 ? "none" : void 0,
           ...i1,
           ...g
         },
-        children: [
+        children: w2 ? C.map((w) => /* @__PURE__ */ e(
+          K,
+          {
+            label: w.label,
+            active: w.id === l,
+            disabled: w.disabled,
+            onClick: () => B(w.id),
+            style: c
+          },
+          w.id
+        )) : [
           C.slice(0, f).map((w) => /* @__PURE__ */ e(
             K,
             {
@@ -1284,13 +1364,17 @@ const R1 = 16, i1 = {
               onLabelClick: J,
               onDotsClick: F,
               "aria-haspopup": "true",
-              "aria-expanded": Z
+              "aria-expanded": Z,
+              showLeftDivider: R && !!h0 && h0.id !== l || !R && !!pIn && !!h0 && pIn !== h0.id,
+              onDividerClick: R && !!h0 && h0.id !== l || !R && !!pIn && !!h0 && pIn !== h0.id ? () => {
+                x2(!0), b(C.length), m(!1);
+              } : void 0
             }
           )
         ]
       }
     ),
-    Z && y && X(
+    Z && y && !w2 && h.some((w) => w.id !== D) && X(
       /* @__PURE__ */ e(
         "div",
         {
@@ -1311,7 +1395,7 @@ const R1 = 16, i1 = {
             background: "rgba(255, 255, 255, 0.95)",
             boxShadow: "0px 4px 16px 0px rgba(149, 172, 188, 0.25)"
           },
-          children: h.map((w) => /* @__PURE__ */ e(
+          children: h.filter((w) => w.id !== D).map((w) => /* @__PURE__ */ e(
             K,
             {
               label: w.label,
@@ -1342,7 +1426,7 @@ const R1 = 16, i1 = {
     padding: "12px 16px",
     border: "1px solid transparent",
     borderRadius: l || d && !r ? 8 : 4,
-    background: l ? "#f0f7ff" : d && !r ? "rgba(10, 118, 219, 0.04)" : "transparent",
+    background: l ? "#D0EAF8" : d && !r ? "rgba(10, 118, 219, 0.04)" : "transparent",
     cursor: r ? "not-allowed" : "pointer",
     opacity: r ? 0.4 : 1,
     transition: "background 0.12s ease, border-color 0.12s ease",
@@ -1350,7 +1434,7 @@ const R1 = 16, i1 = {
     fontSize: 14,
     fontWeight: l ? 600 : 500,
     lineHeight: "20px",
-    color: l ? "var(--sds-color-text-brand-default, #0a76db)" : "var(--secondary, #6b6b6b)",
+    color: l ? "#05549E" : "var(--secondary, #6b6b6b)",
     whiteSpace: "nowrap",
     boxSizing: "border-box",
     ...i
@@ -1769,7 +1853,7 @@ const Q1 = ({
                   padding: "8px 10px",
                   border: "none",
                   borderRadius: 8,
-                  backgroundColor: H ? "#f0f7ff" : "transparent",
+                  backgroundColor: H ? "#D0EAF8" : "transparent",
                   cursor: "pointer",
                   textAlign: "left",
                   width: "100%",
