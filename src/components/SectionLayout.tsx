@@ -36,7 +36,7 @@ function Footer({
           flexWrap:      'wrap',
           gap:           '4px 16px',
           fontFamily:    '"Inter", sans-serif',
-          fontWeight:    400,
+          fontWeight:    'var(--fw-normal)',
           fontSize:      10,
           letterSpacing: '0.5px',
           textTransform: 'uppercase',
@@ -50,7 +50,7 @@ function Footer({
       <span
         style={{
           fontFamily:    '"Inter", sans-serif',
-          fontWeight:    400,
+          fontWeight:    'var(--fw-normal)',
           fontSize:      10,
           letterSpacing: '0.5px',
           textTransform: 'uppercase',
@@ -140,11 +140,7 @@ export function SectionLayout() {
       {hasTabs && (
         <div
           style={{
-            overflowX:       'auto',
-            overflowY:       'visible',
             flexShrink:      0,
-            msOverflowStyle: 'none',
-            scrollbarWidth:  'none',
             paddingTop:      isMobile ? pad : 0,
             borderRadius:    isMobile ? 12 : isDesktop ? 16 : 14,
             boxShadow:       '0px 2px 48px 0px var(--shadow-card)',
@@ -155,7 +151,6 @@ export function SectionLayout() {
             activeTab={activeTab}
             onTabChange={handleTabChange}
             gap={topTabGapPx(breakpoint)}
-
             style={{
               width: '100%',
               paddingTop:    isMobile ? 4 : isDesktop ? 8 : 6,

@@ -163,7 +163,7 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
             color:        isActive ? '#ffffff' : isLogout ? 'var(--text-danger)' : 'var(--text-primary)',
             fontFamily:   '"Inter", sans-serif',
             fontSize:     13,
-            fontWeight:   isActive ? 600 : 400,
+            fontWeight:   isActive ? 'var(--fw-semibold)' : 'var(--fw-normal)',
             cursor:       'pointer',
             transition:   'background 0.12s ease',
             whiteSpace:   'nowrap',
@@ -247,7 +247,7 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
           alignItems:     'center',
           justifyContent: 'center',
           fontSize:       size * 0.43,
-          fontWeight:     700,
+          fontWeight:     'var(--fw-bold)',
           fontFamily:     '"Inter", sans-serif',
           flexShrink:     0,
           cursor:         'pointer',
@@ -382,7 +382,7 @@ function DayNightToggle() {
           cursor: 'pointer',
           fontFamily: '"Inter", sans-serif',
           fontSize: 11,
-          fontWeight: 600,
+          fontWeight: 'var(--fw-semibold)',
           borderRadius: '18px 0 0 18px',
           background: !isNight ? 'var(--accent-primary)' : 'transparent',
           color: !isNight ? '#ffffff' : 'var(--text-secondary)',
@@ -406,7 +406,7 @@ function DayNightToggle() {
           cursor: 'pointer',
           fontFamily: '"Inter", sans-serif',
           fontSize: 11,
-          fontWeight: 600,
+          fontWeight: 'var(--fw-semibold)',
           borderRadius: '0 18px 18px 0',
           background: isNight ? 'var(--accent-primary)' : 'transparent',
           color: isNight ? '#ffffff' : 'var(--text-secondary)',
@@ -423,11 +423,18 @@ function DayNightToggle() {
 
 function PaletteIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path
-        d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10a1.5 1.5 0 0 0 1.5-1.5c0-.39-.15-.74-.4-1.01-.25-.26-.39-.61-.39-1a1.5 1.5 0 0 1 1.5-1.5H14c3.314 0 6-2.686 6-6 0-4.963-4.477-9-10-9ZM3.5 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm7 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
-        fill="var(--icon-muted)"
+        d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10a2 2 0 0 0 2-2c0-.5-.18-.96-.5-1.33a2 2 0 0 1-.5-1.33 2 2 0 0 1 2-2h2.36A6.36 6.36 0 0 0 22 9c0-4.418-4.477-7-10-7Z"
+        stroke="var(--icon-muted)"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
+      <circle cx="7" cy="11.5" r="1.25" fill="var(--icon-muted)" />
+      <circle cx="10" cy="7.5" r="1.25" fill="var(--icon-muted)" />
+      <circle cx="14" cy="7.5" r="1.25" fill="var(--icon-muted)" />
+      <circle cx="17" cy="11.5" r="1.25" fill="var(--icon-muted)" />
     </svg>
   );
 }
@@ -482,6 +489,7 @@ function SwatchButton({ preset, isActive, onClick }: {
 function AccentColorPicker({ size = 40 }: { size?: number }) {
   const { presets, activeIndex, setActiveIndex, updatePreset, resetPresets } = useTheme();
   const [open, setOpen] = useState(false);
+  const [btnHovered, setBtnHovered] = useState(false);
   const [anchor, setAnchor] = useState<{ centerY: number; right: number } | null>(null);
   const [dropTop, setDropTop] = useState(0);
   const [arrowTop, setArrowTop] = useState(0);
@@ -591,7 +599,7 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
       <div style={{
         fontFamily: '"Inter", sans-serif',
         fontSize: 11,
-        fontWeight: 600,
+        fontWeight: 'var(--fw-semibold)',
         color: 'var(--text-secondary)',
         letterSpacing: '0.3px',
         textTransform: 'uppercase',
@@ -622,7 +630,7 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
       <div style={{
         fontFamily: '"Inter", sans-serif',
         fontSize: 11,
-        fontWeight: 600,
+        fontWeight: 'var(--fw-semibold)',
         color: 'var(--text-secondary)',
         letterSpacing: '0.3px',
         textTransform: 'uppercase',
@@ -657,7 +665,7 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
             minWidth: 0,
             fontFamily: '"Inter", monospace',
             fontSize: 13,
-            fontWeight: 500,
+            fontWeight: 'var(--fw-medium)',
             color: 'var(--text-primary)',
             padding: '5px 8px',
             border: `1.5px solid ${HEX_RE.test(hexDraft) ? 'var(--border-default)' : '#f87171'}`,
@@ -681,7 +689,7 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
           padding: '2px 0',
           fontFamily: '"Inter", sans-serif',
           fontSize: 11,
-          fontWeight: 500,
+          fontWeight: 'var(--fw-medium)',
           color: resetHovered ? 'var(--text-primary)' : 'var(--text-muted)',
           cursor: 'pointer',
           textAlign: 'left',
@@ -702,18 +710,21 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
         title="Accent color"
         aria-label="Accent color"
         onClick={openPicker}
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
         style={{
           width: size,
           height: size,
           borderRadius: '50%',
           border: 'none',
           padding: 4,
-          backgroundColor: 'transparent',
+          backgroundColor: btnHovered ? 'var(--accent-wash-6, rgba(10, 118, 219, 0.06))' : 'transparent',
           cursor: 'pointer',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
+          transition: 'background-color 0.15s ease',
         }}
       >
         <PaletteIcon />

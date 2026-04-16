@@ -72,9 +72,9 @@ function MobileSubNavList({
               transition: 'background 0.12s ease',
               fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
               fontSize: 14,
-              fontWeight: 500,
+              fontWeight: 'var(--fw-medium)',
               lineHeight: '20px',
-              color: 'var(--secondary, #6b6b6b)',
+              color: 'var(--sds-color-text-default-secondary, #636363)',
               textAlign: 'left',
               boxSizing: 'border-box',
             }}
@@ -86,7 +86,7 @@ function MobileSubNavList({
               viewBox="0 0 16 16"
               fill="none"
               aria-hidden="true"
-              style={{ flexShrink: 0, color: 'var(--secondary, #6b6b6b)' }}
+              style={{ flexShrink: 0 }}
             >
               <path
                 d="M6 12L10 8L6 4"
@@ -140,10 +140,10 @@ function BackButton({ label, onClick }: { label: string; onClick: () => void }) 
         borderRadius:   '4px 4px 0 0',
         background:     hovered ? 'var(--accent-wash-4)' : 'transparent',
         cursor:         'pointer',
-        color:          'var(--secondary, #6b6b6b)',
+        color:          'var(--sds-color-text-default-secondary, #636363)',
         fontFamily:     'var(--sds-typography-body-font-family, "Inter", sans-serif)',
         fontSize:       14,
-        fontWeight:     500,
+        fontWeight:     'var(--fw-medium)',
         lineHeight:     '20px',
         flexShrink:     0,
         width:          '100%',
@@ -158,7 +158,7 @@ function BackButton({ label, onClick }: { label: string; onClick: () => void }) 
         viewBox="0 0 16 16"
         fill="none"
         aria-hidden="true"
-        style={{ flexShrink: 0, color: 'var(--secondary, #6b6b6b)' }}
+        style={{ flexShrink: 0 }}
       >
         <path
           d="M10 12L6 8L10 4"

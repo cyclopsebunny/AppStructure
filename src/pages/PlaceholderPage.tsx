@@ -51,7 +51,7 @@ export function PlaceholderPage({ section, page }: PlaceholderPageProps) {
           style={{
             margin: 0,
             fontFamily: '"Inter", sans-serif',
-            fontWeight: 700,
+            fontWeight: 'var(--fw-bold)',
             fontSize: 18,
             color: 'var(--text-primary)',
           }}
@@ -62,7 +62,7 @@ export function PlaceholderPage({ section, page }: PlaceholderPageProps) {
           style={{
             margin: 0,
             fontFamily: '"Inter", sans-serif',
-            fontWeight: 400,
+            fontWeight: 'var(--fw-normal)',
             fontSize: 13,
             color: 'var(--text-secondary)',
             lineHeight: 1.5,
@@ -97,7 +97,7 @@ export function PlaceholderPage({ section, page }: PlaceholderPageProps) {
           style={{
             fontFamily: '"Inter", sans-serif',
             fontSize: 11,
-            fontWeight: 600,
+            fontWeight: 'var(--fw-semibold)',
             color: '#c2410c',
             letterSpacing: '0.3px',
           }}

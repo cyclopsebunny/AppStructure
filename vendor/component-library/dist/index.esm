@@ -317,7 +317,7 @@ const W1 = ({
     // Ensure consistent sizing across all states
     fontSize: M.fontSize,
     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
-    fontWeight: "var(--sds-typography-body-font-weight-regular, 400)",
+    fontWeight: "var(--fw-normal)",
     lineHeight: 1.4,
     cursor: f === "disabled" ? "not-allowed" : "pointer",
     opacity: f === "disabled" ? 0.6 : 1,
@@ -467,7 +467,7 @@ const W1 = ({
     justifyContent: "center",
     alignItems: "flex-start",
     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
-    fontWeight: 500,
+    fontWeight: "var(--fw-medium)",
     fontSize: 12,
     minWidth: 0
   }, H = {
@@ -781,7 +781,7 @@ const E1 = h1, U1 = {
     alignItems: "center"
   }, y = {
     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
-    fontWeight: 700,
+    fontWeight: "var(--fw-bold)",
     fontSize: 16,
     lineHeight: "14px",
     letterSpacing: "-0.125px",
@@ -800,14 +800,14 @@ const E1 = h1, U1 = {
     flexWrap: "wrap",
     gap: "4px 12px",
     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
-    fontWeight: 400,
+    fontWeight: "var(--fw-normal)",
     fontSize: 10,
     letterSpacing: "0.5px",
     textTransform: "uppercase",
     color: "var(--text-secondary, #64748b)"
   }, T = {
     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
-    fontWeight: 400,
+    fontWeight: "var(--fw-normal)",
     fontSize: 10,
     letterSpacing: "0.5px",
     textTransform: "uppercase",
@@ -866,7 +866,7 @@ function k1() {
     alignItems: "center",
     justifyContent: "center",
     fontSize: 12,
-    fontWeight: 700
+    fontWeight: "var(--fw-bold)"
   }, children: "U" });
 }
 const G1 = ({
@@ -964,7 +964,7 @@ const G1 = ({
           ) : /* @__PURE__ */ e("div", { style: { padding: "8px", flexShrink: 0, visibility: "hidden" }, "aria-hidden": "true", children: /* @__PURE__ */ e(n1, {}) }),
           /* @__PURE__ */ o("div", { style: R, children: [
             t ?? /* @__PURE__ */ e(q, { height: 21 }),
-            /* @__PURE__ */ e("span", { style: { fontWeight: 700, fontSize: 16, color: "var(--sds-color-background-brand-default, #0a76db)", letterSpacing: -0.125 }, children: M })
+            /* @__PURE__ */ e("span", { style: { fontWeight: "var(--fw-bold)", fontSize: 16, color: "var(--sds-color-background-brand-default, #0a76db)", letterSpacing: -0.125 }, children: M })
           ] }),
           V ?? /* @__PURE__ */ e("div", { style: { flexShrink: 0, display: "flex", alignItems: "center", padding: 6 }, children: g ?? /* @__PURE__ */ e(k1, {}) })
         ] }),
@@ -1123,7 +1123,7 @@ const Q = E.forwardRef(
                     display: "block",
                     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
                     fontSize: "var(--sds-typography-body-size-small, 14px)",
-                    fontWeight: l ? "var(--sds-typography-weight-bold, 700)" : "var(--sds-typography-weight-medium, 500)",
+                    fontWeight: l ? "var(--fw-bold)" : "var(--fw-medium)",
                     lineHeight: 1.4,
                     color: s,
                     pointerEvents: "none",
@@ -1206,7 +1206,7 @@ const K = E.forwardRef(({
       children: /* @__PURE__ */ e("span", { style: {
         fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
         fontSize: "var(--sds-typography-body-size-small, 14px)",
-        fontWeight: l ? "var(--sds-typography-weight-bold, 700)" : "var(--sds-typography-weight-medium, 500)",
+        fontWeight: l ? "var(--fw-bold)" : "var(--fw-medium)",
         lineHeight: 1.4,
         letterSpacing: 0,
         color: l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)",
@@ -1240,18 +1240,16 @@ const R1 = 16, i1 = {
   const V = r ?? R1, u = n !== void 0 || i !== void 0 ? `${i ?? 6}px ${n ?? 24}px` : void 0, c = u !== void 0 || d !== void 0 ? {
     ...u ? { padding: u } : {},
     ...d !== void 0 ? { borderRadius: d } : {}
-  } : void 0, L = W(null), s = W([]), H = W([]), v = W(null), [f, b] = p(C.length), [Z, m] = p(!1), [y, M] = p(null), [w2, x2] = p(!1), [pIn, qIn] = p(null), j2 = W(!1), I = C.map((w) => w.id).join("\0");
+  } : void 0, L = W(null), s = W([]), H = W([]), v = W(null), [f, b] = p(C.length), [Z, m] = p(!1), [y, M] = p(null), [pIn, qIn] = p(null), I = C.map((w) => w.id).join("\0");
   j(() => {
-    j2.current = w2;
-  }, [w2]), j(() => {
-    b(C.length), m(!1), x2(!1), qIn(null);
+    b(C.length), m(!1), qIn(null);
   }, [I]), j(() => {
     if (pIn == null) return;
     const hi = C.slice(f);
     hi.some((x) => x.id === pIn) || qIn(null);
   }, [f, pIn, I]), s1(() => {
     const w = () => {
-      if (!L.current || j2.current) return;
+      if (!L.current) return;
       const S = L.current, G = getComputedStyle(S), $ = parseFloat(G.paddingLeft) + parseFloat(G.paddingRight), N = S.clientWidth - $;
       if (N <= 0) return;
       const Y = C.map((x, A) => {
@@ -1295,7 +1293,7 @@ const R1 = 16, i1 = {
     M({ top: k.bottom + 4, right: window.innerWidth - k.right });
     h.filter((S) => S.id !== D).length > 0 && m((S) => !S);
   }, B = (w) => {
-    t == null || t(w), m(!1), x2(!1), h.some((x) => x.id === w) && qIn(w);
+    t == null || t(w), m(!1), h.some((x) => x.id === w) && qIn(w);
   };
   return /* @__PURE__ */ o(U, { children: [
     X(
@@ -1356,25 +1354,13 @@ const R1 = 16, i1 = {
           paddingBottom: 8,
           paddingLeft: 12,
           paddingRight: 12,
-          overflowX: w2 ? "auto" : "hidden",
+          overflowX: "hidden",
           overflowY: "hidden",
           flexWrap: "nowrap",
-          msOverflowStyle: w2 ? "none" : void 0,
-          scrollbarWidth: w2 ? "none" : void 0,
           ...i1,
           ...g
         },
-        children: w2 ? C.map((w) => /* @__PURE__ */ e(
-          K,
-          {
-            label: w.label,
-            active: w.id === l,
-            disabled: w.disabled,
-            onClick: () => B(w.id),
-            style: c
-          },
-          w.id
-        )) : [
+        children: [
           C.slice(0, f).map((w) => /* @__PURE__ */ e(
             K,
             {
@@ -1394,17 +1380,13 @@ const R1 = 16, i1 = {
               onLabelClick: J,
               onDotsClick: F,
               "aria-haspopup": "true",
-              "aria-expanded": Z,
-              showLeftDivider: R && !!h0 && h0.id !== l || !R && !!pIn && !!h0 && pIn !== h0.id,
-              onDividerClick: R && !!h0 && h0.id !== l || !R && !!pIn && !!h0 && pIn !== h0.id ? () => {
-                x2(!0), b(C.length), m(!1);
-              } : void 0
+              "aria-expanded": Z
             }
           )
         ]
       }
     ),
-    Z && y && !w2 && h.some((w) => w.id !== D) && X(
+    Z && y && h.some((w) => w.id !== D) && X(
       /* @__PURE__ */ e(
         "div",
         {
@@ -1421,7 +1403,6 @@ const R1 = 16, i1 = {
             zIndex: 9999,
             minWidth: 180,
             ...i1,
-            // Slightly more opaque for the dropdown
             background: "var(--surface-popover, rgba(255, 255, 255, 0.95))",
             boxShadow: "0px 4px 16px 0px var(--shadow-popover, rgba(149, 172, 188, 0.25))"
           },
@@ -1462,7 +1443,7 @@ const R1 = 16, i1 = {
     transition: "background 0.12s ease, border-color 0.12s ease",
     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
     fontSize: 14,
-    fontWeight: l ? 600 : 500,
+    fontWeight: l ? "var(--fw-semibold)" : "var(--fw-medium)",
     lineHeight: "20px",
     color: l ? "var(--subnav-active-text, var(--accent-primary, #0a76db))" : "var(--sds-color-text-default-secondary, #636363)",
     whiteSpace: "nowrap",
@@ -1481,8 +1462,8 @@ const R1 = 16, i1 = {
       "aria-current": l ? "page" : void 0,
       "aria-disabled": r,
       children: /* @__PURE__ */ o("span", { style: { position: "relative", display: "inline-block" }, children: [
-        /* @__PURE__ */ e("span", { style: { visibility: "hidden", fontWeight: 600, userSelect: "none", pointerEvents: "none" }, "aria-hidden": "true", children: C }),
-        /* @__PURE__ */ e("span", { style: { position: "absolute", inset: 0, fontWeight: l ? 600 : 500 }, children: C })
+        /* @__PURE__ */ e("span", { style: { visibility: "hidden", fontWeight: "var(--fw-semibold)", userSelect: "none", pointerEvents: "none" }, "aria-hidden": "true", children: C }),
+        /* @__PURE__ */ e("span", { style: { position: "absolute", inset: 0, fontWeight: l ? "var(--fw-semibold)" : "var(--fw-medium)" }, children: C })
       ] })
     }
   );
@@ -1680,7 +1661,7 @@ function _1({
                     color: h.destructive ? "var(--text-danger, #d9210b)" : "var(--text-primary, #191919)",
                     fontFamily: '"Inter", sans-serif',
                     fontSize: 13,
-                    fontWeight: 400,
+                    fontWeight: "var(--fw-normal)",
                     cursor: "pointer",
                     transition: "background 0.12s ease",
                     whiteSpace: "nowrap"
@@ -1718,7 +1699,7 @@ function _1({
           alignItems: "center",
           justifyContent: "center",
           fontSize: C * 0.43,
-          fontWeight: 700,
+          fontWeight: "var(--fw-bold)",
           fontFamily: '"Inter", sans-serif',
           flexShrink: 0,
           cursor: "pointer",
@@ -1898,8 +1879,8 @@ const Q1 = ({
                 children: [
                   s.icon !== void 0 && /* @__PURE__ */ e("div", { style: { width: 32, height: 32, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", color: H ? "var(--accent-primary, #0a76db)" : "var(--text-secondary, #64748b)" }, children: s.icon }),
                   /* @__PURE__ */ o("div", { style: { flex: 1, minWidth: 0 }, children: [
-                    /* @__PURE__ */ e("div", { style: { fontFamily: '"Inter",sans-serif', fontWeight: H ? 700 : 500, fontSize: 13, color: H ? "var(--accent-primary, #0a76db)" : "var(--text-primary, #191919)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }, children: s.name }),
-                    s.subtitle && /* @__PURE__ */ e("div", { style: { fontFamily: '"Inter",sans-serif', fontWeight: 400, fontSize: 11, color: "var(--text-secondary, #64748b)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 1 }, children: s.subtitle })
+                    /* @__PURE__ */ e("div", { style: { fontFamily: '"Inter",sans-serif', fontWeight: H ? "var(--fw-bold)" : "var(--fw-medium)", fontSize: 13, color: H ? "var(--accent-primary, #0a76db)" : "var(--text-primary, #191919)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }, children: s.name }),
+                    s.subtitle && /* @__PURE__ */ e("div", { style: { fontFamily: '"Inter",sans-serif', fontWeight: "var(--fw-normal)", fontSize: 11, color: "var(--text-secondary, #64748b)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 1 }, children: s.subtitle })
                   ] }),
                   H && /* @__PURE__ */ e(S1, {})
                 ]

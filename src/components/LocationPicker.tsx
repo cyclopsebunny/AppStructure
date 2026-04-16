@@ -119,7 +119,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
             }}
             onMouseEnter={(e) => {
               if (!isSelected)
-                (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-row-hover)';
+                (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--accent-wash-6, rgba(10, 118, 219, 0.06))';
             }}
             onMouseLeave={(e) => {
               if (!isSelected)
@@ -146,7 +146,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
               <div
                 style={{
                   fontFamily: '"Inter", sans-serif',
-                  fontWeight: isSelected ? 700 : 500,
+                  fontWeight: isSelected ? 'var(--fw-bold)' : 'var(--fw-medium)',
                   fontSize: 13,
                   color: isSelected ? SELECTED_LOCATION_ACCENT : 'var(--text-primary)',
                   whiteSpace: 'nowrap',
@@ -159,7 +159,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
               <div
                 style={{
                   fontFamily: '"Inter", sans-serif',
-                  fontWeight: 400,
+                  fontWeight: 'var(--fw-normal)',
                   fontSize: 11,
                   color: 'var(--text-secondary)',
                   whiteSpace: 'nowrap',

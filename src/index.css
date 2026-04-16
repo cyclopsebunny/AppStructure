@@ -29,6 +29,18 @@
   --shadow-popover:        rgba(149, 172, 188, 0.30);
   --scrollbar-thumb:       #cbd5e1;
   --scrollbar-thumb-hover: #94a3b8;
+
+  --fw-normal:    400;
+  --fw-medium:    500;
+  --fw-semibold:  600;
+  --fw-bold:      700;
+}
+
+[data-theme="night"] {
+  --fw-normal:    500;
+  --fw-medium:    600;
+  --fw-semibold:  700;
+  --fw-bold:      800;
 }
 
 /* Reset */

@@ -147,6 +147,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const vars = accentCssVars(palette, mode);
     const root = document.documentElement;
+    root.setAttribute('data-theme', mode);
     for (const [prop, value] of Object.entries(vars)) {
       root.style.setProperty(prop, value);
     }
