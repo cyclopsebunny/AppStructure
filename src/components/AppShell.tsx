@@ -52,7 +52,7 @@ function MobileRightContent({
           alignItems: 'center',
           justifyContent: 'center',
           color: moreOpen
-            ? 'var(--sds-color-background-brand-default, #0a76db)'
+            ? 'var(--accent-primary)'
             : 'var(--sds-color-text-default-secondary, #999999)',
         }}
       >
@@ -149,7 +149,7 @@ export function AppShell() {
         width:            '100vw',
         overflow:         'hidden',
         fontFamily:       '"Inter", sans-serif',
-        background:       'linear-gradient(200deg, #c4e4f5 0%, #f2fbff 100%)',
+        background:       'linear-gradient(200deg, var(--accent-gradient-start) 0%, var(--accent-gradient-end) 100%)',
       }}
     >
       {/* ── Top bar — mobile only ─────────────────────────────────────────────── */}

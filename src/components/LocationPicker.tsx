@@ -3,8 +3,8 @@ import { createPortal } from 'react-dom';
 import { LOCATIONS } from '../config/locations';
 import { useAppContext } from '../context/AppContext';
 
-/** Icon, title, and checkmark when this location is selected */
-const SELECTED_LOCATION_ACCENT = '#05549E';
+/** Accent color for the selected location — driven by ThemeContext CSS vars */
+const SELECTED_LOCATION_ACCENT = 'var(--accent-dark)';
 
 interface LocationPickerProps {
   /** px distance from the left edge of the viewport to the right edge of the sidebar */
@@ -58,7 +58,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
         background: 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
-        border: '0.75px solid #d2efff',
+        border: '0.75px solid var(--accent-border-light)',
         borderRadius: 12,
         boxShadow: '0px 4px 20px rgba(149, 172, 188, 0.3)',
         padding: 6,
@@ -74,14 +74,14 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
         width: 0, height: 0,
         borderLeft: '8px solid transparent',
         borderRight: '8px solid transparent',
-        borderBottom: '9px solid #d2efff',
+        borderBottom: '9px solid var(--accent-border-light)',
       } : !mobile ? {
         // Points left toward the sidebar
         position: 'absolute', top: 20, left: -9,
         width: 0, height: 0,
         borderTop: '8px solid transparent',
         borderBottom: '8px solid transparent',
-        borderRight: '9px solid #d2efff',
+        borderRight: '9px solid var(--accent-border-light)',
       } : undefined} />
       {/* Pointer arrow — fill layer (covers border to match background) */}
       <div style={mobile && anchorRect ? {
@@ -111,7 +111,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
               padding: '8px 10px',
               border: 'none',
               borderRadius: 8,
-              backgroundColor: isSelected ? '#D0EAF8' : 'transparent',
+              backgroundColor: isSelected ? 'var(--accent-bg-selected)' : 'transparent',
               cursor: 'pointer',
               textAlign: 'left',
               width: '100%',

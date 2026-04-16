@@ -23,8 +23,8 @@ export function PlaceholderPage({ section, page }: PlaceholderPageProps) {
           width: 64,
           height: 64,
           borderRadius: 16,
-          backgroundColor: 'rgba(10, 118, 219, 0.06)',
-          border: '1.5px dashed rgba(10, 118, 219, 0.3)',
+          backgroundColor: 'var(--accent-wash-6)',
+          border: '1.5px dashed var(--accent-wash-30)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -38,10 +38,10 @@ export function PlaceholderPage({ section, page }: PlaceholderPageProps) {
           fill="none"
           aria-hidden="true"
         >
-          <rect x="3" y="3" width="7" height="7" rx="1.5" fill="#0a76db" opacity="0.25" />
-          <rect x="14" y="3" width="7" height="7" rx="1.5" fill="#0a76db" opacity="0.45" />
-          <rect x="3" y="14" width="7" height="7" rx="1.5" fill="#0a76db" opacity="0.45" />
-          <rect x="14" y="14" width="7" height="7" rx="1.5" fill="#0a76db" opacity="0.25" />
+          <rect x="3" y="3" width="7" height="7" rx="1.5" fill="var(--accent-primary)" opacity="0.25" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" fill="var(--accent-primary)" opacity="0.45" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" fill="var(--accent-primary)" opacity="0.45" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" fill="var(--accent-primary)" opacity="0.25" />
         </svg>
       </div>
 

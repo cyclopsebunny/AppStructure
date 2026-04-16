@@ -2,7 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import { useTheme } from '../context/ThemeContext';
 import { useBreakpoint } from '../hooks/useBreakpoint';
+import type { AccentPreset } from '../utils/accentPalette';
 
 // ── Figma SVG icons ───────────────────────────────────────────────────────────
 
@@ -161,7 +163,7 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
             padding:      '8px 12px',
             border:       'none',
             borderRadius: 8,
-            background:   isActive ? 'var(--sds-color-background-brand-default, #0a76db)' : isFocused ? '#f1f5f9' : 'transparent',
+            background:   isActive ? 'var(--accent-primary)' : isFocused ? '#f1f5f9' : 'transparent',
             color:        isActive ? '#ffffff' : isLogout ? '#d9210b' : '#191919',
             fontFamily:   '"Inter", sans-serif',
             fontSize:     13,
@@ -190,7 +192,7 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
         background:           'rgba(255,255,255,0.97)',
         backdropFilter:       'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
-        border:               '0.75px solid #d2efff',
+        border:               '0.75px solid var(--accent-border-light)',
         borderRadius:         12,
         boxShadow:            '0px 4px 20px rgba(149, 172, 188, 0.30)',
         minWidth:             164,
@@ -240,13 +242,13 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
           borderRadius: '50%',
           border:       isSelected
             ? 'none'
-            : `2px solid var(--sds-color-background-brand-default, #0a76db)`,
+            : `2px solid var(--accent-primary)`,
           background: isSelected
-            ? 'var(--sds-color-background-brand-default, #0a76db)'
-            : hovered ? 'rgba(10, 118, 219, 0.06)' : '#ffffff',
+            ? 'var(--accent-primary)'
+            : hovered ? 'var(--accent-wash-6)' : '#ffffff',
           color: isSelected
             ? '#ffffff'
-            : 'var(--sds-color-background-brand-default, #0a76db)',
+            : 'var(--accent-primary)',
           display:        'flex',
           alignItems:     'center',
           justifyContent: 'center',
@@ -341,6 +343,299 @@ function IconBtn({ children, label, alert = false, size = 40, onClick }: IconBtn
   );
 }
 
+// ── Accent color picker ───────────────────────────────────────────────────────
+
+function PaletteIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path
+        d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10a1.5 1.5 0 0 0 1.5-1.5c0-.39-.15-.74-.4-1.01-.25-.26-.39-.61-.39-1a1.5 1.5 0 0 1 1.5-1.5H14c3.314 0 6-2.686 6-6 0-4.963-4.477-9-10-9ZM3.5 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm7 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
+        fill="#94A3B8"
+      />
+    </svg>
+  );
+}
+
+const HEX_RE = /^#[0-9a-f]{6}$/i;
+
+function SwatchButton({ preset, isActive, onClick }: {
+  preset: AccentPreset;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      role="menuitem"
+      aria-label={preset.label}
+      title={preset.label}
+      onClick={onClick}
+      style={{
+        width: 28,
+        height: 28,
+        borderRadius: '50%',
+        border: isActive ? '2.5px solid #191919' : '2px solid transparent',
+        background: preset.primary,
+        cursor: 'pointer',
+        padding: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'transform 0.12s ease',
+        outline: 'none',
+        boxShadow: isActive ? `0 0 0 2px #ffffff, 0 0 0 4px ${preset.primary}` : undefined,
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.15)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
+    >
+      {isActive && (
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M3 8L6.5 11.5L13 4.5"
+            stroke="#ffffff"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
+    </button>
+  );
+}
+
+function AccentColorPicker({ size = 40 }: { size?: number }) {
+  const { presets, activeIndex, setActiveIndex, updatePreset, resetPresets } = useTheme();
+  const [open, setOpen] = useState(false);
+  const [anchor, setAnchor] = useState<{ centerY: number; right: number } | null>(null);
+  const [dropTop, setDropTop] = useState(0);
+  const [arrowTop, setArrowTop] = useState(0);
+  const [dropVisible, setDropVisible] = useState(false);
+  const [hexDraft, setHexDraft] = useState('');
+  const [resetHovered, setResetHovered] = useState(false);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const dropRef = useRef<HTMLDivElement>(null);
+
+  const activePrimary = presets[activeIndex]?.primary ?? '#0a76db';
+
+  const openPicker = () => {
+    if (btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      setAnchor({ centerY: rect.top + rect.height / 2, right: window.innerWidth - rect.left + 24 });
+    }
+    setHexDraft(presets[activeIndex]?.primary ?? '#0a76db');
+    setDropVisible(false);
+    setOpen(true);
+  };
+
+  useEffect(() => {
+    if (!open || !dropRef.current || !anchor) return;
+    const margin = 8;
+    const h = dropRef.current.offsetHeight;
+    const ideal = anchor.centerY - h / 2;
+    const clamped = Math.max(margin, Math.min(window.innerHeight - h - margin, ideal));
+    setDropTop(clamped);
+    setArrowTop(anchor.centerY - clamped);
+    setDropVisible(true);
+  }, [open, anchor]);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    document.addEventListener('mousedown', close);
+    document.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+    return () => {
+      document.removeEventListener('mousedown', close);
+      document.removeEventListener('scroll', close, true);
+      window.removeEventListener('resize', close);
+    };
+  }, [open]);
+
+  // Keep hex draft in sync when active selection changes
+  useEffect(() => {
+    setHexDraft(activePrimary);
+  }, [activePrimary]);
+
+  const handleNativeColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setHexDraft(val);
+    updatePreset(activeIndex, val);
+  };
+
+  const handleHexInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value;
+    if (!val.startsWith('#')) val = '#' + val;
+    setHexDraft(val);
+    if (HEX_RE.test(val)) {
+      updatePreset(activeIndex, val);
+    }
+  };
+
+  const dropdown = anchor && open && createPortal(
+    <div
+      ref={dropRef}
+      role="menu"
+      aria-label="Accent color"
+      onMouseDown={(e) => e.stopPropagation()}
+      style={{
+        position:             'fixed',
+        top:                  dropTop,
+        right:                anchor.right,
+        visibility:           dropVisible ? 'visible' : 'hidden',
+        background:           'rgba(255,255,255,0.97)',
+        backdropFilter:       'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        border:               '0.75px solid var(--accent-border-light)',
+        borderRadius:         12,
+        boxShadow:            '0px 4px 20px rgba(149, 172, 188, 0.30)',
+        padding:              '10px 12px',
+        zIndex:               9999,
+        display:              'flex',
+        flexDirection:        'column',
+        gap:                  10,
+        width:                200,
+      }}
+    >
+      {/* Arrow pointing right */}
+      <div style={{
+        position: 'absolute', right: -7, top: arrowTop, transform: 'translateY(-50%)',
+        width: 0, height: 0,
+        borderTop: '7px solid transparent', borderBottom: '7px solid transparent',
+        borderLeft: '7px solid rgba(255,255,255,0.97)',
+      }} />
+
+      <div style={{
+        fontFamily: '"Inter", sans-serif',
+        fontSize: 11,
+        fontWeight: 600,
+        color: '#64748b',
+        letterSpacing: '0.3px',
+        textTransform: 'uppercase',
+        whiteSpace: 'nowrap',
+      }}>
+        Accent Color
+      </div>
+
+      {/* Swatch grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, justifyItems: 'center' }}>
+        {presets.map((preset, i) => (
+          <SwatchButton
+            key={i}
+            preset={preset}
+            isActive={i === activeIndex}
+            onClick={() => setActiveIndex(i)}
+          />
+        ))}
+      </div>
+
+      {/* Divider */}
+      <div style={{ height: 1, background: '#e2e8f0' }} />
+
+      {/* Color editor */}
+      <div style={{
+        fontFamily: '"Inter", sans-serif',
+        fontSize: 11,
+        fontWeight: 600,
+        color: '#64748b',
+        letterSpacing: '0.3px',
+        textTransform: 'uppercase',
+      }}>
+        Customize
+      </div>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        <input
+          type="color"
+          value={HEX_RE.test(hexDraft) ? hexDraft : activePrimary}
+          onChange={handleNativeColorChange}
+          style={{
+            width: 32,
+            height: 32,
+            border: '1.5px solid #e2e8f0',
+            borderRadius: 6,
+            padding: 2,
+            cursor: 'pointer',
+            flexShrink: 0,
+            background: '#ffffff',
+          }}
+        />
+        <input
+          type="text"
+          value={hexDraft}
+          onChange={handleHexInputChange}
+          maxLength={7}
+          spellCheck={false}
+          style={{
+            flex: 1,
+            minWidth: 0,
+            fontFamily: '"Inter", monospace',
+            fontSize: 13,
+            fontWeight: 500,
+            color: '#191919',
+            padding: '5px 8px',
+            border: `1.5px solid ${HEX_RE.test(hexDraft) ? '#e2e8f0' : '#f87171'}`,
+            borderRadius: 6,
+            outline: 'none',
+            background: '#ffffff',
+            transition: 'border-color 0.12s ease',
+          }}
+        />
+      </div>
+
+      {/* Reset */}
+      <button
+        type="button"
+        onClick={() => { resetPresets(); setHexDraft(presets[0]?.primary ?? '#0a76db'); }}
+        onMouseEnter={() => setResetHovered(true)}
+        onMouseLeave={() => setResetHovered(false)}
+        style={{
+          background: 'none',
+          border: 'none',
+          padding: '2px 0',
+          fontFamily: '"Inter", sans-serif',
+          fontSize: 11,
+          fontWeight: 500,
+          color: resetHovered ? '#191919' : '#94a3b8',
+          cursor: 'pointer',
+          textAlign: 'left',
+          transition: 'color 0.12s ease',
+        }}
+      >
+        Reset to defaults
+      </button>
+    </div>,
+    document.body,
+  );
+
+  return (
+    <>
+      <button
+        ref={btnRef}
+        type="button"
+        title="Accent color"
+        aria-label="Accent color"
+        onClick={openPicker}
+        style={{
+          width: size,
+          height: size,
+          borderRadius: '50%',
+          border: 'none',
+          padding: 4,
+          backgroundColor: 'transparent',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexShrink: 0,
+        }}
+      >
+        <PaletteIcon />
+      </button>
+      {dropdown}
+    </>
+  );
+}
+
 // ── Icon sets per app type ────────────────────────────────────────────────────
 
 function CommunityIcons({ size = 40 }: { size?: number }) {
@@ -365,6 +660,7 @@ function CommunityIcons({ size = 40 }: { size?: number }) {
       <IconBtn label="Help" size={size}>
         <HelpIcon />
       </IconBtn>
+      <AccentColorPicker size={size} />
     </>
   );
 }
@@ -379,6 +675,7 @@ function EnterpriseIcons({ size = 40 }: { size?: number }) {
       <IconBtn label="Help" size={size}>
         <HelpIcon />
       </IconBtn>
+      <AccentColorPicker size={size} />
     </>
   );
 }
@@ -397,7 +694,7 @@ export function RightNav() {
       style={{
         width: 64,
         flexShrink: 0,
-        backgroundColor: '#ffffff',
+        backgroundColor: 'rgba(255, 255, 255, 0.9)',
         borderLeft: '1px solid #e2e8f0',
         display: 'flex',
         flexDirection: 'column',

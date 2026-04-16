@@ -1,3 +1,19 @@
+/* Accent color tokens — defaults (blue hue 207). Overridden at runtime by ThemeContext. */
+:root {
+  --accent-primary:        #0a76db;
+  --accent-dark:           #05549e;
+  --accent-hover:          #0966c7;
+  --accent-bg-selected:    #d0eaf8;
+  --accent-border-light:   #d2efff;
+  --accent-gradient-start: #c4e4f5;
+  --accent-gradient-end:   #f2fbff;
+  --accent-subtle-bg:      #e0eeff;
+  --accent-wash-4:         rgba(10, 118, 219, 0.04);
+  --accent-wash-6:         rgba(10, 118, 219, 0.06);
+  --accent-wash-30:        rgba(10, 118, 219, 0.3);
+  --accent-primary-rgb:    10, 118, 219;
+}
+
 /* Reset */
 *, *::before, *::after {
   box-sizing: border-box;

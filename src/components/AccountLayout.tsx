@@ -75,7 +75,7 @@ export function AccountLayout() {
           background:           'rgba(255, 255, 255, 0.7)',
           backdropFilter:       'blur(6px)',
           WebkitBackdropFilter: 'blur(6px)',
-          border:               '0.75px solid #d2efff',
+          border:               '0.75px solid var(--accent-border-light)',
           borderRadius:         20,
           boxShadow:            '0px 2px 48px 0px rgba(149, 172, 188, 0.15)',
           overflow:             'hidden',

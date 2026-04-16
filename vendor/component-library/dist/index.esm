@@ -749,7 +749,7 @@ const E1 = h1, U1 = {
     flexDirection: "column",
     width: a ? 84 : 220,
     height: u,
-    backgroundColor: "#ffffff",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderRight: "1px solid #e2e8f0",
     boxSizing: "border-box",
     paddingTop: 28,
@@ -1001,7 +1001,7 @@ function I1() {
 }
 const Q = E.forwardRef(
   ({ label: C, active: l = !1, onLabelClick: t, onDotsClick: r, style: n, showLeftDivider: o1 = !1, onDividerClick: p0, ...i }, d) => {
-    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), [hR, iR] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10, 118, 219, 0.04)" : "transparent", L = l ? V ? "rgba(255,255,255,0.18)" : "transparent" : V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = l ? "#05549E" : "var(--sds-color-text-default-secondary, #636363)";
+    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), [hR, iR] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-4, rgba(10, 118, 219, 0.04))" : "transparent", L = l ? V ? "rgba(255,255,255,0.18)" : "transparent" : V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = l ? "var(--accent-dark, #05549E)" : "var(--sds-color-text-default-secondary, #636363)";
     return /* @__PURE__ */ o(
       "div",
       {
@@ -1181,7 +1181,7 @@ const K = E.forwardRef(({
     justifyContent: "center",
     padding: "var(--sds-size-space-150, 6px) var(--sds-size-space-600, 24px)",
     borderRadius: "var(--nexus-shape-borderradius-xs, 8px)",
-    background: l ? a ? "var(--sds-color-background-brand-hover, #0966c7)" : "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10, 118, 219, 0.04)" : "transparent",
+    background: l ? a ? "var(--sds-color-background-brand-hover, #0966c7)" : "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-4, rgba(10, 118, 219, 0.04))" : "transparent",
     border: "none",
     cursor: r ? "not-allowed" : "pointer",
     opacity: r ? 0.4 : 1,
@@ -1456,7 +1456,7 @@ const R1 = 16, i1 = {
     padding: "12px 16px",
     border: "1px solid transparent",
     borderRadius: l || d && !r ? 8 : 4,
-    background: l ? "#D0EAF8" : d && !r ? "rgba(10, 118, 219, 0.04)" : "transparent",
+    background: l ? "var(--accent-bg-selected, #D0EAF8)" : d && !r ? "var(--accent-wash-4, rgba(10, 118, 219, 0.04))" : "transparent",
     cursor: r ? "not-allowed" : "pointer",
     opacity: r ? 0.4 : 1,
     transition: "background 0.12s ease, border-color 0.12s ease",
@@ -1464,7 +1464,7 @@ const R1 = 16, i1 = {
     fontSize: 14,
     fontWeight: l ? 600 : 500,
     lineHeight: "20px",
-    color: l ? "#05549E" : "var(--secondary, #6b6b6b)",
+    color: l ? "var(--accent-dark, #05549E)" : "var(--secondary, #6b6b6b)",
     whiteSpace: "nowrap",
     boxSizing: "border-box",
     ...i
@@ -1500,7 +1500,7 @@ const R1 = 16, i1 = {
     background: "rgba(255, 255, 255, 0.7)",
     backdropFilter: "blur(6px)",
     WebkitBackdropFilter: "blur(6px)",
-    border: "0.75px solid #d2efff",
+    border: "0.75px solid var(--accent-border-light, #d2efff)",
     borderRadius: 16,
     boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
     flexShrink: 0,
@@ -1712,7 +1712,7 @@ function _1({
           height: C,
           borderRadius: "50%",
           border: M ? "none" : "2px solid var(--sds-color-background-brand-default, #0a76db)",
-          background: M ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "rgba(10,118,219,0.06)" : "#ffffff",
+          background: M ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-6, rgba(10,118,219,0.06))" : "#ffffff",
           color: M ? "#ffffff" : "var(--sds-color-background-brand-default, #0a76db)",
           display: "flex",
           alignItems: "center",
@@ -1883,7 +1883,7 @@ const Q1 = ({
                   padding: "8px 10px",
                   border: "none",
                   borderRadius: 8,
-                  backgroundColor: H ? "#D0EAF8" : "transparent",
+                  backgroundColor: H ? "var(--accent-bg-selected, #D0EAF8)" : "transparent",
                   cursor: "pointer",
                   textAlign: "left",
                   width: "100%",

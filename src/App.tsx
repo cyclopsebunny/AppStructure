@@ -10,6 +10,7 @@ import { SubPageLayout } from './components/SubPageLayout';
 import type { SubPage } from './components/SubPageLayout';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { AppProvider, useAppContext } from './context/AppContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { ALL_SECTIONS, ENTERPRISE_NAV_SECTIONS } from './config/nav';
 
 /**
@@ -172,8 +173,10 @@ const router = createBrowserRouter(
 
 export default function App() {
   return (
-    <AppProvider>
-      <RouterProvider router={router} />
-    </AppProvider>
+    <ThemeProvider>
+      <AppProvider>
+        <RouterProvider router={router} />
+      </AppProvider>
+    </ThemeProvider>
   );
 }
