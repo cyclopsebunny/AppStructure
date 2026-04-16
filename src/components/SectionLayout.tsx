@@ -18,7 +18,7 @@ function Footer({
   return (
     <div
       style={{
-        borderTop:    '1px solid #e2e8f0',
+        borderTop:    '1px solid var(--border-default)',
         display:      'flex',
         alignItems:   'flex-end',
         justifyContent: 'space-between',
@@ -40,7 +40,7 @@ function Footer({
           fontSize:      10,
           letterSpacing: '0.5px',
           textTransform: 'uppercase',
-          color:         '#64748b',
+          color:         'var(--text-secondary)',
         }}
       >
         {links.map((link) => (
@@ -54,7 +54,7 @@ function Footer({
           fontSize:      10,
           letterSpacing: '0.5px',
           textTransform: 'uppercase',
-          color:         '#64748b',
+          color:         'var(--text-secondary)',
           whiteSpace:    'nowrap',
           flexShrink:    0,
         }}
@@ -146,6 +146,8 @@ export function SectionLayout() {
             msOverflowStyle: 'none',
             scrollbarWidth:  'none',
             paddingTop:      isMobile ? pad : 0,
+            borderRadius:    isMobile ? 12 : isDesktop ? 16 : 14,
+            boxShadow:       '0px 2px 48px 0px var(--shadow-card)',
           }}
         >
           <Tabs
@@ -181,12 +183,12 @@ export function SectionLayout() {
             flexDirection:         'column',
             minHeight:             0,
             marginTop:             !hasTabs && isMobile ? pad : undefined,
-            background:            'rgba(255, 255, 255, 0.7)',
+            background:            'var(--surface-card)',
             backdropFilter:        'blur(6px)',
             WebkitBackdropFilter:  'blur(6px)',
-            border:                '0.75px solid var(--accent-border-light)',
+            border:                '1px solid var(--border-default)',
             borderRadius:          20,
-            boxShadow:             '0px 2px 48px 0px rgba(149, 172, 188, 0.15)',
+            boxShadow:             '0px 2px 48px 0px var(--shadow-card)',
             overflow:              'hidden',
           }}
         >

@@ -4,7 +4,7 @@ import { LOCATIONS } from '../config/locations';
 import { useAppContext } from '../context/AppContext';
 
 /** Accent color for the selected location — driven by ThemeContext CSS vars */
-const SELECTED_LOCATION_ACCENT = 'var(--accent-dark)';
+const SELECTED_LOCATION_ACCENT = 'var(--location-selected-text)';
 
 interface LocationPickerProps {
   /** px distance from the left edge of the viewport to the right edge of the sidebar */
@@ -55,12 +55,12 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
         left: mobile ? (anchorRect ? Math.min(anchorRect.left, window.innerWidth - 252) : 12) : offsetLeft + 8,
         width: 240,
         zIndex: 1000,
-        background: 'rgba(255, 255, 255, 0.95)',
+        background: 'var(--surface-popover)',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
         border: '0.75px solid var(--accent-border-light)',
         borderRadius: 12,
-        boxShadow: '0px 4px 20px rgba(149, 172, 188, 0.3)',
+        boxShadow: '0px 4px 20px var(--shadow-popover)',
         padding: 6,
         display: 'flex',
         flexDirection: 'column',
@@ -89,13 +89,13 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
         width: 0, height: 0,
         borderLeft: '7px solid transparent',
         borderRight: '7px solid transparent',
-        borderBottom: '8px solid rgba(255,255,255,0.95)',
+        borderBottom: '8px solid var(--surface-popover)',
       } : !mobile ? {
         position: 'absolute', top: 21, left: -7,
         width: 0, height: 0,
         borderTop: '7px solid transparent',
         borderBottom: '7px solid transparent',
-        borderRight: '8px solid rgba(255,255,255,0.95)',
+        borderRight: '8px solid var(--surface-popover)',
       } : undefined} />
       {LOCATIONS.map((loc) => {
         const isSelected = loc.id === selectedLocation.id;
@@ -119,7 +119,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
             }}
             onMouseEnter={(e) => {
               if (!isSelected)
-                (e.currentTarget as HTMLElement).style.backgroundColor = '#f8fafc';
+                (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--surface-row-hover)';
             }}
             onMouseLeave={(e) => {
               if (!isSelected)
@@ -135,7 +135,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
                 alignItems: 'center',
                 justifyContent: 'center',
                 flexShrink: 0,
-                color: isSelected ? SELECTED_LOCATION_ACCENT : '#64748b',
+                color: isSelected ? SELECTED_LOCATION_ACCENT : 'var(--text-secondary)',
               }}
             >
               {loc.icon}
@@ -148,7 +148,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
                   fontFamily: '"Inter", sans-serif',
                   fontWeight: isSelected ? 700 : 500,
                   fontSize: 13,
-                  color: isSelected ? SELECTED_LOCATION_ACCENT : '#191919',
+                  color: isSelected ? SELECTED_LOCATION_ACCENT : 'var(--text-primary)',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -161,7 +161,7 @@ export function LocationPicker({ offsetLeft, mobile = false, anchorRect, onClose
                   fontFamily: '"Inter", sans-serif',
                   fontWeight: 400,
                   fontSize: 11,
-                  color: '#64748b',
+                  color: 'var(--text-secondary)',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',

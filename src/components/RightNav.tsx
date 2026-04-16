@@ -11,7 +11,7 @@ import type { AccentPreset } from '../utils/accentPalette';
 function SearchIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20.0002 20.0002" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M8.125 0C12.6123 0 16.25 3.63769 16.25 8.125C16.25 10.0304 15.5932 11.7837 14.4951 13.1689L19.7256 18.3994C20.0917 18.7655 20.0917 19.3595 19.7256 19.7256C19.3595 20.0917 18.7655 20.0917 18.3994 19.7256L13.1689 14.4951C11.7837 15.5932 10.0304 16.25 8.125 16.25C3.63769 16.25 0 12.6123 0 8.125C0 3.63769 3.63769 0 8.125 0ZM8.125 1.875C4.67322 1.875 1.875 4.67322 1.875 8.125C1.875 11.5768 4.67322 14.375 8.125 14.375C9.85115 14.375 11.4119 13.676 12.5439 12.5439C13.676 11.4119 14.375 9.85115 14.375 8.125C14.375 4.67322 11.5768 1.875 8.125 1.875Z" fill="#94A3B8" />
+      <path d="M8.125 0C12.6123 0 16.25 3.63769 16.25 8.125C16.25 10.0304 15.5932 11.7837 14.4951 13.1689L19.7256 18.3994C20.0917 18.7655 20.0917 19.3595 19.7256 19.7256C19.3595 20.0917 18.7655 20.0917 18.3994 19.7256L13.1689 14.4951C11.7837 15.5932 10.0304 16.25 8.125 16.25C3.63769 16.25 0 12.6123 0 8.125C0 3.63769 3.63769 0 8.125 0ZM8.125 1.875C4.67322 1.875 1.875 4.67322 1.875 8.125C1.875 11.5768 4.67322 14.375 8.125 14.375C9.85115 14.375 11.4119 13.676 12.5439 12.5439C13.676 11.4119 14.375 9.85115 14.375 8.125C14.375 4.67322 11.5768 1.875 8.125 1.875Z" fill="var(--icon-muted)" />
     </svg>
   );
 }
@@ -27,7 +27,7 @@ function SirenIcon() {
 function PlusIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M8 0C8.55228 0 9 0.537454 9 1.2002V7.05762H14.7998C15.4625 7.05762 16 7.50533 16 8.05762C16 8.6099 15.4625 9.05762 14.7998 9.05762H9V14.7998C9 15.4625 8.55228 16 8 16C7.44772 16 7 15.4625 7 14.7998V9.05762H1.2002C0.537454 9.05762 0 8.6099 0 8.05762C0 7.50533 0.537454 7.05762 1.2002 7.05762H7V1.2002C7 0.537454 7.44772 0 8 0Z" fill="#94A3B8" />
+      <path d="M8 0C8.55228 0 9 0.537454 9 1.2002V7.05762H14.7998C15.4625 7.05762 16 7.50533 16 8.05762C16 8.6099 15.4625 9.05762 14.7998 9.05762H9V14.7998C9 15.4625 8.55228 16 8 16C7.44772 16 7 15.4625 7 14.7998V9.05762H1.2002C0.537454 9.05762 0 8.6099 0 8.05762C0 7.50533 0.537454 7.05762 1.2002 7.05762H7V1.2002C7 0.537454 7.44772 0 8 0Z" fill="var(--icon-muted)" />
     </svg>
   );
 }
@@ -35,7 +35,7 @@ function PlusIcon() {
 function MessageIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 22.066 16.038" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path fillRule="evenodd" clipRule="evenodd" d="M22.06 0.967C22.056 0.851 22.038 0.736 21.993 0.625L21.99 0.619C21.982 0.601 21.969 0.587 21.961 0.57C21.918 0.481 21.864 0.4 21.798 0.328C21.773 0.301 21.744 0.278 21.716 0.254C21.654 0.2 21.587 0.155 21.514 0.117C21.481 0.101 21.449 0.083 21.415 0.07C21.306 0.029 21.19 0 21.066 0H1C0.876 0 0.761 0.029 0.652 0.07C0.618 0.083 0.587 0.099 0.556 0.115C0.48 0.153 0.411 0.2 0.348 0.255C0.322 0.278 0.295 0.298 0.272 0.323C0.195 0.406 0.129 0.498 0.083 0.604L0.079 0.61L0.077 0.619C0.033 0.724 0.013 0.84 0.008 0.959C0.008 0.973 0 0.985 0 1V15.038C0 15.591 0.447 16.038 1 16.038H21.066C21.619 16.038 22.066 15.591 22.066 15.038V1C22.066 0.988 22.06 0.978 22.06 0.967ZM20.066 12.988L14.566 8.693L20.066 3.362V12.988ZM2 3.465L7.12 8.738L2 12.928V3.465ZM18.598 2L12.975 7.45L11.525 8.855L11.343 9.032C11.017 9.347 10.493 9.341 10.177 9.015L10.071 8.907L8.673 7.467L3.365 2L18.598 2ZM3.801 14.038L8.518 10.178L8.742 10.409C9.294 10.977 10.03 11.263 10.768 11.263C11.477 11.263 12.186 10.999 12.734 10.469L13.116 10.098L18.161 14.038H3.801Z" fill="#94A3B8" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M22.06 0.967C22.056 0.851 22.038 0.736 21.993 0.625L21.99 0.619C21.982 0.601 21.969 0.587 21.961 0.57C21.918 0.481 21.864 0.4 21.798 0.328C21.773 0.301 21.744 0.278 21.716 0.254C21.654 0.2 21.587 0.155 21.514 0.117C21.481 0.101 21.449 0.083 21.415 0.07C21.306 0.029 21.19 0 21.066 0H1C0.876 0 0.761 0.029 0.652 0.07C0.618 0.083 0.587 0.099 0.556 0.115C0.48 0.153 0.411 0.2 0.348 0.255C0.322 0.278 0.295 0.298 0.272 0.323C0.195 0.406 0.129 0.498 0.083 0.604L0.079 0.61L0.077 0.619C0.033 0.724 0.013 0.84 0.008 0.959C0.008 0.973 0 0.985 0 1V15.038C0 15.591 0.447 16.038 1 16.038H21.066C21.619 16.038 22.066 15.591 22.066 15.038V1C22.066 0.988 22.06 0.978 22.06 0.967ZM20.066 12.988L14.566 8.693L20.066 3.362V12.988ZM2 3.465L7.12 8.738L2 12.928V3.465ZM18.598 2L12.975 7.45L11.525 8.855L11.343 9.032C11.017 9.347 10.493 9.341 10.177 9.015L10.071 8.907L8.673 7.467L3.365 2L18.598 2ZM3.801 14.038L8.518 10.178L8.742 10.409C9.294 10.977 10.03 11.263 10.768 11.263C11.477 11.263 12.186 10.999 12.734 10.469L13.116 10.098L18.161 14.038H3.801Z" fill="var(--icon-muted)" />
     </svg>
   );
 }
@@ -43,7 +43,7 @@ function MessageIcon() {
 function BellIcon() {
   return (
     <svg width="20" height="24" viewBox="0 0 18.2266 21.7256" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M9.11426 0C9.66714 0.000138731 10.1143 0.447086 10.1143 1V1.80957C10.656 1.89165 11.1748 2.04038 11.6641 2.24414C11.1656 2.71948 10.765 3.29661 10.4961 3.94238C10.2809 3.87562 10.0588 3.82419 9.83105 3.78906C9.69009 3.78306 9.31218 3.76863 9.11914 3.76562H9.1084L9.06445 3.76465C8.9196 3.76465 8.53875 3.78205 8.39941 3.78906C6.13641 4.13706 4.43457 6.11425 4.43457 8.40625V10.6689C4.43457 12.5689 3.59958 14.3647 2.14258 15.5957C2.05363 15.6727 2 15.7892 2 15.9111C2.00007 16.143 2.188 16.332 2.41992 16.332H15.8076C16.0386 16.332 16.2265 16.1431 16.2266 15.9111C16.2266 15.7872 16.1732 15.6719 16.0742 15.5869C14.6304 14.3665 13.7988 12.5794 13.7939 10.6855C14.2146 10.8004 14.6572 10.8633 15.1143 10.8633C15.3463 10.8633 15.5743 10.845 15.7979 10.8145C15.8387 12.0703 16.4053 13.2489 17.3691 14.0635C17.9159 14.5315 18.2266 15.2033 18.2266 15.9111C18.2265 17.2461 17.1416 18.332 15.8076 18.332H12.9824C12.7214 20.2429 11.0961 21.7255 9.11426 21.7256C7.13327 21.7256 5.50709 20.243 5.24707 18.332H2.41992C1.086 18.332 0 17.246 0 15.9111C0 15.2053 0.308875 14.5352 0.845703 14.0742C1.8567 13.2182 2.43457 11.9789 2.43457 10.6689V8.40625C2.43457 5.12725 4.87426 2.30057 8.11426 1.80957V1C8.11426 0.447 8.56126 0 9.11426 0ZM7.27637 18.332C7.50741 19.134 8.2393 19.7256 9.11426 19.7256C9.99014 19.7255 10.7222 19.134 10.9521 18.332H7.27637ZM12.6201 2.73535C14.5333 3.92508 15.7939 6.04874 15.7939 8.40625V9.80469C15.573 9.84253 15.346 9.86327 15.1143 9.86328C14.6515 9.86328 14.2074 9.7832 13.7939 9.63867V8.40625C13.7939 6.69169 12.8418 5.15286 11.4141 4.34082C11.6748 3.70782 12.0929 3.15626 12.6201 2.73535Z" fill="#94A3B8" />
+      <path d="M9.11426 0C9.66714 0.000138731 10.1143 0.447086 10.1143 1V1.80957C10.656 1.89165 11.1748 2.04038 11.6641 2.24414C11.1656 2.71948 10.765 3.29661 10.4961 3.94238C10.2809 3.87562 10.0588 3.82419 9.83105 3.78906C9.69009 3.78306 9.31218 3.76863 9.11914 3.76562H9.1084L9.06445 3.76465C8.9196 3.76465 8.53875 3.78205 8.39941 3.78906C6.13641 4.13706 4.43457 6.11425 4.43457 8.40625V10.6689C4.43457 12.5689 3.59958 14.3647 2.14258 15.5957C2.05363 15.6727 2 15.7892 2 15.9111C2.00007 16.143 2.188 16.332 2.41992 16.332H15.8076C16.0386 16.332 16.2265 16.1431 16.2266 15.9111C16.2266 15.7872 16.1732 15.6719 16.0742 15.5869C14.6304 14.3665 13.7988 12.5794 13.7939 10.6855C14.2146 10.8004 14.6572 10.8633 15.1143 10.8633C15.3463 10.8633 15.5743 10.845 15.7979 10.8145C15.8387 12.0703 16.4053 13.2489 17.3691 14.0635C17.9159 14.5315 18.2266 15.2033 18.2266 15.9111C18.2265 17.2461 17.1416 18.332 15.8076 18.332H12.9824C12.7214 20.2429 11.0961 21.7255 9.11426 21.7256C7.13327 21.7256 5.50709 20.243 5.24707 18.332H2.41992C1.086 18.332 0 17.246 0 15.9111C0 15.2053 0.308875 14.5352 0.845703 14.0742C1.8567 13.2182 2.43457 11.9789 2.43457 10.6689V8.40625C2.43457 5.12725 4.87426 2.30057 8.11426 1.80957V1C8.11426 0.447 8.56126 0 9.11426 0ZM7.27637 18.332C7.50741 19.134 8.2393 19.7256 9.11426 19.7256C9.99014 19.7255 10.7222 19.134 10.9521 18.332H7.27637ZM12.6201 2.73535C14.5333 3.92508 15.7939 6.04874 15.7939 8.40625V9.80469C15.573 9.84253 15.346 9.86327 15.1143 9.86328C14.6515 9.86328 14.2074 9.7832 13.7939 9.63867V8.40625C13.7939 6.69169 12.8418 5.15286 11.4141 4.34082C11.6748 3.70782 12.0929 3.15626 12.6201 2.73535Z" fill="var(--icon-muted)" />
     </svg>
   );
 }
@@ -51,9 +51,9 @@ function BellIcon() {
 function HelpIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path fillRule="evenodd" clipRule="evenodd" d="M10 18.125C14.4873 18.125 18.125 14.4873 18.125 10C18.125 5.51269 14.4873 1.875 10 1.875C5.51269 1.875 1.875 5.51269 1.875 10C1.875 14.4873 5.51269 18.125 10 18.125ZM10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20Z" fill="#94A3B8" />
-      <path d="M10.9375 15.9375C10.9375 16.4553 10.5178 16.875 10 16.875C9.48223 16.875 9.0625 16.4553 9.0625 15.9375C9.0625 15.4197 9.48223 15 10 15C10.5178 15 10.9375 15.4197 10.9375 15.9375Z" fill="#94A3B8" />
-      <path fillRule="evenodd" clipRule="evenodd" d="M10 5C8.96447 5 8.125 5.83947 8.125 6.875C8.125 7.39277 7.70527 7.8125 7.1875 7.8125C6.66973 7.8125 6.25 7.39277 6.25 6.875C6.25 4.80393 7.92893 3.125 10 3.125C12.0711 3.125 13.75 4.80393 13.75 6.875C13.75 8.62318 12.5546 10.09 10.9375 10.5066V12.8125C10.9375 13.3303 10.5178 13.75 10 13.75C9.48223 13.75 9.0625 13.3303 9.0625 12.8125V10.3125C9.0625 9.41146 9.77592 8.84794 10.4143 8.70428C11.2508 8.51605 11.875 7.76731 11.875 6.875C11.875 5.83947 11.0355 5 10 5Z" fill="#94A3B8" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M10 18.125C14.4873 18.125 18.125 14.4873 18.125 10C18.125 5.51269 14.4873 1.875 10 1.875C5.51269 1.875 1.875 5.51269 1.875 10C1.875 14.4873 5.51269 18.125 10 18.125ZM10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20Z" fill="var(--icon-muted)" />
+      <path d="M10.9375 15.9375C10.9375 16.4553 10.5178 16.875 10 16.875C9.48223 16.875 9.0625 16.4553 9.0625 15.9375C9.0625 15.4197 9.48223 15 10 15C10.5178 15 10.9375 15.4197 10.9375 15.9375Z" fill="var(--icon-muted)" />
+      <path fillRule="evenodd" clipRule="evenodd" d="M10 5C8.96447 5 8.125 5.83947 8.125 6.875C8.125 7.39277 7.70527 7.8125 7.1875 7.8125C6.66973 7.8125 6.25 7.39277 6.25 6.875C6.25 4.80393 7.92893 3.125 10 3.125C12.0711 3.125 13.75 4.80393 13.75 6.875C13.75 8.62318 12.5546 10.09 10.9375 10.5066V12.8125C10.9375 13.3303 10.5178 13.75 10 13.75C9.48223 13.75 9.0625 13.3303 9.0625 12.8125V10.3125C9.0625 9.41146 9.77592 8.84794 10.4143 8.70428C11.2508 8.51605 11.875 7.76731 11.875 6.875C11.875 5.83947 11.0355 5 10 5Z" fill="var(--icon-muted)" />
     </svg>
   );
 }
@@ -62,7 +62,6 @@ function HelpIcon() {
 
 interface UserMenuProps {
   size?: number;
-  /** 'left' = opens to the left (desktop/tablet), 'below' = opens below (mobile) */
   placement?: 'left' | 'below';
 }
 
@@ -78,7 +77,6 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
   const [open, setOpen] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
-  // left: { centerY, right }  |  below: { top, right }
   const [anchor, setAnchor] = useState<{ centerY?: number; top?: number; right: number } | null>(null);
   const [dropTop, setDropTop]     = useState(0);
   const [arrowTop, setArrowTop]   = useState<number>(0);
@@ -94,25 +92,24 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
         if (placement === 'below') {
           setAnchor({ top: rect.bottom + 12, right: window.innerWidth - rect.right - 4 });
         } else {
-          setAnchor({ centerY: rect.top + rect.height / 2, right: window.innerWidth - rect.left + 24 });
+          const aside = btnRef.current.closest('aside');
+          const sidebarLeft = aside ? aside.getBoundingClientRect().left : rect.left;
+          setAnchor({ centerY: rect.top + rect.height / 2, right: window.innerWidth - sidebarLeft + 24 });
         }
     }
     setDropVisible(false);
     setOpen(true);
   };
 
-  // After the dropdown renders, compute final position
   useEffect(() => {
     if (!open || !dropRef.current || !anchor) return;
     const margin = 8;
     if (placement === 'below') {
-      // Just clamp so it doesn't overflow the bottom
       const h = dropRef.current.offsetHeight;
       const top = Math.min(anchor.top!, window.innerHeight - h - margin);
       setDropTop(top);
-      setArrowTop(0); // arrow is at the top for 'below'
+      setArrowTop(0);
     } else {
-      // Clamp vertically and offset arrow to still point at button center
       const h       = dropRef.current.offsetHeight;
       const ideal   = anchor.centerY! - h / 2;
       const clamped = Math.max(margin, Math.min(window.innerHeight - h - margin, ideal));
@@ -122,7 +119,6 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
     setDropVisible(true);
   }, [open, anchor, placement]);
 
-  // Close on outside click or scroll
   useEffect(() => {
     if (!open) return;
     const close = () => setOpen(false);
@@ -148,7 +144,7 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
     return (
       <React.Fragment key={item.id}>
         {isLogout && (
-          <div style={{ height: 1, background: '#e2e8f0', margin: '4px 8px' }} />
+          <div style={{ height: 1, background: 'var(--border-default)', margin: '4px 8px' }} />
         )}
         <button
           type="button"
@@ -163,8 +159,8 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
             padding:      '8px 12px',
             border:       'none',
             borderRadius: 8,
-            background:   isActive ? 'var(--accent-primary)' : isFocused ? '#f1f5f9' : 'transparent',
-            color:        isActive ? '#ffffff' : isLogout ? '#d9210b' : '#191919',
+            background:   isActive ? 'var(--accent-primary)' : isFocused ? 'var(--surface-hover)' : 'transparent',
+            color:        isActive ? '#ffffff' : isLogout ? 'var(--text-danger)' : 'var(--text-primary)',
             fontFamily:   '"Inter", sans-serif',
             fontSize:     13,
             fontWeight:   isActive ? 600 : 400,
@@ -189,12 +185,12 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
         top:                  dropTop,
         right:                anchor.right,
         visibility:           dropVisible ? 'visible' : 'hidden',
-        background:           'rgba(255,255,255,0.97)',
+        background:           'var(--surface-popover)',
         backdropFilter:       'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
-        border:               '0.75px solid var(--accent-border-light)',
+        border:               '1px solid var(--border-default)',
         borderRadius:         12,
-        boxShadow:            '0px 4px 20px rgba(149, 172, 188, 0.30)',
+        boxShadow:            '0px 4px 20px var(--shadow-popover)',
         minWidth:             164,
         padding:              '6px',
         zIndex:               9999,
@@ -204,20 +200,18 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
       }}
     >
       {placement === 'left' ? (
-        /* Tail points right, vertically offset to track the button */
         <div style={{
           position: 'absolute', right: -7, top: arrowTop, transform: 'translateY(-50%)',
           width: 0, height: 0,
           borderTop: '7px solid transparent', borderBottom: '7px solid transparent',
-          borderLeft: '7px solid rgba(255,255,255,0.97)',
+          borderLeft: '7px solid var(--surface-popover)',
         }} />
       ) : (
-        /* Tail points up, horizontally aligned to the button */
         <div style={{
           position: 'absolute', top: -7, right: 12,
           width: 0, height: 0,
           borderLeft: '7px solid transparent', borderRight: '7px solid transparent',
-          borderBottom: '7px solid rgba(255,255,255,0.97)',
+          borderBottom: '7px solid var(--surface-popover)',
         }} />
       )}
       {menuItems}
@@ -245,7 +239,7 @@ export function UserMenu({ size = 24, placement = 'left' }: UserMenuProps) {
             : `2px solid var(--accent-primary)`,
           background: isSelected
             ? 'var(--accent-primary)'
-            : hovered ? 'var(--accent-wash-6)' : '#ffffff',
+            : hovered ? 'var(--accent-wash-6)' : 'var(--surface-elevated)',
           color: isSelected
             ? '#ffffff'
             : 'var(--accent-primary)',
@@ -274,7 +268,6 @@ function BellWithBadge({ size = 24 }: { size?: number }) {
   return (
     <div style={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <BellIcon />
-      {/* Red notification dot — top-right corner */}
       <div
         style={{
           position: 'absolute',
@@ -284,7 +277,7 @@ function BellWithBadge({ size = 24 }: { size?: number }) {
           height: 7,
           borderRadius: '50%',
           background: '#B35972',
-          border: '1.5px solid #fff',
+          border: '1.5px solid var(--surface-elevated)',
         }}
       />
     </div>
@@ -317,7 +310,7 @@ function IconBtn({ children, label, alert = false, size = 40, onClick }: IconBtn
         borderRadius: '50%',
         border: 'none',
         padding: 4,
-        backgroundColor: hovered ? '#f2f5fa' : 'transparent',
+        backgroundColor: hovered ? 'var(--accent-wash-6, rgba(10, 118, 219, 0.06))' : 'transparent',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
@@ -343,6 +336,89 @@ function IconBtn({ children, label, alert = false, size = 40, onClick }: IconBtn
   );
 }
 
+// ── Day/Night toggle ─────────────────────────────────────────────────────────
+
+function SunIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function DayNightToggle() {
+  const { mode, setMode } = useTheme();
+  const isNight = mode === 'night';
+
+  return (
+    <div style={{
+      display: 'flex',
+      borderRadius: 20,
+      border: '1.5px solid var(--border-default)',
+      overflow: 'hidden',
+      flexShrink: 0,
+    }}>
+      <button
+        type="button"
+        aria-label="Day mode"
+        onClick={() => setMode('day')}
+        style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 4,
+          padding: '4px 12px',
+          border: 'none',
+          cursor: 'pointer',
+          fontFamily: '"Inter", sans-serif',
+          fontSize: 11,
+          fontWeight: 600,
+          borderRadius: '18px 0 0 18px',
+          background: !isNight ? 'var(--accent-primary)' : 'transparent',
+          color: !isNight ? '#ffffff' : 'var(--text-secondary)',
+          transition: 'background 0.15s ease, color 0.15s ease',
+        }}
+      >
+        <SunIcon /> Day
+      </button>
+      <button
+        type="button"
+        aria-label="Night mode"
+        onClick={() => setMode('night')}
+        style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 4,
+          padding: '4px 12px',
+          border: 'none',
+          cursor: 'pointer',
+          fontFamily: '"Inter", sans-serif',
+          fontSize: 11,
+          fontWeight: 600,
+          borderRadius: '0 18px 18px 0',
+          background: isNight ? 'var(--accent-primary)' : 'transparent',
+          color: isNight ? '#ffffff' : 'var(--text-secondary)',
+          transition: 'background 0.15s ease, color 0.15s ease',
+        }}
+      >
+        <MoonIcon /> Night
+      </button>
+    </div>
+  );
+}
+
 // ── Accent color picker ───────────────────────────────────────────────────────
 
 function PaletteIcon() {
@@ -350,7 +426,7 @@ function PaletteIcon() {
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <path
         d="M10 0C4.477 0 0 4.477 0 10s4.477 10 10 10a1.5 1.5 0 0 0 1.5-1.5c0-.39-.15-.74-.4-1.01-.25-.26-.39-.61-.39-1a1.5 1.5 0 0 1 1.5-1.5H14c3.314 0 6-2.686 6-6 0-4.963-4.477-9-10-9ZM3.5 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm7 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"
-        fill="#94A3B8"
+        fill="var(--icon-muted)"
       />
     </svg>
   );
@@ -374,7 +450,7 @@ function SwatchButton({ preset, isActive, onClick }: {
         width: 28,
         height: 28,
         borderRadius: '50%',
-        border: isActive ? '2.5px solid #191919' : '2px solid transparent',
+        border: isActive ? '2.5px solid var(--text-primary)' : '2px solid transparent',
         background: preset.primary,
         cursor: 'pointer',
         padding: 0,
@@ -383,7 +459,7 @@ function SwatchButton({ preset, isActive, onClick }: {
         justifyContent: 'center',
         transition: 'transform 0.12s ease',
         outline: 'none',
-        boxShadow: isActive ? `0 0 0 2px #ffffff, 0 0 0 4px ${preset.primary}` : undefined,
+        boxShadow: isActive ? `0 0 0 2px var(--surface-elevated), 0 0 0 4px ${preset.primary}` : undefined,
       }}
       onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.15)'; }}
       onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; }}
@@ -420,7 +496,9 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
   const openPicker = () => {
     if (btnRef.current) {
       const rect = btnRef.current.getBoundingClientRect();
-      setAnchor({ centerY: rect.top + rect.height / 2, right: window.innerWidth - rect.left + 24 });
+      const aside = btnRef.current.closest('aside');
+      const sidebarLeft = aside ? aside.getBoundingClientRect().left : rect.left;
+      setAnchor({ centerY: rect.top + rect.height / 2, right: window.innerWidth - sidebarLeft + 24 });
     }
     setHexDraft(presets[activeIndex]?.primary ?? '#0a76db');
     setDropVisible(false);
@@ -451,7 +529,6 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
     };
   }, [open]);
 
-  // Keep hex draft in sync when active selection changes
   useEffect(() => {
     setHexDraft(activePrimary);
   }, [activePrimary]);
@@ -482,12 +559,12 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
         top:                  dropTop,
         right:                anchor.right,
         visibility:           dropVisible ? 'visible' : 'hidden',
-        background:           'rgba(255,255,255,0.97)',
+        background:           'var(--surface-popover)',
         backdropFilter:       'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
-        border:               '0.75px solid var(--accent-border-light)',
+        border:               '1px solid var(--border-default)',
         borderRadius:         12,
-        boxShadow:            '0px 4px 20px rgba(149, 172, 188, 0.30)',
+        boxShadow:            '0px 4px 20px var(--shadow-popover)',
         padding:              '10px 12px',
         zIndex:               9999,
         display:              'flex',
@@ -496,25 +573,35 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
         width:                200,
       }}
     >
-      {/* Arrow pointing right */}
+      {/* Arrow pointing right — border layer */}
+      <div style={{
+        position: 'absolute', right: -9, top: arrowTop, transform: 'translateY(-50%)',
+        width: 0, height: 0,
+        borderTop: '8px solid transparent', borderBottom: '8px solid transparent',
+        borderLeft: '9px solid var(--border-default)',
+      }} />
+      {/* Arrow pointing right — fill layer */}
       <div style={{
         position: 'absolute', right: -7, top: arrowTop, transform: 'translateY(-50%)',
         width: 0, height: 0,
         borderTop: '7px solid transparent', borderBottom: '7px solid transparent',
-        borderLeft: '7px solid rgba(255,255,255,0.97)',
+        borderLeft: '7px solid var(--surface-popover)',
       }} />
 
       <div style={{
         fontFamily: '"Inter", sans-serif',
         fontSize: 11,
         fontWeight: 600,
-        color: '#64748b',
+        color: 'var(--text-secondary)',
         letterSpacing: '0.3px',
         textTransform: 'uppercase',
         whiteSpace: 'nowrap',
       }}>
         Accent Color
       </div>
+
+      {/* Day / Night toggle */}
+      <DayNightToggle />
 
       {/* Swatch grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 6, justifyItems: 'center' }}>
@@ -529,14 +616,14 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
       </div>
 
       {/* Divider */}
-      <div style={{ height: 1, background: '#e2e8f0' }} />
+      <div style={{ height: 1, background: 'var(--border-default)' }} />
 
       {/* Color editor */}
       <div style={{
         fontFamily: '"Inter", sans-serif',
         fontSize: 11,
         fontWeight: 600,
-        color: '#64748b',
+        color: 'var(--text-secondary)',
         letterSpacing: '0.3px',
         textTransform: 'uppercase',
       }}>
@@ -551,12 +638,12 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
           style={{
             width: 32,
             height: 32,
-            border: '1.5px solid #e2e8f0',
+            border: '1.5px solid var(--border-default)',
             borderRadius: 6,
             padding: 2,
             cursor: 'pointer',
             flexShrink: 0,
-            background: '#ffffff',
+            background: 'var(--surface-elevated)',
           }}
         />
         <input
@@ -571,12 +658,12 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
             fontFamily: '"Inter", monospace',
             fontSize: 13,
             fontWeight: 500,
-            color: '#191919',
+            color: 'var(--text-primary)',
             padding: '5px 8px',
-            border: `1.5px solid ${HEX_RE.test(hexDraft) ? '#e2e8f0' : '#f87171'}`,
+            border: `1.5px solid ${HEX_RE.test(hexDraft) ? 'var(--border-default)' : '#f87171'}`,
             borderRadius: 6,
             outline: 'none',
-            background: '#ffffff',
+            background: 'var(--surface-elevated)',
             transition: 'border-color 0.12s ease',
           }}
         />
@@ -595,7 +682,7 @@ function AccentColorPicker({ size = 40 }: { size?: number }) {
           fontFamily: '"Inter", sans-serif',
           fontSize: 11,
           fontWeight: 500,
-          color: resetHovered ? '#191919' : '#94a3b8',
+          color: resetHovered ? 'var(--text-primary)' : 'var(--text-muted)',
           cursor: 'pointer',
           textAlign: 'left',
           transition: 'color 0.12s ease',
@@ -694,8 +781,8 @@ export function RightNav() {
       style={{
         width: 64,
         flexShrink: 0,
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        borderLeft: '1px solid #e2e8f0',
+        backgroundColor: 'var(--surface-card)',
+        borderLeft: '1px solid var(--border-default)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -706,9 +793,7 @@ export function RightNav() {
         overflowY: 'auto',
       }}
     >
-      {/* User avatar + menu */}
       <UserMenu size={28} />
-
       {isCommunity ? <CommunityIcons /> : <EnterpriseIcons />}
     </aside>
   );
@@ -728,8 +813,8 @@ export function RightNavMobileStrip({ isOpen }: { isOpen: boolean }) {
         bottom: 0,
         right: 0,
         zIndex: 199,
-        backgroundColor: '#ffffff',
-        borderLeft: '1px solid #e2e8f0',
+        backgroundColor: 'var(--surface-elevated)',
+        borderLeft: '1px solid var(--border-default)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

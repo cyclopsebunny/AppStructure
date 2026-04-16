@@ -72,12 +72,12 @@ export function AccountLayout() {
           display:              'flex',
           flexDirection:        'column',
           minHeight:            0,
-          background:           'rgba(255, 255, 255, 0.7)',
+          background:           'var(--surface-card)',
           backdropFilter:       'blur(6px)',
           WebkitBackdropFilter: 'blur(6px)',
           border:               '0.75px solid var(--accent-border-light)',
           borderRadius:         20,
-          boxShadow:            '0px 2px 48px 0px rgba(149, 172, 188, 0.15)',
+          boxShadow:            '0px 2px 48px 0px var(--shadow-card)',
           overflow:             'hidden',
         }}
       >

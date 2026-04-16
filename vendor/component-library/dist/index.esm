@@ -27,13 +27,13 @@ const w1 = {
   // Source: Figma variable 'button/default/pressed/Stroke'
   buttonDefaultPressedStroke: "#b2b2b2",
   // Source: Figma variable 'button/default/active/Background'
-  buttonDefaultActiveBackground: "#e0eeff",
+  buttonDefaultActiveBackground: "var(--accent-bg-selected, #e0eeff)",
   // Source: Figma variable 'button/default/active/Text'
-  buttonDefaultActiveText: "#0a76db",
+  buttonDefaultActiveText: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/default/active/Icon'
-  buttonDefaultActiveIcon: "#0a76db",
+  buttonDefaultActiveIcon: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/default/active/Stroke'
-  buttonDefaultActiveStroke: "#0a76db",
+  buttonDefaultActiveStroke: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/default/disabled/Background'
   buttonDefaultDisabledBackground: "#f7f7f7",
   // Source: Figma variable 'button/default/disabled/Text'
@@ -83,37 +83,37 @@ const w1 = {
   // Source: Figma variable 'button/CTA/disabled/Stroke'
   buttonCTADisabledStroke: "#b2b2b2",
   // Source: Figma variable 'button/brand/enabled/Background'
-  buttonBrandEnabledBackground: "#0a76db",
+  buttonBrandEnabledBackground: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/brand/enabled/Text'
-  buttonBrandEnabledText: "#e0eeff",
+  buttonBrandEnabledText: "var(--sds-color-text-brand-on-brand, #ffffff)",
   // Source: Figma variable 'button/brand/enabled/Icon'
-  buttonBrandEnabledIcon: "#e0eeff",
+  buttonBrandEnabledIcon: "var(--sds-color-text-brand-on-brand, #ffffff)",
   // Source: Figma variable 'button/brand/enabled/Stroke'
-  buttonBrandEnabledStroke: "#0a76db",
+  buttonBrandEnabledStroke: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/brand/hover/Background'
-  buttonBrandHoverBackground: "#05549e",
+  buttonBrandHoverBackground: "var(--accent-dark, #05549e)",
   // Source: Figma variable 'button/brand/hover/Text'
-  buttonBrandHoverText: "#e0eeff",
+  buttonBrandHoverText: "var(--sds-color-text-brand-on-brand, #ffffff)",
   // Source: Figma variable 'button/brand/hover/Icon'
-  buttonBrandHoverIcon: "#e0eeff",
+  buttonBrandHoverIcon: "var(--sds-color-text-brand-on-brand, #ffffff)",
   // Source: Figma variable 'button/brand/hover/Stroke'
-  buttonBrandHoverStroke: "#0a76db",
+  buttonBrandHoverStroke: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/brand/pressed/Background'
-  buttonBrandPressedBackground: "#e0eeff",
+  buttonBrandPressedBackground: "var(--accent-bg-selected, #e0eeff)",
   // Source: Figma variable 'button/brand/pressed/Text'
-  buttonBrandPressedText: "#0a76db",
+  buttonBrandPressedText: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/brand/pressed/Icon'
-  buttonBrandPressedIcon: "#0a76db",
+  buttonBrandPressedIcon: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/brand/pressed/Stroke'
-  buttonBrandPressedStroke: "#0a76db",
+  buttonBrandPressedStroke: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/brand/active/Background'
-  buttonBrandActiveBackground: "#0a76db",
+  buttonBrandActiveBackground: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/brand/active/Text'
-  buttonBrandActiveText: "#e0eeff",
+  buttonBrandActiveText: "var(--sds-color-text-brand-on-brand, #ffffff)",
   // Source: Figma variable 'button/brand/active/Icon'
-  buttonBrandActiveIcon: "#e0eeff",
+  buttonBrandActiveIcon: "var(--sds-color-text-brand-on-brand, #ffffff)",
   // Source: Figma variable 'button/brand/active/Stroke'
-  buttonBrandActiveStroke: "#0a76db",
+  buttonBrandActiveStroke: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/brand/disabled/Background'
   buttonBrandDisabledBackground: "#f7f7f7",
   // Source: Figma variable 'button/brand/disabled/Text'
@@ -125,35 +125,35 @@ const w1 = {
   // Source: Figma variable 'button/subtle/enabled/Background'
   buttonSubtleEnabledBackground: "#f7f7f7",
   // Source: Figma variable 'button/subtle/enabled/Text'
-  buttonSubtleEnabledText: "#0a76db",
+  buttonSubtleEnabledText: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/enabled/Icon'
-  buttonSubtleEnabledIcon: "#0a76db",
+  buttonSubtleEnabledIcon: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/enabled/Stroke'
   buttonSubtleEnabledStroke: "#f7f7f7",
   // Source: Figma variable 'button/subtle/hover/Background'
-  buttonSubtleHoverBackground: "#e0eeff",
+  buttonSubtleHoverBackground: "var(--accent-bg-selected, #e0eeff)",
   // Source: Figma variable 'button/subtle/hover/Text'
-  buttonSubtleHoverText: "#0a76db",
+  buttonSubtleHoverText: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/hover/Icon'
-  buttonSubtleHoverIcon: "#0a76db",
+  buttonSubtleHoverIcon: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/hover/Stroke'
-  buttonSubtleHoverStroke: "#e0eeff",
+  buttonSubtleHoverStroke: "var(--accent-bg-selected, #e0eeff)",
   // Source: Figma variable 'button/subtle/pressed/Background'
-  buttonSubtlePressedBackground: "#cae0fc",
+  buttonSubtlePressedBackground: "var(--accent-bg-selected, #cae0fc)",
   // Source: Figma variable 'button/subtle/pressed/Text'
-  buttonSubtlePressedText: "#0a76db",
+  buttonSubtlePressedText: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/pressed/Icon'
-  buttonSubtlePressedIcon: "#0a76db",
+  buttonSubtlePressedIcon: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/pressed/Stroke'
-  buttonSubtlePressedStroke: "#0a76db",
+  buttonSubtlePressedStroke: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/active/Background'
-  buttonSubtleActiveBackground: "#e0eeff",
+  buttonSubtleActiveBackground: "var(--accent-bg-selected, #e0eeff)",
   // Source: Figma variable 'button/subtle/active/Text'
-  buttonSubtleActiveText: "#0a76db",
+  buttonSubtleActiveText: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/active/Icon'
-  buttonSubtleActiveIcon: "#0a76db",
+  buttonSubtleActiveIcon: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/active/Stroke'
-  buttonSubtleActiveStroke: "#0a76db",
+  buttonSubtleActiveStroke: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'button/subtle/disabled/Background'
   buttonSubtleDisabledBackground: "#f7f7f7",
   // Source: Figma variable 'button/subtle/disabled/Text'
@@ -385,7 +385,7 @@ const W1 = ({
     paddingRight: r ? 9 : 12,
     boxSizing: "border-box",
     borderRadius: t ? 0 : 8,
-    backgroundColor: g && !t ? "#f2f5fa" : "transparent",
+    backgroundColor: g && !t ? "var(--accent-wash-6, rgba(10, 118, 219, 0.06))" : "transparent",
     cursor: "pointer",
     textDecoration: "none",
     transition: "background-color 0.15s ease",
@@ -398,13 +398,13 @@ const W1 = ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    color: t ? "var(--sds-color-background-brand-default, #0a76db)" : "var(--sds-color-text-default-default, #191919)"
+    color: t ? "var(--accent-primary, #0a76db)" : "var(--sds-color-text-default-default, #191919)"
   }, L = {
     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
     fontWeight: t ? 700 : 500,
     fontSize: 14,
     lineHeight: "12px",
-    color: t ? "var(--sds-color-background-brand-default, #0a76db)" : "var(--sds-color-text-default-default, #191919)",
+    color: t ? "var(--accent-primary, #0a76db)" : "var(--sds-color-text-default-default, #191919)",
     whiteSpace: "nowrap",
     flexShrink: 0
   }, s = l && E.isValidElement(l) ? E.cloneElement(l, { active: t }) : l, H = /* @__PURE__ */ o(U, { children: [
@@ -440,8 +440,8 @@ const W1 = ({
     paddingRight: i ? 8 : 4,
     paddingTop: 6,
     paddingBottom: 6,
-    backgroundColor: g ? "#f0f4f8" : "#f9fcfd",
-    border: "1px solid #e2e8f0",
+    backgroundColor: g ? "var(--accent-wash-6, rgba(10, 118, 219, 0.06))" : "var(--surface-elevated, #f9fcfd)",
+    border: "1px solid var(--border-default, #e2e8f0)",
     borderRadius: 8,
     cursor: "pointer",
     transition: "background-color 0.15s ease",
@@ -459,7 +459,8 @@ const W1 = ({
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    color: "var(--sds-color-text-default-default, #191919)"
   }, s = {
     display: "flex",
     flexDirection: "column",
@@ -470,7 +471,7 @@ const W1 = ({
     fontSize: 12,
     minWidth: 0
   }, H = {
-    color: "var(--sds-color-text-default-default, #191919)",
+    color: "var(--text-primary, #191919)",
     lineHeight: "normal",
     overflow: "hidden",
     textOverflow: "ellipsis",
@@ -749,8 +750,8 @@ const E1 = h1, U1 = {
     flexDirection: "column",
     width: a ? 84 : 220,
     height: u,
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    borderRight: "1px solid #e2e8f0",
+    backgroundColor: "var(--surface-card, rgba(255, 255, 255, 0.9))",
+    borderRight: "1px solid var(--border-default, #e2e8f0)",
     boxSizing: "border-box",
     paddingTop: 28,
     overflow: "hidden",
@@ -792,7 +793,7 @@ const E1 = h1, U1 = {
     flexDirection: "column",
     gap: 16,
     padding: "25px 24px 24px 24px",
-    borderTop: "1px solid #e2e8f0",
+    borderTop: "1px solid var(--border-default, #e2e8f0)",
     flexShrink: 0
   }, I = {
     display: "flex",
@@ -803,14 +804,14 @@ const E1 = h1, U1 = {
     fontSize: 10,
     letterSpacing: "0.5px",
     textTransform: "uppercase",
-    color: "#64748b"
+    color: "var(--text-secondary, #64748b)"
   }, T = {
     fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)',
     fontWeight: 400,
     fontSize: 10,
     letterSpacing: "0.5px",
     textTransform: "uppercase",
-    color: "#64748b",
+    color: "var(--text-secondary, #64748b)",
     lineHeight: "15px"
   };
   return /* @__PURE__ */ o("aside", { className: c, style: f, "aria-label": "Side navigation", children: [
@@ -896,8 +897,8 @@ const G1 = ({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    background: "#ffffff",
-    borderBottom: "1px solid #e2e8f0",
+    background: "var(--surface-elevated, #ffffff)",
+    borderBottom: "1px solid var(--border-default, #e2e8f0)",
     padding: `${L}px 4px`,
     position: "relative",
     zIndex: 201
@@ -910,7 +911,7 @@ const G1 = ({
     border: "none",
     background: "transparent",
     cursor: "pointer",
-    color: "#191919",
+    color: "var(--text-primary, #191919)",
     flexShrink: 0
   }, R = {
     display: "flex",
@@ -925,8 +926,8 @@ const G1 = ({
     bottom: 0,
     left: 0,
     zIndex: 200,
-    background: "#ffffff",
-    borderRight: "1px solid #e2e8f0",
+    background: "var(--surface-elevated, #ffffff)",
+    borderRight: "1px solid var(--border-default, #e2e8f0)",
     boxShadow: "4px 0 16px rgba(0, 0, 0, 0.10)",
     padding: "16px 16px 24px",
     display: "flex",
@@ -1181,7 +1182,7 @@ const K = E.forwardRef(({
     justifyContent: "center",
     padding: "var(--sds-size-space-150, 6px) var(--sds-size-space-600, 24px)",
     borderRadius: "var(--nexus-shape-borderradius-xs, 8px)",
-    background: l ? a ? "var(--sds-color-background-brand-hover, #0966c7)" : "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-4, rgba(10, 118, 219, 0.04))" : "transparent",
+    background: l ? a ? "var(--sds-color-background-brand-hover, #0966c7)" : "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-6, rgba(10, 118, 219, 0.06))" : "transparent",
     border: "none",
     cursor: r ? "not-allowed" : "pointer",
     opacity: r ? 0.4 : 1,
@@ -1216,15 +1217,14 @@ const K = E.forwardRef(({
 });
 K.displayName = "TabButton";
 const R1 = 16, i1 = {
-  background: "rgba(255, 255, 255, 0.7)",
+  background: "var(--surface-card, rgba(255, 255, 255, 0.7))",
   backdropFilter: "blur(6px)",
   WebkitBackdropFilter: "blur(6px)",
   borderTop: "none",
-  borderLeft: "0.75px solid #d2efff",
-  borderRight: "0.75px solid #d2efff",
-  borderBottom: "0.75px solid #d2efff",
+  borderLeft: "1px solid var(--border-default, #e2e8f0)",
+  borderRight: "1px solid var(--border-default, #e2e8f0)",
+  borderBottom: "1px solid var(--border-default, #e2e8f0)",
   borderRadius: 16,
-  boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
   fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)'
 }, j1 = ({
   items: C,
@@ -1422,8 +1422,8 @@ const R1 = 16, i1 = {
             minWidth: 180,
             ...i1,
             // Slightly more opaque for the dropdown
-            background: "rgba(255, 255, 255, 0.95)",
-            boxShadow: "0px 4px 16px 0px rgba(149, 172, 188, 0.25)"
+            background: "var(--surface-popover, rgba(255, 255, 255, 0.95))",
+            boxShadow: "0px 4px 16px 0px var(--shadow-popover, rgba(149, 172, 188, 0.25))"
           },
           children: h.filter((w) => w.id !== D).map((w) => /* @__PURE__ */ e(
             K,
@@ -1464,7 +1464,7 @@ const R1 = 16, i1 = {
     fontSize: 14,
     fontWeight: l ? 600 : 500,
     lineHeight: "20px",
-    color: l ? "var(--accent-dark, #05549E)" : "var(--secondary, #6b6b6b)",
+    color: l ? "var(--subnav-active-text, var(--accent-primary, #0a76db))" : "var(--sds-color-text-default-secondary, #636363)",
     whiteSpace: "nowrap",
     boxSizing: "border-box",
     ...i
@@ -1497,12 +1497,12 @@ const R1 = 16, i1 = {
     display: "flex",
     flexDirection: "column",
     padding: 8,
-    background: "rgba(255, 255, 255, 0.7)",
+    background: "var(--surface-card, rgba(255, 255, 255, 0.7))",
     backdropFilter: "blur(6px)",
     WebkitBackdropFilter: "blur(6px)",
-    border: "0.75px solid var(--accent-border-light, #d2efff)",
+    border: "1px solid var(--border-default, #e2e8f0)",
     borderRadius: 16,
-    boxShadow: "0px 1px 2px 0px rgba(0, 0, 0, 0.05)",
+    boxShadow: "0px 2px 48px 0px var(--shadow-card, rgba(149, 172, 188, 0.15))",
     flexShrink: 0,
     overflowY: "auto",
     ...n
@@ -1535,7 +1535,7 @@ function a1({ children: C, label: l, alert: t = !1, size: r = 40, onClick: n }) 
         borderRadius: "50%",
         border: "none",
         padding: 4,
-        backgroundColor: i ? "#f2f5fa" : "transparent",
+        backgroundColor: i ? "var(--surface-hover, #f2f5fa)" : "transparent",
         cursor: "pointer",
         display: "flex",
         alignItems: "center",
@@ -1554,7 +1554,7 @@ function a1({ children: C, label: l, alert: t = !1, size: r = 40, onClick: n }) 
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            color: t ? "#d9210b" : "#191919"
+            color: t ? "var(--text-danger, #d9210b)" : "var(--text-primary, #191919)"
           },
           children: C
         }
@@ -1621,12 +1621,12 @@ function _1({
           top: s,
           right: c.right,
           visibility: b ? "visible" : "hidden",
-          background: "rgba(255,255,255,0.97)",
+          background: "var(--surface-popover, rgba(255,255,255,0.97))",
           backdropFilter: "blur(8px)",
           WebkitBackdropFilter: "blur(8px)",
-          border: "0.75px solid #d2efff",
+          border: "0.75px solid var(--accent-border-light, #d2efff)",
           borderRadius: 12,
-          boxShadow: "0px 4px 20px rgba(149,172,188,0.30)",
+          boxShadow: "0px 4px 20px var(--shadow-popover, rgba(149,172,188,0.30))",
           minWidth: 164,
           padding: 6,
           zIndex: 9999,
@@ -1644,7 +1644,7 @@ function _1({
             height: 0,
             borderTop: "7px solid transparent",
             borderBottom: "7px solid transparent",
-            borderLeft: "7px solid rgba(255,255,255,0.97)"
+            borderLeft: "7px solid var(--surface-popover, rgba(255,255,255,0.97))"
           } }) : /* @__PURE__ */ e("div", { style: {
             position: "absolute",
             top: -7,
@@ -1653,12 +1653,12 @@ function _1({
             height: 0,
             borderLeft: "7px solid transparent",
             borderRight: "7px solid transparent",
-            borderBottom: "7px solid rgba(255,255,255,0.97)"
+            borderBottom: "7px solid var(--surface-popover, rgba(255,255,255,0.97))"
           } }),
           r.map((h) => {
             const R = V === h.id;
             return /* @__PURE__ */ o(E.Fragment, { children: [
-              h.dividerBefore && /* @__PURE__ */ e("div", { style: { height: 1, background: "#e2e8f0", margin: "4px 8px" } }),
+              h.dividerBefore && /* @__PURE__ */ e("div", { style: { height: 1, background: "var(--border-default, #e2e8f0)", margin: "4px 8px" } }),
               /* @__PURE__ */ e(
                 "button",
                 {
@@ -1676,8 +1676,8 @@ function _1({
                     padding: "8px 12px",
                     border: "none",
                     borderRadius: 8,
-                    background: R ? "#f1f5f9" : "transparent",
-                    color: h.destructive ? "#d9210b" : "#191919",
+                    background: R ? "var(--surface-hover, #f1f5f9)" : "transparent",
+                    color: h.destructive ? "var(--text-danger, #d9210b)" : "var(--text-primary, #191919)",
                     fontFamily: '"Inter", sans-serif',
                     fontSize: 13,
                     fontWeight: 400,
@@ -1712,7 +1712,7 @@ function _1({
           height: C,
           borderRadius: "50%",
           border: M ? "none" : "2px solid var(--sds-color-background-brand-default, #0a76db)",
-          background: M ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-6, rgba(10,118,219,0.06))" : "#ffffff",
+          background: M ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-6, rgba(10,118,219,0.06))" : "var(--surface-elevated, #ffffff)",
           color: M ? "#ffffff" : "var(--sds-color-background-brand-default, #0a76db)",
           display: "flex",
           alignItems: "center",
@@ -1743,8 +1743,8 @@ const K1 = ({
     style: {
       width: 64,
       flexShrink: 0,
-      backgroundColor: "#ffffff",
-      borderLeft: "1px solid #e2e8f0",
+      backgroundColor: "var(--surface-card, #ffffff)",
+      borderLeft: "1px solid var(--border-default, #e2e8f0)",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -1781,8 +1781,8 @@ const K1 = ({
       bottom: 0,
       right: 0,
       zIndex: 199,
-      backgroundColor: "#ffffff",
-      borderLeft: "1px solid #e2e8f0",
+      backgroundColor: "var(--surface-elevated, #ffffff)",
+      borderLeft: "1px solid var(--border-default, #e2e8f0)",
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
@@ -1812,7 +1812,7 @@ const K1 = ({
   }
 );
 function S1() {
-  return /* @__PURE__ */ e("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-hidden": "true", style: { flexShrink: 0 }, children: /* @__PURE__ */ e("path", { d: "M3 8L6.5 11.5L13 4.5", stroke: "#0a76db", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }) });
+  return /* @__PURE__ */ e("svg", { width: "16", height: "16", viewBox: "0 0 16 16", fill: "none", "aria-hidden": "true", style: { flexShrink: 0 }, children: /* @__PURE__ */ e("path", { d: "M3 8L6.5 11.5L13 4.5", stroke: "var(--accent-primary, #0a76db)", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round" }) });
 }
 const Q1 = ({
   locations: C,
@@ -1849,12 +1849,12 @@ const Q1 = ({
           left: u,
           width: 240,
           zIndex: 1e3,
-          background: "rgba(255,255,255,0.95)",
+          background: "var(--surface-popover, rgba(255,255,255,0.95))",
           backdropFilter: "blur(6px)",
           WebkitBackdropFilter: "blur(6px)",
-          border: "0.75px solid #d2efff",
+          border: "0.75px solid var(--accent-border-light, #d2efff)",
           borderRadius: 12,
-          boxShadow: "0px 4px 20px rgba(149,172,188,0.3)",
+          boxShadow: "0px 4px 20px var(--shadow-popover, rgba(149,172,188,0.3))",
           padding: 6,
           display: "flex",
           flexDirection: "column",
@@ -1863,11 +1863,11 @@ const Q1 = ({
         children: [
           r && !!n && /* @__PURE__ */ o(U, { children: [
             /* @__PURE__ */ e("div", { style: { position: "absolute", top: -9, left: 24, width: 0, height: 0, borderLeft: "8px solid transparent", borderRight: "8px solid transparent", borderBottom: "9px solid #d2efff" } }),
-            /* @__PURE__ */ e("div", { style: { position: "absolute", top: -7, left: 25, width: 0, height: 0, borderLeft: "7px solid transparent", borderRight: "7px solid transparent", borderBottom: "8px solid rgba(255,255,255,0.95)" } })
+            /* @__PURE__ */ e("div", { style: { position: "absolute", top: -7, left: 25, width: 0, height: 0, borderLeft: "7px solid transparent", borderRight: "7px solid transparent", borderBottom: "8px solid var(--surface-popover, rgba(255,255,255,0.95))" } })
           ] }),
           !r && /* @__PURE__ */ o(U, { children: [
             /* @__PURE__ */ e("div", { style: { position: "absolute", top: 20, left: -9, width: 0, height: 0, borderTop: "8px solid transparent", borderBottom: "8px solid transparent", borderRight: "9px solid #d2efff" } }),
-            /* @__PURE__ */ e("div", { style: { position: "absolute", top: 21, left: -7, width: 0, height: 0, borderTop: "7px solid transparent", borderBottom: "7px solid transparent", borderRight: "8px solid rgba(255,255,255,0.95)" } })
+            /* @__PURE__ */ e("div", { style: { position: "absolute", top: 21, left: -7, width: 0, height: 0, borderTop: "7px solid transparent", borderBottom: "7px solid transparent", borderRight: "8px solid var(--surface-popover, rgba(255,255,255,0.95))" } })
           ] }),
           C.map((s) => {
             const H = s.id === l;
@@ -1890,16 +1890,16 @@ const Q1 = ({
                   transition: "background-color 0.12s ease"
                 },
                 onMouseEnter: (v) => {
-                  H || (v.currentTarget.style.backgroundColor = "#f8fafc");
+                  H || (v.currentTarget.style.backgroundColor = "var(--surface-row-hover, #f8fafc)");
                 },
                 onMouseLeave: (v) => {
                   H || (v.currentTarget.style.backgroundColor = "transparent");
                 },
                 children: [
-                  s.icon !== void 0 && /* @__PURE__ */ e("div", { style: { width: 32, height: 32, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", color: H ? "#0a76db" : "#64748b" }, children: s.icon }),
+                  s.icon !== void 0 && /* @__PURE__ */ e("div", { style: { width: 32, height: 32, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", color: H ? "var(--accent-primary, #0a76db)" : "var(--text-secondary, #64748b)" }, children: s.icon }),
                   /* @__PURE__ */ o("div", { style: { flex: 1, minWidth: 0 }, children: [
-                    /* @__PURE__ */ e("div", { style: { fontFamily: '"Inter",sans-serif', fontWeight: H ? 700 : 500, fontSize: 13, color: H ? "#0a76db" : "#191919", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }, children: s.name }),
-                    s.subtitle && /* @__PURE__ */ e("div", { style: { fontFamily: '"Inter",sans-serif', fontWeight: 400, fontSize: 11, color: "#64748b", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 1 }, children: s.subtitle })
+                    /* @__PURE__ */ e("div", { style: { fontFamily: '"Inter",sans-serif', fontWeight: H ? 700 : 500, fontSize: 13, color: H ? "var(--accent-primary, #0a76db)" : "var(--text-primary, #191919)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }, children: s.name }),
+                    s.subtitle && /* @__PURE__ */ e("div", { style: { fontFamily: '"Inter",sans-serif', fontWeight: 400, fontSize: 11, color: "var(--text-secondary, #64748b)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", marginTop: 1 }, children: s.subtitle })
                   ] }),
                   H && /* @__PURE__ */ e(S1, {})
                 ]
@@ -1950,7 +1950,7 @@ const Q1 = ({
   // Source: Figma variable 'light/secondary/700'
   lightSecondary700: "#05549e",
   // Source: Figma variable 'light/secondary/default'
-  lightSecondaryDefault: "#0a76db",
+  lightSecondaryDefault: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'light/secondary/500'
   lightSecondary500: "#4f95e8",
   // Source: Figma variable 'light/secondary/400'
@@ -2499,17 +2499,17 @@ const Q1 = ({
   // Source: Figma variable 'var(--sds-color-background-default-tertiary-hover)'
   varsdscolorbackgrounddefaulttertiaryhover: "#cccccc",
   // Source: Figma variable 'var(--sds-color-background-brand-default)'
-  varsdscolorbackgroundbranddefault: "#0a76db",
+  varsdscolorbackgroundbranddefault: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'var(--sds-color-background-brand-hover)'
-  varsdscolorbackgroundbrandhover: "#05549e",
+  varsdscolorbackgroundbrandhover: "var(--accent-dark, #05549e)",
   // Source: Figma variable 'var(--sds-color-background-brand-secondary)'
-  varsdscolorbackgroundbrandsecondary: "#e0eeff",
+  varsdscolorbackgroundbrandsecondary: "var(--accent-bg-selected, #e0eeff)",
   // Source: Figma variable 'var(--sds-color-background-brand-secondary-hover)'
-  varsdscolorbackgroundbrandsecondaryhover: "#cae0fc",
+  varsdscolorbackgroundbrandsecondaryhover: "var(--accent-bg-selected, #cae0fc)",
   // Source: Figma variable 'var(--sds-color-background-brand-tertiary)'
-  varsdscolorbackgroundbrandtertiary: "#e0eeff",
+  varsdscolorbackgroundbrandtertiary: "var(--accent-bg-selected, #e0eeff)",
   // Source: Figma variable 'var(--sds-color-background-brand-tertiary-hover)'
-  varsdscolorbackgroundbrandtertiaryhover: "#cae0fc",
+  varsdscolorbackgroundbrandtertiaryhover: "var(--accent-bg-selected, #cae0fc)",
   // Source: Figma variable 'var(--sds-color-background-positive-default)'
   varsdscolorbackgroundpositivedefault: "#5fae52",
   // Source: Figma variable 'var(--sds-color-background-positive-hover)'
@@ -2563,7 +2563,7 @@ const Q1 = ({
   // Source: Figma variable 'var(--sds-color-text-default-tertiary)'
   varsdscolortextdefaulttertiary: "#b2b2b2",
   // Source: Figma variable 'var(--sds-color-text-brand-default)'
-  varsdscolortextbranddefault: "#0a76db",
+  varsdscolortextbranddefault: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'var(--sds-color-text-brand-secondary)'
   varsdscolortextbrandsecondary: "#4f95e8",
   // Source: Figma variable 'var(--sds-color-text-brand-tertiary)'
@@ -2573,7 +2573,7 @@ const Q1 = ({
   // Source: Figma variable 'var(--sds-color-text-brand-on-brand-secondary)'
   varsdscolortextbrandonbrandsecondary: "#05549e",
   // Source: Figma variable 'var(--sds-color-text-brand-on-brand-tertiary)'
-  varsdscolortextbrandonbrandtertiary: "#0a76db",
+  varsdscolortextbrandonbrandtertiary: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'var(--sds-color-text-positive-default)'
   varsdscolortextpositivedefault: "#5fae52",
   // Source: Figma variable 'var(--sds-color-text-positive-secondary)'
@@ -2633,9 +2633,9 @@ const Q1 = ({
   // Source: Figma variable 'var(--sds-color-border-default-tertiary)'
   varsdscolorborderdefaulttertiary: "#b2b2b2",
   // Source: Figma variable 'var(--sds-color-border-brand-default)'
-  varsdscolorborderbranddefault: "#0a76db",
+  varsdscolorborderbranddefault: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'var(--sds-color-border-brand-secondary)'
-  varsdscolorborderbrandsecondary: "#0a76db",
+  varsdscolorborderbrandsecondary: "var(--accent-primary, #0a76db)",
   // Source: Figma variable 'var(--sds-color-border-brand-tertiary)'
   varsdscolorborderbrandtertiary: "#4f95e8",
   // Source: Figma variable 'var(--sds-color-border-positive-default)'

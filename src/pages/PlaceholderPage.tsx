@@ -53,7 +53,7 @@ export function PlaceholderPage({ section, page }: PlaceholderPageProps) {
             fontFamily: '"Inter", sans-serif',
             fontWeight: 700,
             fontSize: 18,
-            color: '#191919',
+            color: 'var(--text-primary)',
           }}
         >
           {page}
@@ -64,7 +64,7 @@ export function PlaceholderPage({ section, page }: PlaceholderPageProps) {
             fontFamily: '"Inter", sans-serif',
             fontWeight: 400,
             fontSize: 13,
-            color: '#64748b',
+            color: 'var(--text-secondary)',
             lineHeight: 1.5,
           }}
         >
@@ -123,7 +123,8 @@ export function PlaceholderPage({ section, page }: PlaceholderPageProps) {
             style={{
               height: 10,
               borderRadius: 5,
-              backgroundColor: 'rgba(100, 116, 139, 0.12)',
+              backgroundColor: 'var(--border-default)',
+              opacity: 0.5,
               width: `${w}%`,
             }}
           />

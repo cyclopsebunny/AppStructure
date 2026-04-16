@@ -1,4 +1,4 @@
-/* Accent color tokens — defaults (blue hue 207). Overridden at runtime by ThemeContext. */
+/* Accent + surface tokens — day-mode defaults. Overridden at runtime by ThemeContext. */
 :root {
   --accent-primary:        #0a76db;
   --accent-dark:           #05549e;
@@ -12,6 +12,23 @@
   --accent-wash-6:         rgba(10, 118, 219, 0.06);
   --accent-wash-30:        rgba(10, 118, 219, 0.3);
   --accent-primary-rgb:    10, 118, 219;
+
+  --surface-page:          #f8fafc;
+  --surface-card:          rgba(255, 255, 255, 0.7);
+  --surface-popover:       rgba(255, 255, 255, 0.97);
+  --surface-elevated:      #ffffff;
+  --surface-hover:         #f1f5f9;
+  --surface-row-hover:     #f8fafc;
+  --text-primary:          #191919;
+  --text-secondary:        #64748b;
+  --text-muted:            #94a3b8;
+  --text-danger:           #d9210b;
+  --border-default:        #e2e8f0;
+  --icon-muted:            #94A3B8;
+  --shadow-card:           rgba(149, 172, 188, 0.15);
+  --shadow-popover:        rgba(149, 172, 188, 0.30);
+  --scrollbar-thumb:       #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
 }
 
 /* Reset */
@@ -31,8 +48,8 @@ body {
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f8fafc;
-  color: #191919;
+  background-color: var(--surface-page);
+  color: var(--text-primary);
 }
 
 /* Hide scrollbar track while keeping scroll functionality */
@@ -46,10 +63,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: var(--scrollbar-thumb);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--scrollbar-thumb-hover);
 }
