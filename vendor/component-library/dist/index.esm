@@ -1004,7 +1004,7 @@ function I1() {
 }
 const Q = E.forwardRef(
   ({ label: C, active: l = !1, onLabelClick: t, onDotsClick: r, style: n, showLeftDivider: o1 = !1, onDividerClick: p0, ...i }, d) => {
-    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), [hR, iR] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-4, rgba(10, 118, 219, 0.04))" : "transparent", L = l ? V ? "rgba(255,255,255,0.18)" : "transparent" : V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)", w = l ? "var(--accent-dark, #05549E)" : "var(--sds-color-text-default-secondary, #636363)";
+    const [a, g] = E.useState(!1), [V, u] = E.useState(!1), [hR, iR] = E.useState(!1), c = l ? "var(--sds-color-background-brand-default, #0a76db)" : a ? "var(--accent-wash-4, rgba(10, 118, 219, 0.04))" : "transparent", L = l ? V ? "rgba(255,255,255,0.18)" : "transparent" : V ? "rgba(0,0,0,0.08)" : "transparent", s = l ? "var(--sds-color-text-brand-on-brand, #ffffff)" : "var(--sds-color-text-default-secondary, #636363)";
     return /* @__PURE__ */ o(
       "div",
       {
@@ -1159,7 +1159,7 @@ const Q = E.forwardRef(
                 cursor: "pointer",
                 borderRadius: 6,
                 transition: "background 0.12s ease",
-                color: w
+                color: "var(--sds-color-text-default-secondary, #636363)"
               },
               children: /* @__PURE__ */ e(I1, {})
             }
@@ -1222,10 +1222,7 @@ const R1 = 16, i1 = {
   background: "var(--surface-card, rgba(255, 255, 255, 0.7))",
   backdropFilter: "blur(6px)",
   WebkitBackdropFilter: "blur(6px)",
-  borderTop: "none",
-  borderLeft: "1px solid var(--border-default, #e2e8f0)",
-  borderRight: "1px solid var(--border-default, #e2e8f0)",
-  borderBottom: "1px solid var(--border-default, #e2e8f0)",
+  border: "1px solid var(--border-default, #e2e8f0)",
   borderRadius: 16,
   fontFamily: 'var(--sds-typography-body-font-family, "Inter", sans-serif)'
 }, j1 = ({
