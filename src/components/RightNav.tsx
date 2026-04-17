@@ -820,11 +820,13 @@ export function RightNavMobileStrip({ isOpen }: { isOpen: boolean }) {
     <div
       style={{
         position: 'fixed',
-        top: 44,
+        top: 48,
         bottom: 0,
         right: 0,
         zIndex: 199,
-        backgroundColor: 'var(--surface-elevated)',
+        background:           'var(--surface-popover)',
+        backdropFilter:       'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
         borderLeft: '1px solid var(--border-default)',
         display: 'flex',
         flexDirection: 'column',

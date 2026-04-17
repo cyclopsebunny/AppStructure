@@ -893,7 +893,7 @@ const G1 = ({
     b(D), c == null || c(D);
   }, y = (D) => {
     i == null || i(D), b(!1), c == null || c(!1);
-  }, M = l ?? (C === "enterprise" ? "Enterprise" : "Community"), I = 36 + L * 2, T = {
+  }, M = l ?? (C === "enterprise" ? "Enterprise" : "Community"), I = 36 + L * 2 + 4, T = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -926,7 +926,9 @@ const G1 = ({
     bottom: 0,
     left: 0,
     zIndex: 200,
-    background: "var(--surface-elevated, #ffffff)",
+    background: "var(--surface-popover, rgba(255, 255, 255, 0.9))",
+    backdropFilter: "blur(8px)",
+    WebkitBackdropFilter: "blur(8px)",
     borderRight: "1px solid var(--border-default, #e2e8f0)",
     boxShadow: "4px 0 16px rgba(0, 0, 0, 0.10)",
     padding: "16px 16px 24px",
@@ -1758,11 +1760,13 @@ const K1 = ({
   {
     style: {
       position: "fixed",
-      top: 44,
+      top: 48,
       bottom: 0,
       right: 0,
       zIndex: 199,
-      backgroundColor: "var(--surface-elevated, #ffffff)",
+      background: "var(--surface-popover, rgba(255, 255, 255, 0.9))",
+      backdropFilter: "blur(8px)",
+      WebkitBackdropFilter: "blur(8px)",
       borderLeft: "1px solid var(--border-default, #e2e8f0)",
       display: "flex",
       flexDirection: "column",
