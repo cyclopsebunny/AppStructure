@@ -792,7 +792,7 @@ export function RightNav() {
       style={{
         width: 64,
         flexShrink: 0,
-        backgroundColor: 'var(--surface-card)',
+        backgroundColor: 'var(--surface-sidePanels)',
         borderLeft: '1px solid var(--border-default)',
         display: 'flex',
         flexDirection: 'column',

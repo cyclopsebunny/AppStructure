@@ -13,22 +13,23 @@
   --accent-wash-30:        rgba(10, 118, 219, 0.3);
   --accent-primary-rgb:    10, 118, 219;
 
-  --surface-page:          #f8fafc;
+  --surface-page:          #ffffff;
   --surface-card:          rgba(255, 255, 255, 0.7);
-  --surface-popover:       rgba(255, 255, 255, 0.97);
-  --surface-elevated:      #ffffff;
-  --surface-hover:         #f1f5f9;
-  --surface-row-hover:     #f8fafc;
-  --text-primary:          #191919;
-  --text-secondary:        #64748b;
-  --text-muted:            #94a3b8;
+  --surface-sidePanels:    rgba(255, 255, 255, 0.85);
+  --surface-popover:       rgba(255, 255, 255, 0.9);
+  --surface-elevated:      rgba(255, 255, 255, 0.5);
+  --surface-hover:         rgba(255, 255, 255, 0.9);
+  --surface-row-hover:     rgba(255, 255, 255, 0.9);
+  --text-primary:          rgba(0, 0, 0, 0.8);
+  --text-secondary:        rgba(0, 0, 0, 0.6);
+  --text-muted:            rgba(0, 0, 0, 0.4);
   --text-danger:           #d9210b;
-  --border-default:        #e2e8f0;
-  --icon-muted:            #94A3B8;
-  --shadow-card:           rgba(149, 172, 188, 0.15);
-  --shadow-popover:        rgba(149, 172, 188, 0.30);
-  --scrollbar-thumb:       #cbd5e1;
-  --scrollbar-thumb-hover: #94a3b8;
+  --border-default:        rgba(0, 0, 0, 0.08);
+  --icon-muted:            rgba(0, 0, 0, 0.4);
+  --shadow-card:           rgba(0, 0, 0, 0.15);
+  --shadow-popover:        rgba(0, 0, 0, 0.3);
+  --scrollbar-thumb:       #e2e2e2;
+  --scrollbar-thumb-hover: #b9b9b9;
 
   --fw-normal:    400;
   --fw-medium:    500;
