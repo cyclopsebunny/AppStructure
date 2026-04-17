@@ -18,7 +18,6 @@ function Footer({
   return (
     <div
       style={{
-        borderTop:    '1px solid var(--border-default)',
         display:      'flex',
         alignItems:   'flex-end',
         justifyContent: 'space-between',
