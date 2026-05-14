@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { getCacheDebugInfo } from '../features/facility-canvas/FacilityCanvas';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { LeftNav, TopNav } from '@component-library/core';
 import type { SideNavItem } from '@component-library/core';
@@ -79,6 +80,13 @@ export function AppShell() {
   const [locationPickerOpen, setLocationPickerOpen] = useState(false);
   const [locationAnchor,     setLocationAnchor]     = useState<DOMRect | null>(null);
   const [topNavOpen,         setTopNavOpen]          = useState(false);
+
+  // ── Cache debug panel (polls module-level vars — survives component unmount) ──
+  const [cacheDebug, setCacheDebug] = useState(getCacheDebugInfo);
+  useEffect(() => {
+    const id = setInterval(() => setCacheDebug(getCacheDebugInfo()), 400);
+    return () => clearInterval(id);
+  }, []);
 
   // Derive active section from current URL
   const activeSection =
@@ -236,6 +244,26 @@ export function AppShell() {
           onSelect={handleLocationSelect}
         />
       )}
+
+      {/* ── Cache debug overlay — remove once persistence is confirmed ─────── */}
+      <div style={{
+        position:      'fixed',
+        bottom:         12,
+        left:           12,
+        zIndex:         99999,
+        background:    'rgba(0,0,0,0.82)',
+        color:         '#0f0',
+        fontFamily:    'monospace',
+        fontSize:       11,
+        padding:       '6px 10px',
+        borderRadius:   6,
+        lineHeight:    1.6,
+        pointerEvents: 'none',
+      }}>
+        <div style={{ color: '#aaa', marginBottom: 2 }}>canvas {cacheDebug.mounted ? '(mounted)' : '(unmounted)'}</div>
+        <div>live:  {cacheDebug.mounted ? `${cacheDebug.liveBuildings}b / ${cacheDebug.liveRows}r  handle:${cacheDebug.liveHandle ? '✓' : '✗'}` : '—'}</div>
+        <div>cache: {cacheDebug.cacheHasDoc ? `${cacheDebug.cacheBuildings}b / ${cacheDebug.cacheRows}r  handle:${cacheDebug.cacheHandle ? '✓' : '✗'}` : 'null'}</div>
+      </div>
     </div>
   );
 }

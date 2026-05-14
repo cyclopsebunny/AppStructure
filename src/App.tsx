@@ -9,6 +9,7 @@ import { AccountLayout } from './components/AccountLayout';
 import { SubPageLayout } from './components/SubPageLayout';
 import type { SubPage } from './components/SubPageLayout';
 import { PlaceholderPage } from './pages/PlaceholderPage';
+import { TrailersPage } from './pages/TrailersPage';
 import { AppProvider, useAppContext } from './context/AppContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ALL_SECTIONS, ENTERPRISE_NAV_SECTIONS } from './config/nav';
@@ -96,6 +97,15 @@ const sectionRoutes = ALL_SECTIONS.map((section) => {
   const hasSubRoutes = section.subRoutes.length > 0;
 
   const subRouteChildren = section.subRoutes.map((sub) => {
+    // Trailers — facility canvas embedded in full-height layout (manages its own card).
+    if (section.id === 'operations' && sub.id === 'trailers') {
+      return {
+        path:   sub.id,
+        handle: { noCard: true },
+        element: <TrailersPage />,
+      };
+    }
+
     // Settings tabs with a third-level sub-page layout.
     // handle.noCard lets SubPageLayout render SubNav + card (no SectionLayout card wrapper).
     if (section.id === 'settings') {
