@@ -6,6 +6,7 @@ import {
   DEFAULT_PRESETS,
   DEFAULT_NIGHT_PRESETS,
   DEFAULT_ACTIVE_INDEX,
+  padPresetsWithDefaults,
   hexToHue,
   hueToHex,
 } from '../utils/accentPalette';
@@ -14,7 +15,7 @@ import type { AccentPalette, AccentPreset, ColorMode } from '../utils/accentPale
 interface ThemeContextValue {
   /** The presets for the *current* mode */
   presets: AccentPreset[];
-  /** Selected preset slot (0–7); shared across day and night */
+  /** Selected preset slot (0–8); shared across day and night */
   activeIndex: number;
   setActiveIndex: (i: number) => void;
   updatePreset: (index: number, primary: string) => void;
@@ -47,6 +48,21 @@ interface StoredTheme {
   mode: ColorMode;
 }
 
+function normalizeStoredTheme(
+  dayPresets: AccentPreset[],
+  nightPresets: AccentPreset[],
+  activeIndex: number,
+  mode: ColorMode,
+): StoredTheme {
+  const day = padPresetsWithDefaults(dayPresets, DEFAULT_PRESETS);
+  const night = padPresetsWithDefaults(nightPresets, DEFAULT_NIGHT_PRESETS);
+  const maxIdx = Math.min(day.length, night.length) - 1;
+  const idx = Number.isFinite(activeIndex) && activeIndex >= 0
+    ? Math.min(activeIndex, maxIdx)
+    : DEFAULT_ACTIVE_INDEX;
+  return { dayPresets: day, nightPresets: night, activeIndex: idx, mode };
+}
+
 function readStored(): StoredTheme {
   let mode: ColorMode = 'day';
   try {
@@ -76,7 +92,7 @@ function readStored(): StoredTheme {
           dayPresets[0] = { label: 'Custom', primary: hex };
           activeIndex = 0;
         }
-        return { dayPresets, nightPresets, activeIndex, mode };
+        return normalizeStoredTheme(dayPresets, nightPresets, activeIndex, mode);
       }
     }
 
@@ -94,7 +110,7 @@ function readStored(): StoredTheme {
       }
       localStorage.removeItem(OLD_PRESETS_KEY);
       localStorage.removeItem(OLD_INDEX_KEY);
-      return { dayPresets, nightPresets, activeIndex, mode };
+      return normalizeStoredTheme(dayPresets, nightPresets, activeIndex, mode);
     }
 
     // Read day presets
@@ -134,7 +150,7 @@ function readStored(): StoredTheme {
     }
   } catch { /* privacy mode / SSR */ }
 
-  return { dayPresets, nightPresets, activeIndex, mode };
+  return normalizeStoredTheme(dayPresets, nightPresets, activeIndex, mode);
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
@@ -147,14 +163,19 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const presets  = mode === 'night' ? nightPresets : dayPresets;
   const defaults = mode === 'night' ? DEFAULT_NIGHT_PRESETS : DEFAULT_PRESETS;
 
+  const activePreset = useMemo(
+    () => presets[activeIndex] ?? defaults[0],
+    [presets, activeIndex, defaults],
+  );
+
   const palette = useMemo(
-    () => generateAccentPaletteFromHex(presets[activeIndex]?.primary ?? defaults[0].primary, mode),
-    [presets, activeIndex, mode, defaults],
+    () => generateAccentPaletteFromHex(activePreset.primary, mode),
+    [activePreset.primary, mode],
   );
 
   // Apply CSS vars + persist
   useEffect(() => {
-    const vars = accentCssVars(palette, mode);
+    const vars = accentCssVars(palette, mode, activePreset);
     const root = document.documentElement;
     root.setAttribute('data-theme', mode);
     for (const [prop, value] of Object.entries(vars)) {
@@ -166,7 +187,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       localStorage.setItem(ACTIVE_PRESET_SLOT_KEY, String(activeIndex));
       localStorage.setItem(MODE_KEY, mode);
     } catch { /* noop */ }
-  }, [palette, dayPresets, nightPresets, activeIndex, mode]);
+  }, [palette, dayPresets, nightPresets, activeIndex, mode, activePreset]);
 
   const setActiveIndexCb = useCallback((i: number) => {
     setActiveIndex(i);
@@ -182,13 +203,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [mode]);
 
   const resetPresets = useCallback(() => {
-    if (mode === 'night') {
-      setNightPresets([...DEFAULT_NIGHT_PRESETS]);
-    } else {
-      setDayPresets([...DEFAULT_PRESETS]);
-    }
+    setDayPresets([...DEFAULT_PRESETS]);
+    setNightPresets([...DEFAULT_NIGHT_PRESETS]);
     setActiveIndex(DEFAULT_ACTIVE_INDEX);
-  }, [mode]);
+  }, []);
 
   const toggleMode = useCallback(() => {
     setMode((prev) => (prev === 'day' ? 'night' : 'day'));

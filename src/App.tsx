@@ -10,6 +10,8 @@ import { SubPageLayout } from './components/SubPageLayout';
 import type { SubPage } from './components/SubPageLayout';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { TrailersPage } from './pages/TrailersPage';
+import { ShowcasePage } from './pages/ShowcasePage';
+import { ShipmentDetailPage } from './pages/ShipmentDetailPage';
 import { AppProvider, useAppContext } from './context/AppContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ALL_SECTIONS, ENTERPRISE_NAV_SECTIONS } from './config/nav';
@@ -160,6 +162,14 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '';
 
 const router = createBrowserRouter(
   [
+    {
+      path: '/showcase/shipment/:shipmentId',
+      element: <ShipmentDetailPage />,
+    },
+    {
+      path: '/showcase',
+      element: <ShowcasePage />,
+    },
     {
       path: '/',
       element: <AppShell />,

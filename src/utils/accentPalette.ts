@@ -21,6 +21,12 @@ export interface AccentPalette {
 export interface AccentPreset {
   label: string;
   primary: string;
+  /**
+   * When set, large chrome (page gradient, hover washes on panels) uses neutral
+   * grays only. `--accent-primary` and related tokens still come from `primary`
+   * for selected buttons, tabs, and similar controls.
+   */
+  neutralChrome?: boolean;
 }
 
 // ── HSL / RGB helpers ────────────────────────────────────────────────────────
@@ -188,10 +194,34 @@ export function generateSurfaceVars(mode: ColorMode): Record<string, string> {
   return mode === 'night' ? { ...SURFACE_NIGHT } : { ...SURFACE_DAY };
 }
 
+/** Neutral page gradient + panel hover washes (no hue from accent primary). */
+function neutralChromeAccentOverrides(mode: ColorMode): Record<string, string> {
+  if (mode === 'night') {
+    return {
+      '--accent-gradient-start': '#181818',
+      '--accent-gradient-end':   '#0a0a0a',
+      '--accent-wash-4':         'rgba(255, 255, 255, 0.06)',
+      '--accent-wash-6':         'rgba(255, 255, 255, 0.10)',
+      '--accent-wash-30':        'rgba(255, 255, 255, 0.28)',
+    };
+  }
+  return {
+    '--accent-gradient-start': '#d8d8d8',
+    '--accent-gradient-end':   '#f4f4f4',
+    '--accent-wash-4':         'rgba(0, 0, 0, 0.04)',
+    '--accent-wash-6':         'rgba(0, 0, 0, 0.07)',
+    '--accent-wash-30':        'rgba(0, 0, 0, 0.22)',
+  };
+}
+
 // ── Combined CSS variable map ────────────────────────────────────────────────
 
-export function accentCssVars(palette: AccentPalette, mode: ColorMode = 'day'): Record<string, string> {
-  return {
+export function accentCssVars(
+  palette: AccentPalette,
+  mode: ColorMode = 'day',
+  preset?: Pick<AccentPreset, 'neutralChrome'> | null,
+): Record<string, string> {
+  const base: Record<string, string> = {
     '--accent-primary':        palette.primary,
     '--accent-dark':           palette.dark,
     '--accent-hover':          palette.hover,
@@ -220,9 +250,15 @@ export function accentCssVars(palette: AccentPalette, mode: ColorMode = 'day'): 
 
     ...generateSurfaceVars(mode),
   };
+
+  if (preset?.neutralChrome) {
+    Object.assign(base, neutralChromeAccentOverrides(mode));
+  }
+
+  return base;
 }
 
-// ── 8 Default presets ────────────────────────────────────────────────────────
+// ── 9 default presets (last: Grey — accent only for controls; neutral gray chrome) ──
 
 export const DEFAULT_PRESETS: AccentPreset[] = [
   { label: 'Blue',   primary: '#1e5480' },
@@ -233,6 +269,8 @@ export const DEFAULT_PRESETS: AccentPreset[] = [
   { label: 'Orange', primary: '#dc6109' },
   { label: 'Green',  primary: '#186337' },
   { label: 'Teal',   primary: '#27939b' },
+  /** Slate accent for selections; page/panel chrome stays neutral gray (see `neutralChrome`). */
+  { label: 'Grey',   primary: '#4d565d', neutralChrome: true },
 ];
 
 export const DEFAULT_NIGHT_PRESETS: AccentPreset[] = [
@@ -244,6 +282,17 @@ export const DEFAULT_NIGHT_PRESETS: AccentPreset[] = [
   { label: 'Orange', primary: '#f48d43' },
   { label: 'Green',  primary: '#34bc6c' },
   { label: 'Teal',   primary: '#24c6b9' },
+  { label: 'Grey',   primary: '#9ca8b3', neutralChrome: true },
 ];
 
 export const DEFAULT_ACTIVE_INDEX = 0;
+
+/** Append missing slots from `defaults` when localStorage predates new presets. */
+export function padPresetsWithDefaults(loaded: AccentPreset[], defaults: AccentPreset[]): AccentPreset[] {
+  if (loaded.length >= defaults.length) return loaded;
+  const next = [...loaded];
+  for (let i = loaded.length; i < defaults.length; i++) {
+    next.push(defaults[i]);
+  }
+  return next;
+}
