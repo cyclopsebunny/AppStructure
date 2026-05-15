@@ -1426,6 +1426,11 @@ export function FacilityCanvas() {
   const [rowHandleDrag, setRowHandleDrag] = useState<RowHandleDrag | null>(null);
   const [editingCombinedBuildingId, setEditingCombinedBuildingId] = useState<string | null>(null);
   const [appMode, setAppMode] = useState<AppMode>('build');
+  const [sidePanelWidth, setSidePanelWidth] = useState<number>(272);
+  const panelDragRef = useRef<{ startX: number; startWidth: number } | null>(null);
+  useEffect(() => {
+    setSidePanelWidth(appMode === 'operations' ? 426 : 272);
+  }, [appMode]);
   const [operationsAssignments, setOperationsAssignments] = useState<OperationsAssignments>({});
   const [moveTaskSelectionOverride, setMoveTaskSelectionOverride] = useState<string | null>(null);
   const [pullTaskSelectionOverride, setPullTaskSelectionOverride] = useState<string | null>(null);
@@ -5072,9 +5077,30 @@ export function FacilityCanvas() {
         }
       : null;
 
+  const handlePanelResizeStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    panelDragRef.current = { startX: e.clientX, startWidth: sidePanelWidth };
+    const onMove = (ev: MouseEvent) => {
+      if (!panelDragRef.current) return;
+      const delta = panelDragRef.current.startX - ev.clientX;
+      const next = Math.min(600, Math.max(200, panelDragRef.current.startWidth + delta));
+      setSidePanelWidth(next);
+    };
+    const onUp = () => {
+      panelDragRef.current = null;
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  };
+
   return (
     <main className="facility-app">
-      <section className={['facility-shell', appMode === 'operations' ? 'facility-shell--operations' : ''].filter(Boolean).join(' ')}>
+      <section
+        className={['facility-shell', appMode === 'operations' ? 'facility-shell--operations' : ''].filter(Boolean).join(' ')}
+        style={{ gridTemplateColumns: `minmax(0, 1fr) 14px ${sidePanelWidth}px` }}
+      >
         <div className="canvas-panel">
           <header className="canvas-toolbar">
             <div className="canvas-toolbar__search" />
@@ -6043,6 +6069,8 @@ export function FacilityCanvas() {
             ) : null}
           </div>
         </div>
+
+        <div className="panel-resize-handle" onMouseDown={handlePanelResizeStart} aria-hidden="true" />
 
         <aside className={['details-panel', appMode === 'operations' && selectedSpaceAssignment?.trailer ? 'details-panel--operations-trailer' : ''].filter(Boolean).join(' ')}>
           <header className="details-panel__header">

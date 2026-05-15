@@ -10,15 +10,31 @@
 
 .facility-shell {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 272px;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) 14px 272px;
+  gap: 0;
   height: 100%;
   padding: 0;
   overflow: hidden;
 }
 
-.facility-shell--operations {
-  grid-template-columns: minmax(0, 1fr) 426px;
+.panel-resize-handle {
+  width: 14px;
+  cursor: col-resize;
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.panel-resize-handle::after {
+  content: '';
+  position: absolute;
+  inset: 0 5px;
+  border-radius: 2px;
+  transition: background 0.15s;
+}
+
+.panel-resize-handle:hover::after {
+  background: rgba(0, 0, 0, 0.12);
 }
 
 .canvas-panel,
