@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { PalletFilledIcon } from '@component-library/core';
 import { ShipmentItem } from './ShipmentItem';
 import type { ShipmentItemProps } from './ShipmentItem';
 
-// ── Chevron SVG ───────────────────────────────────────────────────────────────
+// ── Icons ─────────────────────────────────────────────────────────────────────
+
+function XIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ display: 'block', flexShrink: 0 }}>
+      <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 function ChevronDown({ collapsed }: { collapsed: boolean }) {
   return (
@@ -57,6 +65,8 @@ export interface ShipmentPanelProps {
    */
   collapsed?: boolean;
   onToggle?: () => void;
+  /** Called when the X button is clicked — hides side panels entirely */
+  onClose?: () => void;
   /** Panel width.  Defaults to 426px to match the Figma frame. */
   width?: number | string;
   className?: string;
@@ -71,6 +81,8 @@ export interface ShipmentPanelHeaderProps {
   icon?: React.ReactNode;
   collapsed?: boolean;
   onToggle?: () => void;
+  /** Called when X button is clicked — hides the side panels entirely */
+  onClose?: () => void;
   /**
    * When true, renders the bottom border that visually separates the header
    * from the body. Should only be true when the body has been scrolled — i.e.
@@ -106,10 +118,13 @@ export const ShipmentPanelHeader: React.FC<ShipmentPanelHeaderProps> = ({
   icon,
   collapsed = false,
   onToggle,
+  onClose,
   showDivider = false,
   style,
 }) => {
   const [hovered, setHovered] = useState(false);
+
+  const showX = !collapsed && !!onClose;
 
   return (
     <div
@@ -118,7 +133,7 @@ export const ShipmentPanelHeader: React.FC<ShipmentPanelHeaderProps> = ({
         alignItems:    'center',
         gap:           12,
         padding:       '8px 8px 8px 16px',
-        height:        48,
+        height:        52,
         background:    'var(--surface-card, rgba(255,255,255,0.75))',
         borderRadius:  '12px 12px 0 0',
         borderBottom:  showDivider
@@ -148,13 +163,13 @@ export const ShipmentPanelHeader: React.FC<ShipmentPanelHeaderProps> = ({
         </span>
       </div>
 
-      {/* Collapse chevron */}
+      {/* X (close all panels) when expanded, chevron when collapsed */}
       <button
         type="button"
-        onClick={onToggle}
+        onClick={showX ? onClose : onToggle}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        disabled={!onToggle}
+        disabled={showX ? false : !onToggle}
         style={{
           width:        32,
           height:       32,
@@ -164,15 +179,16 @@ export const ShipmentPanelHeader: React.FC<ShipmentPanelHeaderProps> = ({
           justifyContent: 'center',
           border:       'none',
           borderRadius: 8,
-          background:   hovered && onToggle ? 'var(--accent-wash-6, rgba(10,118,219,0.06))' : 'transparent',
+          background:   hovered ? 'var(--accent-wash-6, rgba(10,118,219,0.06))' : 'transparent',
           color:        'var(--accent-dark, #143c5c)',
-          cursor:       onToggle ? 'pointer' : 'default',
+          cursor:       'pointer',
           transition:   'background 0.12s',
           padding:      0,
+          marginRight:  8,
         }}
-        aria-label={collapsed ? 'Expand panel' : 'Collapse panel'}
+        aria-label={showX ? 'Hide side panels' : collapsed ? 'Expand panel' : 'Collapse panel'}
       >
-        <ChevronDown collapsed={collapsed} />
+        {showX ? <XIcon /> : <ChevronDown collapsed={collapsed} />}
       </button>
     </div>
   );
@@ -205,6 +221,7 @@ export const ShipmentPanel: React.FC<ShipmentPanelProps> = ({
   onItemClick,
   collapsed: collapsedProp,
   onToggle: onToggleProp,
+  onClose,
   width = 426,
   className,
   style,
@@ -239,6 +256,7 @@ export const ShipmentPanel: React.FC<ShipmentPanelProps> = ({
         icon={headerIcon}
         collapsed={collapsed}
         onToggle={onToggle}
+        onClose={onClose}
         showDivider={scrolled}
       />
 
@@ -252,7 +270,7 @@ export const ShipmentPanel: React.FC<ShipmentPanelProps> = ({
             background: 'var(--surface-card, rgba(255,255,255,0.75))',
             backdropFilter: 'blur(6px)',
             WebkitBackdropFilter: 'blur(6px)',
-            padding:    '8px 8px',
+            padding:    '0 8px 8px 8px',
             display:    'flex',
             flexDirection: 'column',
             gap:        4,

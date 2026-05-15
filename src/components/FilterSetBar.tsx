@@ -213,8 +213,7 @@ const FilterSet: React.FC<FilterSetProps> = ({
           key={chip.id}
           {...chip}
           active={activeChipIds.has(chip.id)}
-          onClick={onChipClick ? (e) => {
-            // Prevent the set click from also firing
+          onClick={selected && onChipClick ? (e) => {
             (e as unknown as React.MouseEvent).stopPropagation();
             onChipClick(chip.id);
           } : undefined}

@@ -1,162 +1,187 @@
-import { FacilityCanvas } from '../features/facility-canvas/FacilityCanvas';
+import { useState, useEffect } from 'react';
+import { PlusMinusPlusIcon, PalletFilledIcon } from '@component-library/core';
+import { FacilityCanvas, getFacilityState, subscribeFacilityState, clearFacilitySelection, setSidePanelsVisible } from '../features/facility-canvas/FacilityCanvas';
+import type { FacilityPublicState } from '../features/facility-canvas/FacilityCanvas';
+import { FilterSetBar } from '../components/FilterSetBar';
+import type { FilterSetData } from '../components/FilterSetBar';
+import { IconButton } from '../components/IconButton';
+import { ShipmentPanel } from '../components/ShipmentPanel';
+import type { ShipmentItemData } from '../components/ShipmentPanel';
+import { UnassignedTrailerPanel } from '../components/UnassignedTrailerPanel';
 
-// ── Filter chip ───────────────────────────────────────────────────────────────
-// Colors are intentionally hardcoded to match CT3's dock/yard state palette so
-// the left-bar color on each chip aligns with the corresponding trailer slot
-// color on the facility canvas.
-//
-//   In Yard      → yard-occupied (#009cde, CT3 teal)
-//   At Dock      → dock-occupied / in-progress (#43ac1d, CT3 green)
-//   Checked Out  → departed (neutral gray)
-//   In 30        → arriving-soon (amber)
-//   Empty        → unloaded / default (muted gray)
+// ── Filter data ───────────────────────────────────────────────────────────────
 
-const FILTER_CHIPS: { label: string; count: number; color: string }[] = [
-  { label: 'In Yard',     count: 23, color: '#009cde' },
-  { label: 'At Dock',     count: 28, color: '#43ac1d' },
-  { label: 'Checked Out', count: 12, color: '#a6a6a6' },
-  { label: 'In 30',       count: 32, color: '#f59e0b' },
-  { label: 'Empty',       count: 37, color: '#8b8b8b' },
+const FILTER_SETS: FilterSetData[] = [
+  {
+    id: 'trailer-status',
+    label: 'Trailer Status',
+    chips: [
+      { id: 'in-yard',     label: 'In Yard',     count: 23, color: '#0a76db' },
+      { id: 'at-dock',     label: 'At Dock',     count: 28, color: '#43ac1d', textColor: '#348516' },
+      { id: 'checked-out', label: 'Checked Out', count: 12, color: '#909090', textColor: '#6b6b6b' },
+    ],
+  },
+  {
+    id: 'dock-fill',
+    label: 'Dock Fill',
+    chips: [
+      { id: 'full',  label: 'Full',  count: 32, color: '#003b5c' },
+      { id: 'empty', label: 'Empty', count: 27, color: '#d78207' },
+    ],
+  },
 ];
 
-function FilterChip({
-  label,
-  count,
-  color,
-}: {
-  label: string;
-  count: number;
-  color: string;
-}) {
-  return (
-    <div
-      style={{
-        display:     'flex',
-        alignItems:  'stretch',
-        height:       40,
-        borderRadius: 8,
-        border:      '1px solid var(--border-default)',
-        background:  'var(--surface-elevated)',
-        overflow:    'hidden',
-        cursor:      'pointer',
-        userSelect:  'none',
-        flexShrink:   0,
-      }}
-    >
-      {/* Colored left accent bar */}
-      <div style={{ width: 6, background: color, flexShrink: 0 }} />
+// ── Mock shipments (static) ───────────────────────────────────────────────────
 
-      {/* Label + count */}
-      <div
-        style={{
-          display:    'flex',
-          alignItems: 'center',
-          gap:         6,
-          padding:    '0 10px 0 8px',
-        }}
-      >
-        <span
-          style={{
-            fontFamily: '"Inter", sans-serif',
-            fontWeight: 500,
-            fontSize:   12,
-            color:      'var(--text-secondary)',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {label}
-        </span>
-        <span
-          style={{
-            fontFamily:  '"Inter", sans-serif',
-            fontWeight:  700,
-            fontSize:    12,
-            color:       'var(--text-primary)',
-            minWidth:    16,
-            textAlign:   'right',
-          }}
-        >
-          {count}
-        </span>
-      </div>
-    </div>
-  );
-}
+const SHIPMENTS: ShipmentItemData[] = [
+  { id: '010203040506', createdAt: 'Created 5/23/2024 08:12am', direction: 'IB / DL', barColor: '#009cde' },
+  { id: '020304050607', createdAt: 'Created 5/23/2024 09:45am', direction: 'OB',      barColor: '#43ac1d' },
+  { id: '030405060708', createdAt: 'Created 5/23/2024 10:00am', direction: 'IB',      barColor: '#dc7a09' },
+  { id: '040506070809', createdAt: 'Created 5/23/2024 11:15am', direction: 'IB / DL', barColor: '#d13b0b' },
+  { id: '050607080910', createdAt: 'Created 5/23/2024 12:00pm', direction: 'OB',      barColor: '#909090' },
+  { id: '060708091011', createdAt: 'Created 5/23/2024 01:30pm', direction: 'IB',      barColor: '#009cde' },
+  { id: '070809101112', createdAt: 'Created 5/23/2024 02:45pm', direction: 'IB / DL', barColor: '#43ac1d' },
+];
+
+// ── Panel accordion key ───────────────────────────────────────────────────────
+
+type OpenPanel = 'trailers' | 'shipments';
 
 // ── TrailersPage ──────────────────────────────────────────────────────────────
 
 export function TrailersPage() {
+  const [selectedSetId,  setSelectedSetId]  = useState<string | undefined>();
+  const [activeChipIds,  setActiveChipIds]  = useState<string[]>([]);
+  const [openPanel, setOpenPanel]           = useState<OpenPanel>('trailers');
+  const [selectedShipmentId, setSelectedShipmentId] = useState<string | undefined>();
+
+  const [facilityState, setFacilityState] = useState<FacilityPublicState>(getFacilityState);
+
+  useEffect(() => {
+    // Sync in case FacilityCanvas's initial emit fired before this subscription was registered.
+    setFacilityState(getFacilityState());
+    return subscribeFacilityState(setFacilityState);
+  }, []);
+
+  const userWantsPanels = facilityState.sidePanelsVisible;
+  const hasSelection    = facilityState.selectedTrailer != null;
+  const showSidePanels  = facilityState.appMode === 'operations' && (userWantsPanels || hasSelection);
+
+  const handleClosePanels = () => setSidePanelsVisible(false);
+
+  const handleSetClick = (id: string) => {
+    setSelectedSetId((prev) => {
+      if (prev === id) return undefined;
+      // Switching to a different set — clear chips from the outgoing set.
+      const outgoingSet = FILTER_SETS.find((s) => s.id === prev);
+      if (outgoingSet) {
+        const outgoingChipIds = new Set(outgoingSet.chips.map((c) => c.id));
+        setActiveChipIds((chips) => chips.filter((c) => !outgoingChipIds.has(c)));
+      }
+      return id;
+    });
+  };
+
+  const handleChipClick = (chipId: string) => {
+    setActiveChipIds((prev) =>
+      prev.includes(chipId) ? prev.filter((c) => c !== chipId) : [...prev, chipId],
+    );
+  };
+
+  const togglePanel = (panel: OpenPanel) => {
+    setOpenPanel(panel);
+  };
+
   return (
     <div
       style={{
         flex:          1,
         display:       'flex',
         flexDirection: 'column',
-        minWidth:      0,
+        gap:           12,
         minHeight:     0,
-        height:        '100%',
         width:         '100%',
       }}
     >
-      {/* Frosted glass card — mirrors SectionLayout's standard card style */}
+      {/* ── Filter bar — standalone row, not wrapped in the canvas card ──── */}
       <div
         style={{
-          flex:                 1,
-          display:              'flex',
-          flexDirection:        'column',
-          minHeight:            0,
-          background:           'var(--surface-card)',
-          backdropFilter:       'blur(6px)',
-          WebkitBackdropFilter: 'blur(6px)',
-          border:               '1px solid var(--border-default)',
-          borderRadius:          20,
-          boxShadow:            '0px 2px 48px 0px var(--shadow-card)',
-          overflow:             'hidden',
+          flexShrink: 0,
+          display:    'flex',
+          alignItems: 'center',
+          gap:        8,
         }}
       >
-        {/* ── Filter bar ─────────────────────────────────────────────────── */}
+        <FilterSetBar
+          sets={FILTER_SETS}
+          selectedSetId={selectedSetId}
+          activeChipIds={activeChipIds}
+          onSetClick={handleSetClick}
+          onChipClick={handleChipClick}
+        />
+        <IconButton
+          icon={<PlusMinusPlusIcon size={16} />}
+          onClick={() => {}}
+          aria-label="Add filter"
+        />
+      </div>
+
+      {/* ── Main content row — canvas + stacked side panels ─────────────── */}
+      <div
+        style={{
+          flex:      1,
+          display:   'flex',
+          gap:       16,
+          minHeight: 0,
+        }}
+      >
+        {/* Facility canvas — fills remaining horizontal space */}
         <div
           style={{
-            flexShrink:   0,
-            display:      'flex',
-            alignItems:   'center',
-            gap:           6,
-            padding:      '8px 16px',
-            borderBottom: '1px solid var(--border-default)',
+            flex:      1,
+            minWidth:  0,
+            minHeight: 0,
           }}
         >
-          {FILTER_CHIPS.map((chip) => (
-            <FilterChip key={chip.label} {...chip} />
-          ))}
-
-          <button
-            type="button"
-            aria-label="Add filter"
-            style={{
-              width:          32,
-              height:         32,
-              border:         '1px solid var(--border-default)',
-              borderRadius:    6,
-              background:     'transparent',
-              cursor:         'pointer',
-              display:        'flex',
-              alignItems:     'center',
-              justifyContent: 'center',
-              color:          'var(--text-secondary)',
-              fontSize:        18,
-              lineHeight:      1,
-              padding:         0,
-              flexShrink:      0,
-            }}
-          >
-            +
-          </button>
-        </div>
-
-        {/* ── Facility canvas — fills remaining card height ───────────────── */}
-        <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
           <FacilityCanvas />
         </div>
+
+        {/* Stacked side panels — only visible in operations mode with a layout */}
+        {showSidePanels && (
+          <div
+            style={{
+              width:         426,
+              flexShrink:    0,
+              display:       'flex',
+              flexDirection: 'column',
+              gap:           8,
+            }}
+          >
+            {/* Unassigned Trailers panel */}
+            <UnassignedTrailerPanel
+              items={facilityState.unassignedTrailers}
+              externalSelectedTrailer={facilityState.selectedTrailer}
+              onDeselect={clearFacilitySelection}
+              onClose={handleClosePanels}
+              collapsed={openPanel !== 'trailers'}
+              onToggle={() => togglePanel('trailers')}
+              width="100%"
+            />
+
+            {/* Shipments panel */}
+            <ShipmentPanel
+              title="Shipments"
+              headerIcon={<PalletFilledIcon size={24} />}
+              items={SHIPMENTS}
+              selectedId={selectedShipmentId}
+              onItemClick={(id) => setSelectedShipmentId(id)}
+              onClose={handleClosePanels}
+              collapsed={openPanel !== 'shipments'}
+              onToggle={() => togglePanel('shipments')}
+              width="100%"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
