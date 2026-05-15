@@ -30,7 +30,12 @@ export function AccountLayout() {
     ACCOUNT_TABS[0].id;
 
   const handleTabChange = (id: string) => {
-    if (ACCOUNT_PATHS[id]) navigate(ACCOUNT_PATHS[id]);
+    if (!ACCOUNT_PATHS[id]) return;
+    if ('startViewTransition' in document) {
+      document.startViewTransition(() => { navigate(ACCOUNT_PATHS[id]); });
+    } else {
+      navigate(ACCOUNT_PATHS[id]);
+    }
   };
 
   return (

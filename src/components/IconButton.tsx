@@ -70,6 +70,12 @@ export interface IconButtonProps {
   /** Disabled state */
   disabled?: boolean;
   /**
+   * Visual variant.
+   * - `'default'` — frosted-glass surface with accent border (default)
+   * - `'accent'` — filled primary accent background with white text/icon
+   */
+  variant?: 'default' | 'accent';
+  /**
    * Click handler for non-dropdown buttons.
    * Ignored when `items` is provided (the button toggles the dropdown instead).
    */
@@ -219,6 +225,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
   onItemClick,
   active = false,
   disabled = false,
+  variant = 'default',
   onClick,
   className,
   style,
@@ -246,16 +253,19 @@ export const IconButton: React.FC<IconButtonProps> = ({
 
   const isActive = active || dropdownOpen;
 
-  const background = disabled
-    ? T.surface
-    : isActive
-      ? T.surfaceActive
-      : hovered
-        ? T.surfaceHover
-        : T.surface;
+  let background: string;
+  let borderColor: string;
+  let textColor: string;
 
-  const borderColor = isActive ? T.borderActive : T.border;
-  const textColor   = disabled ? T.textDisabled : isActive ? T.textActive : T.text;
+  if (variant === 'accent') {
+    background  = disabled ? T.surface : hovered ? 'var(--accent-dark, #0863b8)' : 'var(--accent-primary, #0a76db)';
+    borderColor = disabled ? T.border   : 'var(--accent-primary, #0a76db)';
+    textColor   = disabled ? T.textDisabled : '#ffffff';
+  } else {
+    background  = disabled ? T.surface : isActive ? T.surfaceActive : hovered ? T.surfaceHover : T.surface;
+    borderColor = isActive ? T.borderActive : T.border;
+    textColor   = disabled ? T.textDisabled : isActive ? T.textActive : T.text;
+  }
 
   const handleClick = () => {
     if (disabled) return;
@@ -284,7 +294,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
         display:       'inline-flex',
         alignItems:    'center',
         justifyContent:'center',
-        gap:           8,
+        gap:           12,
         height:        36,
         padding:       '9px 17px',
         // Appearance

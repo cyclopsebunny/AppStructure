@@ -1,6 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import './facilityCanvas.css';
+import demoData from './demoData.json';
 import { toPng } from 'html-to-image';
+import { ListDefaultIcon, LocationOutlinedIcon, MoreVerticalIcon, PlusMinusPlusIcon } from '@component-library/core';
+import { SearchBar } from '../../components/SearchBar';
+import { IconButton } from '../../components/IconButton';
+import { TrailerListView } from '../../components/TrailerListView';
+import type { TrailerRow } from '../../components/TrailerListView';
+import type { SearchOption } from '../../components/SearchBar';
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 
 type Edge = 'top' | 'right' | 'bottom' | 'left';
 type Alignment = 'Left' | 'Center' | 'Right';
@@ -254,6 +262,7 @@ type FacilityDocument = {
   operationsAssignments?: OperationsAssignments;
   rows: ParkingRow[];
   viewport: CanvasViewport;
+  unassignedTrailers?: UnassignedTrailerRecord[];
   // Multi-canvas support (remote locations).
   canvasLocations?: CanvasSnapshot[];
   activeCanvasId?: string;
@@ -290,12 +299,99 @@ type FileSystemFileHandleLike = {
 // Module-level cache — survives route navigation (component unmount/remount).
 // Stores the last known document payload and file handle so the canvas state
 // is preserved when the user leaves and returns to the Trailers page.
-let _cachedFacilityDoc: FacilityDocument | null = null;
+// Seeded with demo data so the app opens with a pre-built facility layout.
+let _cachedFacilityDoc: FacilityDocument | null = demoData as FacilityDocument;
 let _cachedFacilityHandle: FileSystemFileHandleLike | null = null;
 
 // Live component state written every render so the debug panel can read it even
 // while the component is mounted (the cache itself is only written on unmount).
 let _liveDebug = { mounted: false, buildings: 0, rows: 0, hasHandle: false };
+
+// ── Canvas search ─────────────────────────────────────────────────────────────
+
+const CANVAS_SEARCH_OPTIONS: SearchOption[] = [
+  { value: 'carrier',       label: 'Carrier',   placeholder: 'Search by carrier…' },
+  { value: 'trailerNumber', label: 'Trailer #', placeholder: 'Search by trailer number…' },
+  { value: 'shipment',      label: 'Shipment',  placeholder: 'Search by shipment ID…' },
+  { value: 'usdot',         label: 'USDOT',     placeholder: 'Search by USDOT number…' },
+];
+
+function trailerMatchesSearch(trailer: TrailerRecord | null | undefined, query: string, option: string): boolean {
+  if (!trailer || query.length < 3) return true;
+  const q = query.toLowerCase();
+  switch (option) {
+    case 'trailerNumber': return trailer.trailerNumber.toLowerCase().includes(q);
+    case 'carrier':       return trailer.carrierName.toLowerCase().includes(q);
+    case 'usdot':         return trailer.usdotNumber.toLowerCase().includes(q);
+    case 'shipment':      return false;
+    default:              return true;
+  }
+}
+
+// ── Public state — readable by sibling page components (e.g. TrailersPage) ────
+
+export interface UnassignedTrailerRecord {
+  id: string;
+  carrier: string;
+  trailerNumber: string;
+  trailerId: string;
+  barColor: string;
+}
+
+export interface FacilitySelectedTrailer {
+  trailerNumber: string;
+  carrierName: string;
+  usdotNumber: string;
+  arrivalTime: string;
+  driverName: string;
+  driverPhone: string;
+  location: string;
+  status: string;
+}
+
+export interface FacilityPublicState {
+  appMode: 'build' | 'operations';
+  hasLayout: boolean;
+  unassignedTrailers: UnassignedTrailerRecord[];
+  selectedTrailer: FacilitySelectedTrailer | null;
+  sidePanelsVisible: boolean;
+}
+
+let _facilityPublicState: FacilityPublicState = {
+  appMode: (demoData as { appMode?: string }).appMode === 'operations' ? 'operations' : 'build',
+  hasLayout: true,
+  unassignedTrailers: (demoData as { unassignedTrailers?: FacilityPublicState['unassignedTrailers'] }).unassignedTrailers ?? [],
+  selectedTrailer: null,
+  sidePanelsVisible: true,
+};
+
+const _facilityListeners = new Set<(s: FacilityPublicState) => void>();
+
+export function getFacilityState(): FacilityPublicState {
+  return _facilityPublicState;
+}
+
+export function subscribeFacilityState(cb: (s: FacilityPublicState) => void): () => void {
+  _facilityListeners.add(cb);
+  return () => { _facilityListeners.delete(cb); };
+}
+
+function _emitFacilityState(next: FacilityPublicState) {
+  _facilityPublicState = next;
+  _facilityListeners.forEach((cb) => cb(next));
+}
+
+let _clearSelectionFn: (() => void) | null = null;
+
+export function clearFacilitySelection() {
+  _clearSelectionFn?.();
+}
+
+let _setSidePanelsVisibleFn: ((v: boolean) => void) | null = null;
+
+export function setSidePanelsVisible(v: boolean) {
+  _setSidePanelsVisibleFn?.(v);
+}
 
 /** Debug-only: merged view of live component state + module-level cache. */
 export function getCacheDebugInfo() {
@@ -377,6 +473,33 @@ function createMockTrailer(index: number): TrailerRecord {
     // Deterministic "empty vs full" for stats.
     isEmpty: index % 2 === 0,
   };
+}
+
+const UNASSIGNED_BAR_COLORS = ['#143c5c', '#f59e0b', '#009cde', '#43ac1d', '#dc7a09'];
+
+// Generates a list of trailers not yet assigned to any dock/yard space.
+// When rng is provided the trailer indices continue from startIndex using the
+// same seeded sequence as buildRandomOperationsAssignments, guaranteeing
+// globally-unique trailer numbers across the entire dataset.
+function createMockUnassignedTrailers(
+  count: number,
+  startIndex = 200,
+  rng?: () => number,
+): UnassignedTrailerRecord[] {
+  return Array.from({ length: count }, (_, i) => {
+    const idx = startIndex + i;
+    const t = createMockTrailer(idx);
+    const colorIndex = rng
+      ? Math.floor(rng() * UNASSIGNED_BAR_COLORS.length)
+      : i % 2 === 0 ? 0 : 1;
+    return {
+      id: `unassigned-${idx}`,
+      carrier: t.carrierName,
+      trailerNumber: t.trailerNumber,
+      trailerId: t.usdotNumber,
+      barColor: UNASSIGNED_BAR_COLORS[colorIndex],
+    };
+  });
 }
 
 function buildOperationsAssignments(
@@ -1386,10 +1509,19 @@ export function FacilityCanvas() {
   const buildingPointerDownRef = useRef(false);
   const buildingDragDrawRef = useRef(false);
   const skipCanvasClickRef = useRef(false);
+  const panStartRef = useRef<{ clientX: number; clientY: number; x: number; y: number } | null>(null);
   const skipNextSpaceSelectClearRef = useRef(false);
   const [addMenuOpen, setAddMenuOpen] = useState(false);
   const [moreMenuOpen, setMoreMenuOpen] = useState(false);
+  const [sidePanelsVisible, setSidePanelsVisibleState] = useState(true);
+  const addMenuRef  = useRef<HTMLDivElement | null>(null);
+  const moreMenuRef = useRef<HTMLDivElement | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchOption, setSearchOption] = useState('carrier');
   const [documentHandle, setDocumentHandle] = useState<FileSystemFileHandleLike | null>(null);
+  // Name of the last file opened via <input> fallback. Non-null means a file was opened
+  // (even without a writable handle) so Save should write silently rather than open a picker.
+  const [openedFileName, setOpenedFileName] = useState<string | null>(null);
 
   // True while an async cache-restore loadDocumentFile call is still in flight.
   // Used by the unmount cleanup to distinguish a real unmount from StrictMode's
@@ -1431,7 +1563,21 @@ export function FacilityCanvas() {
   useEffect(() => {
     setSidePanelWidth(appMode === 'operations' ? 426 : 272);
   }, [appMode]);
+  const [viewMode, setViewMode] = useState<'canvas' | 'list'>('canvas');
+
+  const canvasBreakpoint = useBreakpoint();
+  const isMobileCanvas   = canvasBreakpoint === 'mobile';
+
+  // Auto-switch to list view on mobile; restore canvas on desktop
+  useEffect(() => {
+    if (isMobileCanvas) {
+      setViewMode('list');
+    } else {
+      setViewMode((prev) => prev === 'list' ? 'canvas' : prev);
+    }
+  }, [isMobileCanvas]);
   const [operationsAssignments, setOperationsAssignments] = useState<OperationsAssignments>({});
+  const [unassignedTrailers, setUnassignedTrailers] = useState<UnassignedTrailerRecord[]>([]);
   const [moveTaskSelectionOverride, setMoveTaskSelectionOverride] = useState<string | null>(null);
   const [pullTaskSelectionOverride, setPullTaskSelectionOverride] = useState<string | null>(null);
   const [moveTaskConnectionRefresh, setMoveTaskConnectionRefresh] = useState(0);
@@ -1492,10 +1638,15 @@ export function FacilityCanvas() {
       setDocumentHandle(_cachedFacilityHandle);
     }
 
+    _clearSelectionFn = () => setSelection(null);
+    _setSidePanelsVisibleFn = setSidePanelsVisibleState;
+
     // On unmount, snapshot current state into the module-level cache.
     // Skip if an async restore is still in flight — that means this is the StrictMode
     // synthetic cleanup, not a real navigation away.
     return () => {
+      _clearSelectionFn = null;
+      _setSidePanelsVisibleFn = null;
       _liveDebug = { mounted: false, buildings: 0, rows: 0, hasHandle: false };
       if (_isRestoringRef.current) return;
       _cachedFacilityDoc = _getDocPayloadRef.current(_appModeRef.current);
@@ -1551,6 +1702,20 @@ export function FacilityCanvas() {
     };
   }, [dragReturnPreview]);
 
+  useEffect(() => {
+    if (!addMenuOpen && !moreMenuOpen) return;
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (addMenuOpen && addMenuRef.current && !addMenuRef.current.contains(e.target as Node)) {
+        setAddMenuOpen(false);
+      }
+      if (moreMenuOpen && moreMenuRef.current && !moreMenuRef.current.contains(e.target as Node)) {
+        setMoreMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, [addMenuOpen, moreMenuOpen]);
+
   const handleOpenAddMenu = () => {
     setAddMenuOpen((current) => {
       const next = !current;
@@ -1595,6 +1760,7 @@ export function FacilityCanvas() {
           : {},
     rows,
     viewport,
+    unassignedTrailers,
 
     // New (multi-canvas) fields.
     activeCanvasId,
@@ -1644,12 +1810,12 @@ export function FacilityCanvas() {
     await writable.close();
   };
 
-  const downloadDocument = (mode: AppMode) => {
+  const downloadDocument = (mode: AppMode, filename = 'control-tower-3.json') => {
     const blob = new Blob([JSON.stringify(getDocumentPayload(mode), null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'control-tower-3.json';
+    link.download = filename;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -1680,6 +1846,7 @@ export function FacilityCanvas() {
       try {
         await writeDocumentToHandle(handle, nextMode);
         setDocumentHandle(handle);
+        setOpenedFileName(null); // handle now owns future saves
       } catch (err) {
         // Picker write failed — fall back to download so the user doesn't lose work.
         // eslint-disable-next-line no-console
@@ -1706,9 +1873,14 @@ export function FacilityCanvas() {
         // Write to existing handle failed — fall back to download so work isn't lost.
         // eslint-disable-next-line no-console
         console.error('[FacilityCanvas] handleSaveDocument write failed, falling back to download:', err);
-        downloadDocument(nextMode);
+        downloadDocument(nextMode, openedFileName ?? undefined);
         setDocumentHandle(null);
       }
+      handleModeChange(nextMode);
+    } else if (openedFileName !== null) {
+      // File was opened via <input> fallback — no writable handle, but silently
+      // re-download to the same filename rather than showing a Save As picker.
+      downloadDocument(nextMode, openedFileName);
       handleModeChange(nextMode);
     } else {
       await handleSaveAsDocument();
@@ -1718,8 +1890,10 @@ export function FacilityCanvas() {
   const handleNewDocument = () => {
     setMoreMenuOpen(false);
     setDocumentHandle(null);
+    setOpenedFileName(null);
     resetInteractions();
     setAppMode('build');
+    setViewMode('canvas');
 
     setActiveCanvasId('canvas-1');
     setRemoteCanvasSnapshots([]);
@@ -1729,6 +1903,7 @@ export function FacilityCanvas() {
     setBuildings([]);
     setRows([]);
     setOperationsAssignments({});
+    setUnassignedTrailers([]);
     setCanvasBackgroundColor('#eaeaea');
     setCanvasLocationName('Location 1');
     setViewport({ scale: 1, x: 0, y: 0 });
@@ -1763,6 +1938,7 @@ export function FacilityCanvas() {
 
         const file = await handle.getFile();
         setDocumentHandle(handle);
+        setOpenedFileName(null); // handle covers save; no need for fallback filename
         await loadDocumentFile(file);
       } catch {
         return;
@@ -1875,6 +2051,13 @@ export function FacilityCanvas() {
         idRef.current = typeof doc.idCounter === 'number' ? doc.idCounter : 1;
       }
 
+      setUnassignedTrailers(
+        Array.isArray(doc.unassignedTrailers) && doc.unassignedTrailers.length > 0
+          ? doc.unassignedTrailers
+          : nextMode === 'operations'
+            ? createMockUnassignedTrailers(5)
+            : []
+      );
       setMoveTaskSelectionOverride(null);
       setSelection(null);
       setSelectedBuildingIds([]);
@@ -1892,6 +2075,7 @@ export function FacilityCanvas() {
   const handleDocumentSelected = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     setDocumentHandle(null);
+    setOpenedFileName(file?.name ?? null);
     await loadDocumentFile(file ?? null);
     event.target.value = '';
   };
@@ -2598,10 +2782,12 @@ export function FacilityCanvas() {
       return;
     }
 
+    if (nextMode === 'build') setViewMode('canvas');
     resetInteractions();
     setSelection(null);
 
     if (nextMode === 'operations') {
+      const isFirstTime = Object.keys(operationsAssignments).length === 0;
       setOperationsAssignments((current) =>
         Object.keys(current).length === 0
           ? applyDockDoorBindingsToAssignments(
@@ -2610,6 +2796,7 @@ export function FacilityCanvas() {
             )
           : applyDockDoorBindingsToAssignments(current, dockDoorEnabledBySpaceKey)
       );
+      setUnassignedTrailers((prev) => prev.length > 0 ? prev : createMockUnassignedTrailers(5));
     }
 
     setAppMode(nextMode);
@@ -2868,6 +3055,32 @@ export function FacilityCanvas() {
   };
 
   const handleCanvasMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    // Promote pending left-click pan once the drag threshold is crossed,
+    // but only when no other drag operation is already active.
+    if (
+      panStartRef.current &&
+      !canvasPan &&
+      !buildingDrag &&
+      !rowDrag &&
+      !spaceDrag &&
+      !buildingLabelDrag &&
+      !buildingComponentDrag
+    ) {
+      const dx = event.clientX - panStartRef.current.clientX;
+      const dy = event.clientY - panStartRef.current.clientY;
+      if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+        skipCanvasClickRef.current = true;
+        setCanvasPan({
+          startClientX: panStartRef.current.clientX,
+          startClientY: panStartRef.current.clientY,
+          startX: panStartRef.current.x,
+          startY: panStartRef.current.y,
+        });
+        panStartRef.current = null;
+        return;
+      }
+    }
+
     if (canvasPan) {
       setViewport({
         ...viewport,
@@ -3154,6 +3367,7 @@ export function FacilityCanvas() {
   };
 
   const handleCanvasLeave = () => {
+    panStartRef.current = null;
     setCanvasPan(null);
     setBuildingDrag(null);
     setBuildingResize(null);
@@ -3170,6 +3384,7 @@ export function FacilityCanvas() {
   };
 
   const handleCanvasMouseUp = (event: React.MouseEvent<HTMLDivElement>) => {
+    panStartRef.current = null;
     setCanvasPan(null);
     setBuildingDrag(null);
     setBuildingResize(null);
@@ -3565,6 +3780,9 @@ export function FacilityCanvas() {
     setRemoteCanvasSnapshots(nextRemoteSnapshots);
     setAutoSelectSpaceKeyByCanvasId({});
     setRemoteCanvasDropHover(null);
+    // Generate unassigned trailers from the same RNG sequence so trailer numbers
+    // are globally unique across the entire operations dataset.
+    setUnassignedTrailers(createMockUnassignedTrailers(5, nextTrailerIndex, rng));
   };
 
   const handleBuildingLabelDragStart = (event: React.MouseEvent<HTMLSpanElement>, building: BuildingItem) => {
@@ -3636,6 +3854,31 @@ export function FacilityCanvas() {
     setDockDoorEnabledBySpaceKey((current) => ({ ...current, ...dockBindingsDraft }));
     setIsDockBindingsModalOpen(false);
     setDockBindingsDraft({});
+  };
+
+  const handleExternalTrailerDrop = (
+    trailerData: { id: string; carrier: string; trailerNumber: string; trailerId: string },
+    targetSpaceKey: string,
+  ) => {
+    const targetAssignment = operationsAssignments[targetSpaceKey];
+    if (!targetAssignment || targetAssignment.state !== 'default') return;
+    const trailer: TrailerRecord = {
+      arrivalTime:        new Date().toISOString().slice(0, 16).replace('T', ' '),
+      carrierName:        trailerData.carrier,
+      dockAssignmentTime: new Date().toISOString().slice(0, 16).replace('T', ' '),
+      driverName:         '',
+      driverPhone:        '',
+      trailerNumber:      trailerData.trailerNumber,
+      usdotNumber:        trailerData.trailerId,
+      isEmpty:            false,
+    };
+    setOperationsAssignments((prev) => ({
+      ...prev,
+      [targetSpaceKey]: { ...prev[targetSpaceKey], state: 'occupied', trailer },
+    }));
+    setUnassignedTrailers((prev) => prev.filter((t) => t.id !== trailerData.id));
+    dropSucceededRef.current = true;
+    setSelection({ spaceKey: targetSpaceKey, type: 'space' });
   };
 
   const handleSpaceDragStart = (
@@ -4640,6 +4883,67 @@ export function FacilityCanvas() {
         ) ?? null
       : null;
 
+  // Derive flat list of occupied trailer rows for the list view
+  const trailerListRows: TrailerRow[] = React.useMemo(() => {
+    const assigned: TrailerRow[] = Object.values(operationsAssignments)
+      .filter((a) => a.trailer !== null)
+      .map((a) => ({
+        key:           a.key,
+        trailerNumber: a.trailer!.trailerNumber,
+        carrierName:   a.trailer!.carrierName,
+        usdotNumber:   a.trailer!.usdotNumber,
+        driverName:    a.trailer!.driverName,
+        driverPhone:   a.trailer!.driverPhone,
+        arrivalTime:   a.trailer!.arrivalTime,
+        groupName:     a.groupName,
+        slotLabel:     a.slotLabel,
+        locationType:  a.type,
+        state:         a.state,
+        isEmpty:       a.trailer!.isEmpty ?? false,
+      }));
+
+    if (!isMobileCanvas || unassignedTrailers.length === 0) return assigned;
+
+    const unassignedRows: TrailerRow[] = unassignedTrailers.map((ut) => ({
+      key:           `unassigned-${ut.id}`,
+      trailerNumber: ut.trailerNumber,
+      carrierName:   ut.carrier,
+      usdotNumber:   '',
+      driverName:    '',
+      driverPhone:   '',
+      arrivalTime:   '',
+      groupName:     'Unassigned',
+      slotLabel:     'Unassigned',
+      locationType:  'yard' as const,
+      state:         'default' as const,
+      isEmpty:       false,
+    }));
+
+    return [...assigned, ...unassignedRows];
+  }, [operationsAssignments, isMobileCanvas, unassignedTrailers]);
+
+  // Emit shared state so sibling components (TrailersPage) can react
+  useEffect(() => {
+    _emitFacilityState({
+      appMode,
+      hasLayout: buildings.length > 0 || rows.length > 0,
+      unassignedTrailers,
+      selectedTrailer: selectedSpaceAssignment?.trailer
+        ? {
+            trailerNumber:  selectedSpaceAssignment.trailer.trailerNumber,
+            carrierName:    selectedSpaceAssignment.trailer.carrierName,
+            usdotNumber:    selectedSpaceAssignment.trailer.usdotNumber,
+            arrivalTime:    selectedSpaceAssignment.trailer.arrivalTime,
+            driverName:     selectedSpaceAssignment.trailer.driverName,
+            driverPhone:    selectedSpaceAssignment.trailer.driverPhone,
+            location:       selectedTrailerLocationLabel ?? '',
+            status:         selectedTrailerStatusLabel ?? '',
+          }
+        : null,
+      sidePanelsVisible,
+    });
+  }, [appMode, buildings, rows, unassignedTrailers, selectedSpaceAssignment, selectedTrailerLocationLabel, selectedTrailerStatusLabel, sidePanelsVisible]);
+
   useEffect(() => {
     if (appMode !== 'operations' || selectedMoveTaskTrailerNumber === null) {
       return;
@@ -5098,22 +5402,48 @@ export function FacilityCanvas() {
   return (
     <main className="facility-app">
       <section
-        className={['facility-shell', appMode === 'operations' ? 'facility-shell--operations' : ''].filter(Boolean).join(' ')}
-        style={{ gridTemplateColumns: `minmax(0, 1fr) 14px ${sidePanelWidth}px` }}
+        className={['facility-shell', appMode !== 'operations' ? 'facility-shell--has-panel' : ''].filter(Boolean).join(' ')}
+        style={appMode !== 'operations' ? { gridTemplateColumns: `minmax(0, 1fr) 14px ${sidePanelWidth}px` } : undefined}
       >
         <div className="canvas-panel">
           <header className="canvas-toolbar">
-            <div className="canvas-toolbar__search" />
+            {/* Search bar — fills remaining space */}
+            <SearchBar
+              options={CANVAS_SEARCH_OPTIONS}
+              selectedOption={searchOption}
+              onOptionChange={setSearchOption}
+              value={searchQuery}
+              onChange={(q) => setSearchQuery(q)}
+              style={{ flex: '1 1 0', minWidth: 0, height: 36, padding: '7px 12px 7px 9px', boxSizing: 'border-box' }}
+            />
+
+            {/* List / Map View toggle — operations mode only */}
+            {appMode === 'operations' && (
+              viewMode === 'list' ? (
+                <IconButton
+                  icon={<LocationOutlinedIcon size={16} />}
+                  label="Map View"
+                  active={false}
+                  onClick={() => setViewMode('canvas')}
+                />
+              ) : (
+                <IconButton
+                  icon={<ListDefaultIcon size={16} />}
+                  label="List View"
+                  onClick={() => setViewMode('list')}
+                />
+              )
+            )}
+
+            {/* Add button — build mode only */}
             {appMode === 'build' ? (
-              <div className="toolbar-menu">
-                <button
-                  className={['toolbar-button', 'toolbar-button--primary'].join(' ')}
+              <div className="toolbar-menu" ref={addMenuRef}>
+                <IconButton
+                  icon={<PlusMinusPlusIcon size={16} />}
+                  label="Add"
+                  variant="accent"
                   onClick={handleOpenAddMenu}
-                  type="button"
-                >
-                  <span className="toolbar-button__plus">+</span>
-                  <span>Add</span>
-                </button>
+                />
                 {addMenuOpen ? (
                   <div className="action-menu action-menu--add">
                     <button
@@ -5133,11 +5463,11 @@ export function FacilityCanvas() {
                 ) : null}
               </div>
             ) : null}
-            <div className="toolbar-menu toolbar-menu--more">
+
+            {/* More menu */}
+            <div className="toolbar-menu toolbar-menu--more" ref={moreMenuRef}>
               <button aria-label="More actions" className="toolbar-more" onClick={handleOpenMoreMenu} type="button">
-                <span />
-                <span />
-                <span />
+                <MoreVerticalIcon size={20} />
               </button>
               {moreMenuOpen ? (
                 <div className="action-menu action-menu--more">
@@ -5155,11 +5485,26 @@ export function FacilityCanvas() {
                       <button className="action-menu__item" onClick={() => handleModeChange('build')} type="button">
                         Edit
                       </button>
+                      <button className="action-menu__item" onClick={handleRecreateMockTrailerData} type="button">
+                        Recreate mock trailers
+                      </button>
+                      <button
+                        className="action-menu__item"
+                        onClick={() => { setSidePanelsVisibleState((v) => !v); setMoreMenuOpen(false); }}
+                        type="button"
+                      >
+                        {sidePanelsVisible ? 'Hide Side Panels' : 'Show Side Panels'}
+                      </button>
                     </>
                   ) : (
-                    <button className="action-menu__item" onClick={handleSaveDocument} type="button">
-                      Save
-                    </button>
+                    <>
+                      <button className="action-menu__item" onClick={() => handleModeChange('operations')} type="button">
+                        Operations
+                      </button>
+                      <button className="action-menu__item" onClick={handleSaveDocument} type="button">
+                        Save
+                      </button>
+                    </>
                   )}
                   <button className="action-menu__item" onClick={handleSaveAsDocument} type="button">
                     Save As
@@ -5167,6 +5512,7 @@ export function FacilityCanvas() {
                 </div>
               ) : null}
             </div>
+
             <input
               accept="application/json,.json"
               hidden
@@ -5176,6 +5522,35 @@ export function FacilityCanvas() {
             />
           </header>
 
+          {viewMode === 'list' && appMode === 'operations' ? (
+            <div style={{
+              flex:        1,
+              overflow:    'hidden',
+              display:     'flex',
+              flexDirection:'column',
+              background:  'var(--surface-card, rgba(255,255,255,0.75))',
+              borderRadius: 12,
+              border:      '0.75px solid var(--accent-border-light, #d3e4f2)',
+              boxShadow:   '0px 2px 48px 0px var(--shadow-card, rgba(0,0,0,0.15))',
+              margin:      0,
+              position:    'relative',
+              zIndex:      0,
+            }}>
+              <TrailerListView
+                rows={trailerListRows}
+                searchQuery={searchQuery}
+                searchField={searchOption as 'trailerNumber' | 'carrier' | 'usdot'}
+                selectedKey={selection?.type === 'space' ? selection.spaceKey : undefined}
+                onRowClick={(key) => {
+                  setSelection((prev) =>
+                    prev?.type === 'space' && prev.spaceKey === key
+                      ? null
+                      : { type: 'space', spaceKey: key }
+                  );
+                }}
+              />
+            </div>
+          ) : (
           <div
             className={[
               'canvas-area',
@@ -5253,6 +5628,7 @@ export function FacilityCanvas() {
                   event.preventDefault();
                   event.stopPropagation();
                   skipCanvasClickRef.current = true;
+                  panStartRef.current = null;
                   setCanvasPan({
                     startClientX: event.clientX,
                     startClientY: event.clientY,
@@ -5260,6 +5636,24 @@ export function FacilityCanvas() {
                     startY: viewport.y,
                   });
                   return;
+                }
+
+                // Left-click drag on canvas background: record potential pan origin,
+                // promoted to real pan in handleCanvasMove once mouse moves > 5px.
+                // Skip when clicking on interactive elements (spaces, buildings, buttons).
+                if (event.button === 0 && !isDrawingBuilding && !isDrawingRow) {
+                  const target = event.target as HTMLElement;
+                  const onInteractive = !!target.closest(
+                    'button, [role="button"], .building-card, .parking-row'
+                  );
+                  if (!onInteractive) {
+                    panStartRef.current = {
+                      clientX: event.clientX,
+                      clientY: event.clientY,
+                      x: viewport.x,
+                      y: viewport.y,
+                    };
+                  }
                 }
 
                 if (!isDrawingBuilding || buildingDraftStart) {
@@ -5327,7 +5721,13 @@ export function FacilityCanvas() {
                       targetAssignment?.type === 'yard' &&
                       targetAssignment.state === 'default';
 
-                    if (isAllowedCompleteToYard) {
+                    const isAllowedExternalYardDrop =
+                      appMode === 'operations' &&
+                      event.dataTransfer.types.includes('application/x-unassigned-trailer') &&
+                      targetAssignment?.type === 'yard' &&
+                      targetAssignment.state === 'default';
+
+                    if (isAllowedCompleteToYard || isAllowedExternalYardDrop) {
                       event.preventDefault();
                       event.dataTransfer.dropEffect = 'move';
                       setDockDragHover({ edge: rowEdge, spaceKey });
@@ -5345,6 +5745,11 @@ export function FacilityCanvas() {
                     }
                     event.preventDefault();
                     event.stopPropagation();
+                    const externalData = event.dataTransfer.getData('application/x-unassigned-trailer');
+                    if (externalData) {
+                      try { handleExternalTrailerDrop(JSON.parse(externalData), spaceKey); } catch { /* noop */ }
+                      return;
+                    }
                     handleSpaceDrop(spaceKey);
                   }}
                     onSelect={() => {
@@ -5353,6 +5758,8 @@ export function FacilityCanvas() {
                         setSelection({ rowId: row.id, type: 'row' });
                       }
                     }}
+                    searchQuery={searchQuery}
+                    searchOption={searchOption}
                   />
                 ))}
                 {buildings.map((building) => (
@@ -5617,6 +6024,7 @@ export function FacilityCanvas() {
                             return (
                               <Dock
                                 controlRef={(node) => registerSpaceControlRef(spaceKey, node)}
+                                dimmed={!trailerMatchesSearch(assignment?.trailer, searchQuery, searchOption)}
                                 onHoverEnter={() => setHoveredSpaceKeyWithGrace(spaceKey)}
                                 onHoverLeave={() => scheduleClearHoveredSpaceKey(spaceKey)}
                                 draggable={
@@ -5664,7 +6072,12 @@ export function FacilityCanvas() {
                                     targetAssignment?.type === 'yard' &&
                                     targetAssignment.state === 'default';
 
-                                  if (isAllowedDockDrop || isAllowedCompleteToConvertedDockYard) {
+                                  const isAllowedExternalDrop =
+                                    appMode === 'operations' &&
+                                    event.dataTransfer.types.includes('application/x-unassigned-trailer') &&
+                                    targetAssignment?.state === 'default';
+
+                                  if (isAllowedDockDrop || isAllowedCompleteToConvertedDockYard || isAllowedExternalDrop) {
                                     event.preventDefault();
                                     event.dataTransfer.dropEffect = 'move';
                                     setDockDragHover({ edge: dockPlacement.edge, spaceKey });
@@ -5692,6 +6105,11 @@ export function FacilityCanvas() {
                                 onDrop={(event) => {
                                   event.preventDefault();
                                   event.stopPropagation();
+                                  const externalData = event.dataTransfer.getData('application/x-unassigned-trailer');
+                                  if (externalData) {
+                                    try { handleExternalTrailerDrop(JSON.parse(externalData), spaceKey); } catch { /* noop */ }
+                                    return;
+                                  }
                                   handleSpaceDrop(spaceKey);
                                 }}
                                 onClick={
@@ -6068,11 +6486,12 @@ export function FacilityCanvas() {
               </svg>
             ) : null}
           </div>
+          )}
         </div>
 
+        {appMode !== 'operations' && (<>
         <div className="panel-resize-handle" onMouseDown={handlePanelResizeStart} aria-hidden="true" />
-
-        <aside className={['details-panel', appMode === 'operations' && selectedSpaceAssignment?.trailer ? 'details-panel--operations-trailer' : ''].filter(Boolean).join(' ')}>
+        <aside className="details-panel">
           <header className="details-panel__header">
             {appMode === 'operations' && selectedSpaceAssignment?.trailer ? (
               <>
@@ -6801,7 +7220,7 @@ export function FacilityCanvas() {
               <span />
             )}
           </footer>
-        </aside>
+        </aside></>)}
       </section>
       {isDockBindingsModalOpen ? (
         <div className="dock-bindings-modal" role="dialog" aria-modal="true" aria-label="Create dock bindings">
@@ -7080,6 +7499,7 @@ function Field({
 
 function Dock({
   controlRef,
+  dimmed = false,
   draggable = false,
   dropHovered = false,
   edge,
@@ -7106,6 +7526,7 @@ function Dock({
   remoteMoveTaskRole = null,
 }: {
   controlRef?: (node: HTMLSpanElement | null) => void;
+  dimmed?: boolean;
   draggable?: boolean;
   dropHovered?: boolean;
   edge: Edge;
@@ -7171,6 +7592,7 @@ function Dock({
         .filter(Boolean)
         .join(' ')}
       ref={spaceRef}
+      style={dimmed ? { opacity: 0.2, transition: 'opacity 0.15s' } : { transition: 'opacity 0.15s' }}
       draggable={draggable}
       onClick={(event) => {
         if (onClick) {
@@ -7311,6 +7733,8 @@ function ParkingRowView({
   onCompleteToYardDragOver,
   onCompleteToYardDragLeave,
   onCompleteToYardDrop,
+  searchQuery = '',
+  searchOption = 'carrier',
 }: {
   appMode: AppMode;
   dockSuggestionBySpaceKey?: Record<string, DockSuggestionTier>;
@@ -7350,6 +7774,8 @@ function ParkingRowView({
   ) => void;
   onCompleteToYardDragLeave?: (spaceKey: string) => void;
   onCompleteToYardDrop?: (event: React.DragEvent<HTMLDivElement>, spaceKey: string) => void;
+  searchQuery?: string;
+  searchOption?: string;
 }) {
   const metrics = getLineMetrics(row.start, row.end);
   const rowEdge = row.settings.side === 'Left' ? 'top' : 'bottom';
@@ -7418,6 +7844,7 @@ function ParkingRowView({
               return (
                 <Dock
                   controlRef={(node) => registerSpaceControlRef(spaceKey, node)}
+                  dimmed={!trailerMatchesSearch(assignment?.trailer, searchQuery, searchOption)}
                   draggable={
                     appMode === 'operations' &&
                     assignment?.type === 'yard' &&

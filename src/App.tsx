@@ -10,6 +10,7 @@ import { SubPageLayout } from './components/SubPageLayout';
 import type { SubPage } from './components/SubPageLayout';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { TrailersPage } from './pages/TrailersPage';
+import { DockPositionsPage } from './pages/DockPositionsPage';
 import { ShowcasePage } from './pages/ShowcasePage';
 import { ShipmentDetailPage } from './pages/ShipmentDetailPage';
 import { AppProvider, useAppContext } from './context/AppContext';
@@ -99,6 +100,15 @@ const sectionRoutes = ALL_SECTIONS.map((section) => {
   const hasSubRoutes = section.subRoutes.length > 0;
 
   const subRouteChildren = section.subRoutes.map((sub) => {
+    // Dock Positions — manages its own filter bar + card layout.
+    if (section.id === 'operations' && sub.id === 'dock-positions') {
+      return {
+        path:   sub.id,
+        handle: { noCard: true },
+        element: <DockPositionsPage />,
+      };
+    }
+
     // Trailers — facility canvas embedded in full-height layout (manages its own card).
     if (section.id === 'operations' && sub.id === 'trailers') {
       return {

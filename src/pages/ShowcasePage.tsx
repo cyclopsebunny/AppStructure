@@ -14,6 +14,9 @@ import type { IconButtonItem } from '../components/IconButton';
 import { ShipmentItem } from '../components/ShipmentItem';
 import { ShipmentPanel, ShipmentPanelHeader } from '../components/ShipmentPanel';
 import type { ShipmentItemData } from '../components/ShipmentPanel';
+import { UnassignedTrailerItem } from '../components/UnassignedTrailerItem';
+import { UnassignedTrailerPanel, UnassignedTrailerPanelHeader } from '../components/UnassignedTrailerPanel';
+import type { UnassignedTrailerItemData } from '../components/UnassignedTrailerPanel';
 import { SearchBar } from '../components/SearchBar';
 import type { SearchOption } from '../components/SearchBar';
 import { Switch } from '../components/Switch';
@@ -116,6 +119,7 @@ const SECTIONS: { id: SideSection; label: string; isNew?: boolean }[] = [
   { id: 'dockitem',        label: 'DockItem', isNew: true },
   { id: 'iconbutton',      label: 'IconButton', isNew: true },
   { id: 'shipmentpanel',   label: 'ShipmentPanel', isNew: true },
+  { id: 'unassignedtrailer', label: 'UnassignedTrailerPanel', isNew: true },
   { id: 'searchbar',       label: 'SearchBar', isNew: true },
   { id: 'switch',          label: 'Switch', isNew: true },
   { id: 'icons',           label: 'Icons' },
@@ -1434,6 +1438,56 @@ function ShipmentPanelSection() {
   );
 }
 
+// ── UnassignedTrailerPanel section ───────────────────────────────────────────
+
+const SAMPLE_UNASSIGNED_TRAILERS: UnassignedTrailerItemData[] = [
+  { id: 'ut-01', carrier: 'JB Hunt',      trailerNumber: 'T-1234', trailerId: '1234567890', barColor: '#143c5c' },
+  { id: 'ut-02', carrier: 'JB Hunt',      trailerNumber: 'T-2345', trailerId: '2345678901', barColor: '#f59e0b' },
+  { id: 'ut-03', carrier: 'Werner',        trailerNumber: 'T-3456', trailerId: '3456789012', barColor: '#143c5c' },
+  { id: 'ut-04', carrier: 'Swift',         trailerNumber: 'T-4567', trailerId: '4567890123', barColor: '#f59e0b' },
+  { id: 'ut-05', carrier: 'Old Dominion',  trailerNumber: 'T-5678', trailerId: '5678901234', barColor: '#143c5c' },
+];
+
+function UnassignedTrailerSection() {
+  return (
+    <Section
+      title="UnassignedTrailerPanel & UnassignedTrailerItem"
+      description="Collapsible panel listing unassigned trailers. Click a row to see the sliding detail view. Rows are draggable via HTML5 DnD."
+    >
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+          Full panel (click a row to open details; header chevron expands/collapses)
+        </div>
+        <UnassignedTrailerPanel
+          items={SAMPLE_UNASSIGNED_TRAILERS}
+          width={426}
+        />
+      </div>
+
+      <div style={{ display: 'flex', gap: 12, marginBottom: 16, flexWrap: 'wrap' }}>
+        <div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Header — expanded</div>
+          <UnassignedTrailerPanelHeader count={5} collapsed={false} style={{ borderRadius: 12, width: 426 }} />
+        </div>
+        <div>
+          <div style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>Header — collapsed</div>
+          <UnassignedTrailerPanelHeader count={5} collapsed={true} style={{ borderRadius: 12, width: 426 }} />
+        </div>
+      </div>
+
+      <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>
+        UnassignedTrailerItem — states
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, maxWidth: 426 }}>
+        <UnassignedTrailerItem id="ut-01" carrier="JB Hunt"     trailerNumber="T-1234" trailerId="1234567890" barColor="#143c5c" />
+        <UnassignedTrailerItem id="ut-02" carrier="JB Hunt"     trailerNumber="T-2345" trailerId="2345678901" barColor="#f59e0b" />
+        <UnassignedTrailerItem id="ut-03" carrier="Werner"      trailerNumber="T-3456" trailerId="3456789012" barColor="#143c5c" selected />
+        <UnassignedTrailerItem id="ut-04" carrier="Swift"       trailerNumber="T-4567" trailerId="4567890123" barColor="#f59e0b" showDragHandle={false} />
+      </div>
+    </Section>
+  );
+}
+
 // ── SearchBar section ─────────────────────────────────────────────────────────
 
 const SEARCH_OPTIONS: SearchOption[] = [
@@ -1545,7 +1599,8 @@ export function ShowcasePage() {
       case 'filterbutton':    return <FilterButtonSection />;
       case 'dockitem':        return <DockItemSection />;
       case 'iconbutton':      return <IconButtonSection />;
-      case 'shipmentpanel':   return <ShipmentPanelSection />;
+      case 'shipmentpanel':      return <ShipmentPanelSection />;
+      case 'unassignedtrailer':  return <UnassignedTrailerSection />;
       case 'searchbar':       return <SearchBarSection />;
       case 'switch':          return <SwitchSection />;
       case 'icons':           return <IconsSection />;

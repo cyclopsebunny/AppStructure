@@ -145,7 +145,7 @@ export const ShipmentItem: React.FC<ShipmentItemProps> = ({
         display:        'flex',
         alignItems:     'stretch',
         gap:            10,
-        padding:        '8.75px 4.75px 8.75px 8.75px',
+        padding:        '8.75px 8.75px 8.75px 8.75px',
         borderRadius:   12,
         border:         `0.75px solid ${borderColor}`,
         background:     bg,

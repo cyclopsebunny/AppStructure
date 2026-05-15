@@ -282,7 +282,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
         style={{
           display:    'flex',
           alignItems: 'center',
-          gap:        6,
+          gap:        12,
           padding:    0,
           border:     'none',
           background: 'transparent',
@@ -291,7 +291,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
           fontFamily: 'inherit',
           fontSize:   14,
           fontWeight: 500,
-          lineHeight: '20px',
+          lineHeight: '24px',
           letterSpacing: '0.0066px',
           flexShrink: 0,
           whiteSpace: 'nowrap',

@@ -97,7 +97,7 @@ export function SectionLayout() {
   // only route while in community mode) just render children with no decoration.
   if (!section) {
     return (
-      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
+      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', viewTransitionName: 'page-content' }}>
         <Outlet />
       </div>
     );
@@ -120,7 +120,12 @@ export function SectionLayout() {
 
   const handleTabChange = (id: string) => {
     const route = section.subRoutes.find((r) => r.id === id);
-    if (route) navigate(route.path);
+    if (!route) return;
+    if ('startViewTransition' in document) {
+      document.startViewTransition(() => { navigate(route.path); });
+    } else {
+      navigate(route.path);
+    }
   };
 
   return (
@@ -165,7 +170,7 @@ export function SectionLayout() {
       {/* ── Content area ──────────────────────────────────────────────────── */}
       {noCard ? (
         // Sub-page routes own their layout (SubNav + card) — render bare outlet
-        <div style={{ flex: 1, display: 'flex', minHeight: 0, marginTop: !hasTabs && isMobile ? pad : undefined }}>
+        <div style={{ flex: 1, display: 'flex', minHeight: 0, marginTop: !hasTabs && isMobile ? pad : undefined, viewTransitionName: 'page-content' }}>
           <Outlet />
         </div>
       ) : (
@@ -184,9 +189,10 @@ export function SectionLayout() {
             borderRadius:          20,
             boxShadow:             '0px 2px 48px 0px var(--shadow-card)',
             overflow:              'hidden',
+            viewTransitionName:    'page-card',
           }}
         >
-          <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', minHeight: 0 }}>
+          <div style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', minHeight: 0, viewTransitionName: 'page-content' }}>
             <Outlet />
           </div>
         </div>
