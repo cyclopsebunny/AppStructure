@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { PlusMinusPlusIcon, PalletFilledIcon } from '@component-library/core';
+import { PalletFilledIcon } from '@component-library/core';
 import { FacilityCanvas, getFacilityState, subscribeFacilityState, clearFacilitySelection, setSidePanelsVisible } from '../features/facility-canvas/FacilityCanvas';
 import type { FacilityPublicState } from '../features/facility-canvas/FacilityCanvas';
 import { FilterSetBar } from '../components/FilterSetBar';
 import type { FilterSetData } from '../components/FilterSetBar';
-import { IconButton } from '../components/IconButton';
 import { ShipmentPanel } from '../components/ShipmentPanel';
 import type { ShipmentItemData } from '../components/ShipmentPanel';
 import { UnassignedTrailerPanel } from '../components/UnassignedTrailerPanel';
+import { MobileSlidePanel } from '../components/MobileSlidePanel';
+import { useBreakpoint } from '../hooks/useBreakpoint';
 
 // ── Filter data ───────────────────────────────────────────────────────────────
 
@@ -47,6 +48,16 @@ const SHIPMENTS: ShipmentItemData[] = [
 
 type OpenPanel = 'trailers' | 'shipments';
 
+// ── FacilityCanvasWrapper ─────────────────────────────────────────────────────
+
+function FacilityCanvasWrapper() {
+  return (
+    <div style={{ flex: 1, minWidth: 0, minHeight: 0 }}>
+      <FacilityCanvas />
+    </div>
+  );
+}
+
 // ── TrailersPage ──────────────────────────────────────────────────────────────
 
 export function TrailersPage() {
@@ -57,22 +68,23 @@ export function TrailersPage() {
 
   const [facilityState, setFacilityState] = useState<FacilityPublicState>(getFacilityState);
 
+  const breakpoint = useBreakpoint();
+  const isMobile   = breakpoint === 'mobile';
+
   useEffect(() => {
-    // Sync in case FacilityCanvas's initial emit fired before this subscription was registered.
     setFacilityState(getFacilityState());
     return subscribeFacilityState(setFacilityState);
   }, []);
 
   const userWantsPanels = facilityState.sidePanelsVisible;
   const hasSelection    = facilityState.selectedTrailer != null;
-  const showSidePanels  = facilityState.appMode === 'operations' && (userWantsPanels || hasSelection);
+  const showSidePanels  = !isMobile && facilityState.appMode === 'operations' && (userWantsPanels || hasSelection);
 
   const handleClosePanels = () => setSidePanelsVisible(false);
 
   const handleSetClick = (id: string) => {
     setSelectedSetId((prev) => {
       if (prev === id) return undefined;
-      // Switching to a different set — clear chips from the outgoing set.
       const outgoingSet = FILTER_SETS.find((s) => s.id === prev);
       if (outgoingSet) {
         const outgoingChipIds = new Set(outgoingSet.chips.map((c) => c.id));
@@ -88,30 +100,19 @@ export function TrailersPage() {
     );
   };
 
-  const togglePanel = (panel: OpenPanel) => {
-    setOpenPanel(panel);
-  };
-
   return (
     <div
       style={{
         flex:          1,
         display:       'flex',
         flexDirection: 'column',
-        gap:           12,
+        gap:           16,
         minHeight:     0,
         width:         '100%',
       }}
     >
-      {/* ── Filter bar — standalone row, not wrapped in the canvas card ──── */}
-      <div
-        style={{
-          flexShrink: 0,
-          display:    'flex',
-          alignItems: 'center',
-          gap:        8,
-        }}
-      >
+      {/* ── Filter bar ──────────────────────────────────────────────────────── */}
+      <div style={{ flexShrink: 0 }}>
         <FilterSetBar
           sets={FILTER_SETS}
           selectedSetId={selectedSetId}
@@ -119,70 +120,70 @@ export function TrailersPage() {
           onSetClick={handleSetClick}
           onChipClick={handleChipClick}
         />
-        <IconButton
-          icon={<PlusMinusPlusIcon size={16} />}
-          onClick={() => {}}
-          aria-label="Add filter"
-        />
       </div>
 
-      {/* ── Main content row — canvas + stacked side panels ─────────────── */}
-      <div
-        style={{
-          flex:      1,
-          display:   'flex',
-          gap:       16,
-          minHeight: 0,
-        }}
-      >
-        {/* Facility canvas — fills remaining horizontal space */}
-        <div
-          style={{
-            flex:      1,
-            minWidth:  0,
-            minHeight: 0,
-          }}
-        >
-          <FacilityCanvas />
-        </div>
-
-        {/* Stacked side panels — only visible in operations mode with a layout */}
-        {showSidePanels && (
-          <div
-            style={{
-              width:         426,
-              flexShrink:    0,
-              display:       'flex',
-              flexDirection: 'column',
-              gap:           8,
-            }}
-          >
-            {/* Unassigned Trailers panel */}
+      {/* ── Main content row ─────────────────────────────────────────────────── */}
+      {isMobile ? (
+        /*
+         * Mobile: MobileSlidePanel owns both the canvas and the detail panel.
+         * The sentinel fills the flex row; both panels live in the portal and
+         * animate together — canvas slides left, detail slides in from the right.
+         */
+        <MobileSlidePanel
+          open={hasSelection}
+          onBack={clearFacilitySelection}
+          main={<FacilityCanvasWrapper />}
+          detail={facilityState.selectedTrailer ? (
             <UnassignedTrailerPanel
-              items={facilityState.unassignedTrailers}
               externalSelectedTrailer={facilityState.selectedTrailer}
               onDeselect={clearFacilitySelection}
-              onClose={handleClosePanels}
-              collapsed={openPanel !== 'trailers'}
-              onToggle={() => togglePanel('trailers')}
               width="100%"
+              style={{ flex: 1 }}
             />
-
-            {/* Shipments panel */}
-            <ShipmentPanel
-              title="Shipments"
-              headerIcon={<PalletFilledIcon size={24} />}
-              items={SHIPMENTS}
-              selectedId={selectedShipmentId}
-              onItemClick={(id) => setSelectedShipmentId(id)}
-              onClose={handleClosePanels}
-              collapsed={openPanel !== 'shipments'}
-              onToggle={() => togglePanel('shipments')}
-              width="100%"
-            />
+          ) : undefined}
+        />
+      ) : (
+        <div style={{ flex: 1, display: 'flex', gap: 16, minHeight: 0 }}>
+          {/* Facility canvas */}
+          <div style={{ flex: 1, minWidth: 0, minHeight: 0 }}>
+            <FacilityCanvas />
           </div>
-        )}
-      </div>
+
+          {/* Stacked side panels — desktop / tablet only */}
+          {showSidePanels && (
+            <div
+              style={{
+                width:         426,
+                flexShrink:    0,
+                display:       'flex',
+                flexDirection: 'column',
+                gap:           8,
+              }}
+            >
+              <UnassignedTrailerPanel
+                items={facilityState.unassignedTrailers}
+                externalSelectedTrailer={facilityState.selectedTrailer}
+                onDeselect={clearFacilitySelection}
+                onClose={handleClosePanels}
+                collapsed={openPanel !== 'trailers'}
+                onToggle={() => setOpenPanel('trailers')}
+                width="100%"
+              />
+              <ShipmentPanel
+                title="Shipments"
+                headerIcon={<PalletFilledIcon size={24} />}
+                items={SHIPMENTS}
+                selectedId={selectedShipmentId}
+                onItemClick={(id) => setSelectedShipmentId(id)}
+                onClose={handleClosePanels}
+                collapsed={openPanel !== 'shipments'}
+                onToggle={() => setOpenPanel('shipments')}
+                width="100%"
+              />
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

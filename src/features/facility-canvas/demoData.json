@@ -1,0 +1,2868 @@
+{
+  "appMode": "operations",
+  "canvasBackgroundColor": "#eaeaea",
+  "buildings": [
+    {
+      "components": [
+        {
+          "id": "component-building-4-1",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1178,
+            "height": 206
+          }
+        },
+        {
+          "id": "component-building-4-2",
+          "rect": {
+            "x": 985,
+            "y": 49,
+            "width": 192.99999999999997,
+            "height": 689.9999999999997
+          }
+        }
+      ],
+      "docks": [
+        {
+          "anchor": {
+            "edge": "bottom",
+            "length": 985,
+            "x": 0,
+            "y": 206
+          },
+          "edge": "bottom",
+          "id": "dock-5",
+          "settings": {
+            "name": "Docks",
+            "slots": 26,
+            "alignment": "Left",
+            "direction": "Left to right",
+            "prefix": "",
+            "startNumber": 1,
+            "showLeadingZeros": false,
+            "width": 9,
+            "depth": 25,
+            "gap": 1
+          }
+        },
+        {
+          "anchor": {
+            "edge": "left",
+            "length": 532.9999999999997,
+            "x": 985,
+            "y": 206
+          },
+          "edge": "left",
+          "id": "dock-6",
+          "settings": {
+            "name": "Docks",
+            "slots": 13,
+            "alignment": "Right",
+            "direction": "Right to left",
+            "prefix": "",
+            "startNumber": 1,
+            "showLeadingZeros": false,
+            "width": 9,
+            "depth": 25,
+            "gap": 1
+          }
+        }
+      ],
+      "id": "building-4",
+      "rect": {
+        "x": 29,
+        "y": 0.40625,
+        "width": 1178,
+        "height": 738.9999999999997
+      },
+      "shape": [
+        {
+          "x": 0,
+          "y": 0,
+          "width": 1178,
+          "height": 206
+        },
+        {
+          "x": 985,
+          "y": 206,
+          "width": 193,
+          "height": 532.9999999999997
+        }
+      ],
+      "settings": {
+        "angle": 0,
+        "color": "#EDEDED",
+        "labelX": 50,
+        "labelY": 50,
+        "name": "Facility"
+      }
+    }
+  ],
+  "idCounter": 9,
+  "operationsAssignments": {
+    "dock:building-4:dock-5:1": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:1",
+      "locationName": "Facility",
+      "slotLabel": "1",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:2": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:2",
+      "locationName": "Facility",
+      "slotLabel": "2",
+      "type": "dock",
+      "state": "blocked",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:3": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:3",
+      "locationName": "Facility",
+      "slotLabel": "3",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:4": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:4",
+      "locationName": "Facility",
+      "slotLabel": "4",
+      "type": "dock",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 08:15",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 09:30",
+        "driverName": "Elena Flores",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806629",
+        "usdotNumber": "28183286",
+        "isEmpty": true
+      },
+      "remoteMoveTaskRole": "destination"
+    },
+    "dock:building-4:dock-5:5": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:5",
+      "locationName": "Facility",
+      "slotLabel": "5",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:6": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:6",
+      "locationName": "Facility",
+      "slotLabel": "6",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 11:15",
+        "carrierName": "BlueLine Logistics",
+        "dockAssignmentTime": "2026-03-17 12:30",
+        "driverName": "Elena Flores",
+        "driverPhone": "(615) 555-0184",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807961",
+        "usdotNumber": "28187450",
+        "isEmpty": true
+      }
+    },
+    "dock:building-4:dock-5:7": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:7",
+      "locationName": "Facility",
+      "slotLabel": "7",
+      "type": "dock",
+      "state": "issue",
+      "trailer": {
+        "arrivalTime": "2026-03-17 08:45",
+        "carrierName": "Northstar Haul",
+        "dockAssignmentTime": "2026-03-17 09:30",
+        "driverName": "Samir Khan",
+        "driverPhone": "(214) 555-0132",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807628",
+        "usdotNumber": "28186409",
+        "isEmpty": false
+      }
+    },
+    "dock:building-4:dock-5:8": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:8",
+      "locationName": "Facility",
+      "slotLabel": "8",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:9": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:9",
+      "locationName": "Facility",
+      "slotLabel": "9",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:10": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:10",
+      "locationName": "Facility",
+      "slotLabel": "10",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 07:15",
+        "carrierName": "Redwood Cargo",
+        "dockAssignmentTime": "2026-03-17 08:30",
+        "driverName": "Avery Brooks",
+        "driverPhone": "(312) 555-0166",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8809515",
+        "usdotNumber": "28192308",
+        "isEmpty": true
+      }
+    },
+    "dock:building-4:dock-5:11": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:11",
+      "locationName": "Facility",
+      "slotLabel": "11",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 11:45",
+        "carrierName": "Redwood Cargo",
+        "dockAssignmentTime": "2026-03-17 12:30",
+        "driverName": "Samir Khan",
+        "driverPhone": "(312) 555-0166",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808960",
+        "usdotNumber": "28190573",
+        "isEmpty": false
+      }
+    },
+    "dock:building-4:dock-5:12": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:12",
+      "locationName": "Facility",
+      "slotLabel": "12",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:13": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:13",
+      "locationName": "Facility",
+      "slotLabel": "13",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 10:15",
+        "carrierName": "BlueLine Logistics",
+        "dockAssignmentTime": "2026-03-17 11:30",
+        "driverName": "Avery Brooks",
+        "driverPhone": "(615) 555-0184",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806851",
+        "usdotNumber": "28183980",
+        "isEmpty": true
+      }
+    },
+    "dock:building-4:dock-5:14": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:14",
+      "locationName": "Facility",
+      "slotLabel": "14",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:15": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:15",
+      "locationName": "Facility",
+      "slotLabel": "15",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 06:45",
+        "carrierName": "BlueLine Logistics",
+        "dockAssignmentTime": "2026-03-17 07:00",
+        "driverName": "Jordan Lee",
+        "driverPhone": "(615) 555-0184",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807406",
+        "usdotNumber": "28185715",
+        "isEmpty": false
+      }
+    },
+    "dock:building-4:dock-5:16": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:16",
+      "locationName": "Facility",
+      "slotLabel": "16",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 13:45",
+        "carrierName": "Summit Freight",
+        "dockAssignmentTime": "2026-03-17 14:30",
+        "driverName": "Chris Walker",
+        "driverPhone": "(901) 555-0171",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8809182",
+        "usdotNumber": "28191267",
+        "isEmpty": false
+      }
+    },
+    "dock:building-4:dock-5:17": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:17",
+      "locationName": "Facility",
+      "slotLabel": "17",
+      "type": "dock",
+      "state": "blocked",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:18": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:18",
+      "locationName": "Facility",
+      "slotLabel": "18",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 12:45",
+        "carrierName": "Summit Freight",
+        "dockAssignmentTime": "2026-03-17 13:00",
+        "driverName": "Jordan Lee",
+        "driverPhone": "(901) 555-0171",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808072",
+        "usdotNumber": "28187797",
+        "isEmpty": false
+      }
+    },
+    "dock:building-4:dock-5:19": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:19",
+      "locationName": "Facility",
+      "slotLabel": "19",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 09:45",
+        "carrierName": "Northstar Haul",
+        "dockAssignmentTime": "2026-03-17 10:00",
+        "driverName": "Jordan Lee",
+        "driverPhone": "(214) 555-0132",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808738",
+        "usdotNumber": "28189879",
+        "isEmpty": false
+      }
+    },
+    "dock:building-4:dock-5:20": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:20",
+      "locationName": "Facility",
+      "slotLabel": "20",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:21": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:21",
+      "locationName": "Facility",
+      "slotLabel": "21",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:22": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:22",
+      "locationName": "Facility",
+      "slotLabel": "22",
+      "type": "dock",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 13:15",
+        "carrierName": "Redwood Cargo",
+        "dockAssignmentTime": "2026-03-17 14:30",
+        "driverName": "Avery Brooks",
+        "driverPhone": "(312) 555-0166",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806185",
+        "usdotNumber": "28181898",
+        "isEmpty": true
+      },
+      "remoteMoveTaskRole": "destination"
+    },
+    "dock:building-4:dock-5:23": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:23",
+      "locationName": "Facility",
+      "slotLabel": "23",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 10:15",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 11:30",
+        "driverName": "Avery Brooks",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808849",
+        "usdotNumber": "28190226",
+        "isEmpty": true
+      }
+    },
+    "dock:building-4:dock-5:24": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:24",
+      "locationName": "Facility",
+      "slotLabel": "24",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-5:25": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:25",
+      "locationName": "Facility",
+      "slotLabel": "25",
+      "type": "dock",
+      "state": "issue",
+      "trailer": {
+        "arrivalTime": "2026-03-17 14:15",
+        "carrierName": "Redwood Cargo",
+        "dockAssignmentTime": "2026-03-17 15:30",
+        "driverName": "Elena Flores",
+        "driverPhone": "(312) 555-0166",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807295",
+        "usdotNumber": "28185368",
+        "isEmpty": true
+      }
+    },
+    "dock:building-4:dock-5:26": {
+      "edge": "bottom",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-5:26",
+      "locationName": "Facility",
+      "slotLabel": "26",
+      "type": "dock",
+      "state": "blocked",
+      "trailer": null
+    },
+    "dock:building-4:dock-6:13": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:13",
+      "locationName": "Facility",
+      "slotLabel": "13",
+      "type": "dock",
+      "state": "issue",
+      "trailer": {
+        "arrivalTime": "2026-03-17 13:45",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 14:30",
+        "driverName": "Chris Walker",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807184",
+        "usdotNumber": "28185021",
+        "isEmpty": false
+      }
+    },
+    "dock:building-4:dock-6:12": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:12",
+      "locationName": "Facility",
+      "slotLabel": "12",
+      "type": "dock",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 06:15",
+        "carrierName": "Summit Freight",
+        "dockAssignmentTime": "2026-03-17 07:00",
+        "driverName": "Maya Patel",
+        "driverPhone": "(901) 555-0171",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806407",
+        "usdotNumber": "28182592",
+        "isEmpty": true
+      },
+      "remoteMoveTaskRole": "destination"
+    },
+    "dock:building-4:dock-6:11": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:11",
+      "locationName": "Facility",
+      "slotLabel": "11",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 11:45",
+        "carrierName": "Summit Freight",
+        "dockAssignmentTime": "2026-03-17 12:30",
+        "driverName": "Samir Khan",
+        "driverPhone": "(901) 555-0171",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806962",
+        "usdotNumber": "28184327",
+        "isEmpty": false
+      }
+    },
+    "dock:building-4:dock-6:10": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:10",
+      "locationName": "Facility",
+      "slotLabel": "10",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-6:9": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:9",
+      "locationName": "Facility",
+      "slotLabel": "9",
+      "type": "dock",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 07:45",
+        "carrierName": "Northstar Haul",
+        "dockAssignmentTime": "2026-03-17 08:30",
+        "driverName": "Chris Walker",
+        "driverPhone": "(214) 555-0132",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806518",
+        "usdotNumber": "28182939",
+        "isEmpty": false
+      },
+      "remoteMoveTaskRole": "destination"
+    },
+    "dock:building-4:dock-6:8": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:8",
+      "locationName": "Facility",
+      "slotLabel": "8",
+      "type": "dock",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 12:45",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 13:00",
+        "driverName": "Jordan Lee",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806074",
+        "usdotNumber": "28181551",
+        "isEmpty": false
+      },
+      "remoteMoveTaskRole": "destination"
+    },
+    "dock:building-4:dock-6:7": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:7",
+      "locationName": "Facility",
+      "slotLabel": "7",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-6:6": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:6",
+      "locationName": "Facility",
+      "slotLabel": "6",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-6:5": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:5",
+      "locationName": "Facility",
+      "slotLabel": "5",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-6:4": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:4",
+      "locationName": "Facility",
+      "slotLabel": "4",
+      "type": "dock",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 14:45",
+        "carrierName": "BlueLine Logistics",
+        "dockAssignmentTime": "2026-03-17 15:30",
+        "driverName": "Samir Khan",
+        "driverPhone": "(615) 555-0184",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806296",
+        "usdotNumber": "28182245",
+        "isEmpty": false
+      },
+      "remoteMoveTaskRole": "destination"
+    },
+    "dock:building-4:dock-6:3": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:3",
+      "locationName": "Facility",
+      "slotLabel": "3",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-6:2": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:2",
+      "locationName": "Facility",
+      "slotLabel": "2",
+      "type": "dock",
+      "state": "default",
+      "trailer": null
+    },
+    "dock:building-4:dock-6:1": {
+      "edge": "left",
+      "groupName": "Docks",
+      "key": "dock:building-4:dock-6:1",
+      "locationName": "Facility",
+      "slotLabel": "1",
+      "type": "dock",
+      "state": "in-progress",
+      "trailer": {
+        "arrivalTime": "2026-03-17 09:15",
+        "carrierName": "Summit Freight",
+        "dockAssignmentTime": "2026-03-17 10:00",
+        "driverName": "Maya Patel",
+        "driverPhone": "(901) 555-0171",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8809737",
+        "usdotNumber": "28193002",
+        "isEmpty": true
+      }
+    },
+    "row:row-7:1": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:1",
+      "locationName": "Row 1",
+      "slotLabel": "1",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 09:15",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 10:00",
+        "driverName": "Maya Patel",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807739",
+        "usdotNumber": "28186756",
+        "isEmpty": true
+      }
+    },
+    "row:row-7:2": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:2",
+      "locationName": "Row 1",
+      "slotLabel": "2",
+      "type": "yard",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 12:45",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 13:00",
+        "driverName": "Jordan Lee",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806074",
+        "usdotNumber": "28181551",
+        "isEmpty": false
+      },
+      "remoteMoveTaskRole": "source"
+    },
+    "row:row-7:3": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:3",
+      "locationName": "Row 1",
+      "slotLabel": "3",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:4": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:4",
+      "locationName": "Row 1",
+      "slotLabel": "4",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:5": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:5",
+      "locationName": "Row 1",
+      "slotLabel": "5",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:6": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:6",
+      "locationName": "Row 1",
+      "slotLabel": "6",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:7": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:7",
+      "locationName": "Row 1",
+      "slotLabel": "7",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:8": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:8",
+      "locationName": "Row 1",
+      "slotLabel": "8",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:9": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:9",
+      "locationName": "Row 1",
+      "slotLabel": "9",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:10": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:10",
+      "locationName": "Row 1",
+      "slotLabel": "10",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:11": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:11",
+      "locationName": "Row 1",
+      "slotLabel": "11",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 06:15",
+        "carrierName": "Redwood Cargo",
+        "dockAssignmentTime": "2026-03-17 07:00",
+        "driverName": "Maya Patel",
+        "driverPhone": "(312) 555-0166",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808405",
+        "usdotNumber": "28188838",
+        "isEmpty": true
+      }
+    },
+    "row:row-7:12": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:12",
+      "locationName": "Row 1",
+      "slotLabel": "12",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:13": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:13",
+      "locationName": "Row 1",
+      "slotLabel": "13",
+      "type": "yard",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 08:15",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 09:30",
+        "driverName": "Elena Flores",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806629",
+        "usdotNumber": "28183286",
+        "isEmpty": true
+      },
+      "remoteMoveTaskRole": "source"
+    },
+    "row:row-7:14": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:14",
+      "locationName": "Row 1",
+      "slotLabel": "14",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 07:15",
+        "carrierName": "Summit Freight",
+        "dockAssignmentTime": "2026-03-17 08:30",
+        "driverName": "Avery Brooks",
+        "driverPhone": "(901) 555-0171",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807517",
+        "usdotNumber": "28186062",
+        "isEmpty": true
+      }
+    },
+    "row:row-7:15": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:15",
+      "locationName": "Row 1",
+      "slotLabel": "15",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:16": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:16",
+      "locationName": "Row 1",
+      "slotLabel": "16",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 06:45",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 07:00",
+        "driverName": "Jordan Lee",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8809404",
+        "usdotNumber": "28191961",
+        "isEmpty": false
+      }
+    },
+    "row:row-7:17": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:17",
+      "locationName": "Row 1",
+      "slotLabel": "17",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 07:45",
+        "carrierName": "BlueLine Logistics",
+        "dockAssignmentTime": "2026-03-17 08:30",
+        "driverName": "Chris Walker",
+        "driverPhone": "(615) 555-0184",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808516",
+        "usdotNumber": "28189185",
+        "isEmpty": false
+      }
+    },
+    "row:row-7:18": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:18",
+      "locationName": "Row 1",
+      "slotLabel": "18",
+      "type": "yard",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 13:15",
+        "carrierName": "Redwood Cargo",
+        "dockAssignmentTime": "2026-03-17 14:30",
+        "driverName": "Avery Brooks",
+        "driverPhone": "(312) 555-0166",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806185",
+        "usdotNumber": "28181898",
+        "isEmpty": true
+      },
+      "remoteMoveTaskRole": "source"
+    },
+    "row:row-7:19": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:19",
+      "locationName": "Row 1",
+      "slotLabel": "19",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-7:20": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-7:20",
+      "locationName": "Row 1",
+      "slotLabel": "20",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-8:21": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:21",
+      "locationName": "Row 2",
+      "slotLabel": "21",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 12:15",
+        "carrierName": "BlueLine Logistics",
+        "dockAssignmentTime": "2026-03-17 13:00",
+        "driverName": "Maya Patel",
+        "driverPhone": "(615) 555-0184",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8809071",
+        "usdotNumber": "28190920",
+        "isEmpty": true
+      }
+    },
+    "row:row-8:22": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:22",
+      "locationName": "Row 2",
+      "slotLabel": "22",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-8:23": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:23",
+      "locationName": "Row 2",
+      "slotLabel": "23",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-8:24": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:24",
+      "locationName": "Row 2",
+      "slotLabel": "24",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 10:45",
+        "carrierName": "Redwood Cargo",
+        "dockAssignmentTime": "2026-03-17 11:30",
+        "driverName": "Chris Walker",
+        "driverPhone": "(312) 555-0166",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807850",
+        "usdotNumber": "28187103",
+        "isEmpty": false
+      }
+    },
+    "row:row-8:25": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:25",
+      "locationName": "Row 2",
+      "slotLabel": "25",
+      "type": "yard",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 06:15",
+        "carrierName": "Summit Freight",
+        "dockAssignmentTime": "2026-03-17 07:00",
+        "driverName": "Maya Patel",
+        "driverPhone": "(901) 555-0171",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806407",
+        "usdotNumber": "28182592",
+        "isEmpty": true
+      },
+      "remoteMoveTaskRole": "source"
+    },
+    "row:row-8:26": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:26",
+      "locationName": "Row 2",
+      "slotLabel": "26",
+      "type": "yard",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 14:45",
+        "carrierName": "BlueLine Logistics",
+        "dockAssignmentTime": "2026-03-17 15:30",
+        "driverName": "Samir Khan",
+        "driverPhone": "(615) 555-0184",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806296",
+        "usdotNumber": "28182245",
+        "isEmpty": false
+      },
+      "remoteMoveTaskRole": "source"
+    },
+    "row:row-8:27": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:27",
+      "locationName": "Row 2",
+      "slotLabel": "27",
+      "type": "yard",
+      "state": "move-task",
+      "trailer": {
+        "arrivalTime": "2026-03-17 07:45",
+        "carrierName": "Northstar Haul",
+        "dockAssignmentTime": "2026-03-17 08:30",
+        "driverName": "Chris Walker",
+        "driverPhone": "(214) 555-0132",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806518",
+        "usdotNumber": "28182939",
+        "isEmpty": false
+      },
+      "remoteMoveTaskRole": "source"
+    },
+    "row:row-8:28": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:28",
+      "locationName": "Row 2",
+      "slotLabel": "28",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-8:29": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:29",
+      "locationName": "Row 2",
+      "slotLabel": "29",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-8:30": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:30",
+      "locationName": "Row 2",
+      "slotLabel": "30",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 08:15",
+        "carrierName": "Summit Freight",
+        "dockAssignmentTime": "2026-03-17 09:30",
+        "driverName": "Elena Flores",
+        "driverPhone": "(901) 555-0171",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808627",
+        "usdotNumber": "28189532",
+        "isEmpty": true
+      }
+    },
+    "row:row-8:31": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:31",
+      "locationName": "Row 2",
+      "slotLabel": "31",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 12:15",
+        "carrierName": "Northstar Haul",
+        "dockAssignmentTime": "2026-03-17 13:00",
+        "driverName": "Maya Patel",
+        "driverPhone": "(214) 555-0132",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8807073",
+        "usdotNumber": "28184674",
+        "isEmpty": true
+      }
+    },
+    "row:row-8:32": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:32",
+      "locationName": "Row 2",
+      "slotLabel": "32",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 08:45",
+        "carrierName": "BlueLine Logistics",
+        "dockAssignmentTime": "2026-03-17 09:30",
+        "driverName": "Samir Khan",
+        "driverPhone": "(615) 555-0184",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8809626",
+        "usdotNumber": "28192655",
+        "isEmpty": false
+      }
+    },
+    "row:row-8:33": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:33",
+      "locationName": "Row 2",
+      "slotLabel": "33",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 10:45",
+        "carrierName": "Northstar Haul",
+        "dockAssignmentTime": "2026-03-17 11:30",
+        "driverName": "Chris Walker",
+        "driverPhone": "(214) 555-0132",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8809848",
+        "usdotNumber": "28193349",
+        "isEmpty": false
+      }
+    },
+    "row:row-8:34": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:34",
+      "locationName": "Row 2",
+      "slotLabel": "34",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 13:15",
+        "carrierName": "Northstar Haul",
+        "dockAssignmentTime": "2026-03-17 14:30",
+        "driverName": "Avery Brooks",
+        "driverPhone": "(214) 555-0132",
+        "taskAssigneeName": "Tom Jones",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808183",
+        "usdotNumber": "28188144",
+        "isEmpty": true
+      }
+    },
+    "row:row-8:35": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:35",
+      "locationName": "Row 2",
+      "slotLabel": "35",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 14:45",
+        "carrierName": "Atlas Transport",
+        "dockAssignmentTime": "2026-03-17 15:30",
+        "driverName": "Samir Khan",
+        "driverPhone": "(404) 555-0198",
+        "taskAssigneeName": "Jordan Lee",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8808294",
+        "usdotNumber": "28188491",
+        "isEmpty": false
+      }
+    },
+    "row:row-8:36": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:36",
+      "locationName": "Row 2",
+      "slotLabel": "36",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 14:15",
+        "carrierName": "Northstar Haul",
+        "dockAssignmentTime": "2026-03-17 15:30",
+        "driverName": "Elena Flores",
+        "driverPhone": "(214) 555-0132",
+        "taskAssigneeName": "Avery Brooks",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8809293",
+        "usdotNumber": "28191614",
+        "isEmpty": true
+      }
+    },
+    "row:row-8:37": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:37",
+      "locationName": "Row 2",
+      "slotLabel": "37",
+      "type": "yard",
+      "state": "occupied",
+      "trailer": {
+        "arrivalTime": "2026-03-17 09:45",
+        "carrierName": "Redwood Cargo",
+        "dockAssignmentTime": "2026-03-17 10:00",
+        "driverName": "Jordan Lee",
+        "driverPhone": "(312) 555-0166",
+        "taskAssigneeName": "Chris Walker",
+        "arrivedAtDockTime": null,
+        "trailerNumber": "T-8806740",
+        "usdotNumber": "28183633",
+        "isEmpty": false
+      }
+    },
+    "row:row-8:38": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:38",
+      "locationName": "Row 2",
+      "slotLabel": "38",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-8:39": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:39",
+      "locationName": "Row 2",
+      "slotLabel": "39",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    },
+    "row:row-8:40": {
+      "edge": "bottom",
+      "groupName": "Parking Row",
+      "key": "row:row-8:40",
+      "locationName": "Row 2",
+      "slotLabel": "40",
+      "type": "yard",
+      "state": "default",
+      "trailer": null
+    }
+  },
+  "rows": [
+    {
+      "end": {
+        "x": 54,
+        "y": 527.40625
+      },
+      "id": "row-7",
+      "settings": {
+        "side": "Right",
+        "slots": 20,
+        "alignment": "Left",
+        "direction": "Left to right",
+        "prefix": "",
+        "startNumber": 1,
+        "showLeadingZeros": false,
+        "rotateLabels": false,
+        "width": 9,
+        "depth": 25,
+        "gap": 1
+      },
+      "start": {
+        "x": 760,
+        "y": 527.40625
+      }
+    },
+    {
+      "end": {
+        "x": 840,
+        "y": 542.40625
+      },
+      "id": "row-8",
+      "settings": {
+        "side": "Right",
+        "slots": 20,
+        "alignment": "Left",
+        "direction": "Left to right",
+        "prefix": "",
+        "startNumber": 21,
+        "showLeadingZeros": false,
+        "rotateLabels": false,
+        "width": 9,
+        "depth": 25,
+        "gap": 1
+      },
+      "start": {
+        "x": 83,
+        "y": 542.40625
+      }
+    }
+  ],
+  "viewport": {
+    "scale": 1,
+    "x": 0,
+    "y": 0
+  },
+  "unassignedTrailers": [
+    {
+      "id": "unassigned-78368",
+      "carrier": "Atlas Transport",
+      "trailerNumber": "T-8809959",
+      "trailerId": "28193696",
+      "barColor": "#43ac1d"
+    },
+    {
+      "id": "unassigned-78369",
+      "carrier": "Redwood Cargo",
+      "trailerNumber": "T-8810070",
+      "trailerId": "28194043",
+      "barColor": "#143c5c"
+    },
+    {
+      "id": "unassigned-78370",
+      "carrier": "BlueLine Logistics",
+      "trailerNumber": "T-8810181",
+      "trailerId": "28194390",
+      "barColor": "#009cde"
+    },
+    {
+      "id": "unassigned-78371",
+      "carrier": "Summit Freight",
+      "trailerNumber": "T-8810292",
+      "trailerId": "28194737",
+      "barColor": "#dc7a09"
+    },
+    {
+      "id": "unassigned-78372",
+      "carrier": "Northstar Haul",
+      "trailerNumber": "T-8810403",
+      "trailerId": "28195084",
+      "barColor": "#f59e0b"
+    }
+  ],
+  "activeCanvasId": "canvas-1",
+  "canvasLocations": [
+    {
+      "id": "canvas-1",
+      "name": "Location 1",
+      "canvasBackgroundColor": "#eaeaea",
+      "buildings": [
+        {
+          "components": [
+            {
+              "id": "component-building-4-1",
+              "rect": {
+                "x": 0,
+                "y": 0,
+                "width": 1178,
+                "height": 206
+              }
+            },
+            {
+              "id": "component-building-4-2",
+              "rect": {
+                "x": 985,
+                "y": 49,
+                "width": 192.99999999999997,
+                "height": 689.9999999999997
+              }
+            }
+          ],
+          "docks": [
+            {
+              "anchor": {
+                "edge": "bottom",
+                "length": 985,
+                "x": 0,
+                "y": 206
+              },
+              "edge": "bottom",
+              "id": "dock-5",
+              "settings": {
+                "name": "Docks",
+                "slots": 26,
+                "alignment": "Left",
+                "direction": "Left to right",
+                "prefix": "",
+                "startNumber": 1,
+                "showLeadingZeros": false,
+                "width": 9,
+                "depth": 25,
+                "gap": 1
+              }
+            },
+            {
+              "anchor": {
+                "edge": "left",
+                "length": 532.9999999999997,
+                "x": 985,
+                "y": 206
+              },
+              "edge": "left",
+              "id": "dock-6",
+              "settings": {
+                "name": "Docks",
+                "slots": 13,
+                "alignment": "Right",
+                "direction": "Right to left",
+                "prefix": "",
+                "startNumber": 1,
+                "showLeadingZeros": false,
+                "width": 9,
+                "depth": 25,
+                "gap": 1
+              }
+            }
+          ],
+          "id": "building-4",
+          "rect": {
+            "x": 29,
+            "y": 0.40625,
+            "width": 1178,
+            "height": 738.9999999999997
+          },
+          "shape": [
+            {
+              "x": 0,
+              "y": 0,
+              "width": 1178,
+              "height": 206
+            },
+            {
+              "x": 985,
+              "y": 206,
+              "width": 193,
+              "height": 532.9999999999997
+            }
+          ],
+          "settings": {
+            "angle": 0,
+            "color": "#EDEDED",
+            "labelX": 50,
+            "labelY": 50,
+            "name": "Facility"
+          }
+        }
+      ],
+      "dockDoorEnabledBySpaceKey": {},
+      "operationsAssignments": {
+        "dock:building-4:dock-5:1": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:1",
+          "locationName": "Facility",
+          "slotLabel": "1",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:2": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:2",
+          "locationName": "Facility",
+          "slotLabel": "2",
+          "type": "dock",
+          "state": "blocked",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:3": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:3",
+          "locationName": "Facility",
+          "slotLabel": "3",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:4": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:4",
+          "locationName": "Facility",
+          "slotLabel": "4",
+          "type": "dock",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 08:15",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 09:30",
+            "driverName": "Elena Flores",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806629",
+            "usdotNumber": "28183286",
+            "isEmpty": true
+          },
+          "remoteMoveTaskRole": "destination"
+        },
+        "dock:building-4:dock-5:5": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:5",
+          "locationName": "Facility",
+          "slotLabel": "5",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:6": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:6",
+          "locationName": "Facility",
+          "slotLabel": "6",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 11:15",
+            "carrierName": "BlueLine Logistics",
+            "dockAssignmentTime": "2026-03-17 12:30",
+            "driverName": "Elena Flores",
+            "driverPhone": "(615) 555-0184",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807961",
+            "usdotNumber": "28187450",
+            "isEmpty": true
+          }
+        },
+        "dock:building-4:dock-5:7": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:7",
+          "locationName": "Facility",
+          "slotLabel": "7",
+          "type": "dock",
+          "state": "issue",
+          "trailer": {
+            "arrivalTime": "2026-03-17 08:45",
+            "carrierName": "Northstar Haul",
+            "dockAssignmentTime": "2026-03-17 09:30",
+            "driverName": "Samir Khan",
+            "driverPhone": "(214) 555-0132",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807628",
+            "usdotNumber": "28186409",
+            "isEmpty": false
+          }
+        },
+        "dock:building-4:dock-5:8": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:8",
+          "locationName": "Facility",
+          "slotLabel": "8",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:9": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:9",
+          "locationName": "Facility",
+          "slotLabel": "9",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:10": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:10",
+          "locationName": "Facility",
+          "slotLabel": "10",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 07:15",
+            "carrierName": "Redwood Cargo",
+            "dockAssignmentTime": "2026-03-17 08:30",
+            "driverName": "Avery Brooks",
+            "driverPhone": "(312) 555-0166",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8809515",
+            "usdotNumber": "28192308",
+            "isEmpty": true
+          }
+        },
+        "dock:building-4:dock-5:11": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:11",
+          "locationName": "Facility",
+          "slotLabel": "11",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 11:45",
+            "carrierName": "Redwood Cargo",
+            "dockAssignmentTime": "2026-03-17 12:30",
+            "driverName": "Samir Khan",
+            "driverPhone": "(312) 555-0166",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808960",
+            "usdotNumber": "28190573",
+            "isEmpty": false
+          }
+        },
+        "dock:building-4:dock-5:12": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:12",
+          "locationName": "Facility",
+          "slotLabel": "12",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:13": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:13",
+          "locationName": "Facility",
+          "slotLabel": "13",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 10:15",
+            "carrierName": "BlueLine Logistics",
+            "dockAssignmentTime": "2026-03-17 11:30",
+            "driverName": "Avery Brooks",
+            "driverPhone": "(615) 555-0184",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806851",
+            "usdotNumber": "28183980",
+            "isEmpty": true
+          }
+        },
+        "dock:building-4:dock-5:14": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:14",
+          "locationName": "Facility",
+          "slotLabel": "14",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:15": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:15",
+          "locationName": "Facility",
+          "slotLabel": "15",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 06:45",
+            "carrierName": "BlueLine Logistics",
+            "dockAssignmentTime": "2026-03-17 07:00",
+            "driverName": "Jordan Lee",
+            "driverPhone": "(615) 555-0184",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807406",
+            "usdotNumber": "28185715",
+            "isEmpty": false
+          }
+        },
+        "dock:building-4:dock-5:16": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:16",
+          "locationName": "Facility",
+          "slotLabel": "16",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 13:45",
+            "carrierName": "Summit Freight",
+            "dockAssignmentTime": "2026-03-17 14:30",
+            "driverName": "Chris Walker",
+            "driverPhone": "(901) 555-0171",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8809182",
+            "usdotNumber": "28191267",
+            "isEmpty": false
+          }
+        },
+        "dock:building-4:dock-5:17": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:17",
+          "locationName": "Facility",
+          "slotLabel": "17",
+          "type": "dock",
+          "state": "blocked",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:18": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:18",
+          "locationName": "Facility",
+          "slotLabel": "18",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 12:45",
+            "carrierName": "Summit Freight",
+            "dockAssignmentTime": "2026-03-17 13:00",
+            "driverName": "Jordan Lee",
+            "driverPhone": "(901) 555-0171",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808072",
+            "usdotNumber": "28187797",
+            "isEmpty": false
+          }
+        },
+        "dock:building-4:dock-5:19": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:19",
+          "locationName": "Facility",
+          "slotLabel": "19",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 09:45",
+            "carrierName": "Northstar Haul",
+            "dockAssignmentTime": "2026-03-17 10:00",
+            "driverName": "Jordan Lee",
+            "driverPhone": "(214) 555-0132",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808738",
+            "usdotNumber": "28189879",
+            "isEmpty": false
+          }
+        },
+        "dock:building-4:dock-5:20": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:20",
+          "locationName": "Facility",
+          "slotLabel": "20",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:21": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:21",
+          "locationName": "Facility",
+          "slotLabel": "21",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:22": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:22",
+          "locationName": "Facility",
+          "slotLabel": "22",
+          "type": "dock",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 13:15",
+            "carrierName": "Redwood Cargo",
+            "dockAssignmentTime": "2026-03-17 14:30",
+            "driverName": "Avery Brooks",
+            "driverPhone": "(312) 555-0166",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806185",
+            "usdotNumber": "28181898",
+            "isEmpty": true
+          },
+          "remoteMoveTaskRole": "destination"
+        },
+        "dock:building-4:dock-5:23": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:23",
+          "locationName": "Facility",
+          "slotLabel": "23",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 10:15",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 11:30",
+            "driverName": "Avery Brooks",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808849",
+            "usdotNumber": "28190226",
+            "isEmpty": true
+          }
+        },
+        "dock:building-4:dock-5:24": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:24",
+          "locationName": "Facility",
+          "slotLabel": "24",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-5:25": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:25",
+          "locationName": "Facility",
+          "slotLabel": "25",
+          "type": "dock",
+          "state": "issue",
+          "trailer": {
+            "arrivalTime": "2026-03-17 14:15",
+            "carrierName": "Redwood Cargo",
+            "dockAssignmentTime": "2026-03-17 15:30",
+            "driverName": "Elena Flores",
+            "driverPhone": "(312) 555-0166",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807295",
+            "usdotNumber": "28185368",
+            "isEmpty": true
+          }
+        },
+        "dock:building-4:dock-5:26": {
+          "edge": "bottom",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-5:26",
+          "locationName": "Facility",
+          "slotLabel": "26",
+          "type": "dock",
+          "state": "blocked",
+          "trailer": null
+        },
+        "dock:building-4:dock-6:13": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:13",
+          "locationName": "Facility",
+          "slotLabel": "13",
+          "type": "dock",
+          "state": "issue",
+          "trailer": {
+            "arrivalTime": "2026-03-17 13:45",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 14:30",
+            "driverName": "Chris Walker",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807184",
+            "usdotNumber": "28185021",
+            "isEmpty": false
+          }
+        },
+        "dock:building-4:dock-6:12": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:12",
+          "locationName": "Facility",
+          "slotLabel": "12",
+          "type": "dock",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 06:15",
+            "carrierName": "Summit Freight",
+            "dockAssignmentTime": "2026-03-17 07:00",
+            "driverName": "Maya Patel",
+            "driverPhone": "(901) 555-0171",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806407",
+            "usdotNumber": "28182592",
+            "isEmpty": true
+          },
+          "remoteMoveTaskRole": "destination"
+        },
+        "dock:building-4:dock-6:11": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:11",
+          "locationName": "Facility",
+          "slotLabel": "11",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 11:45",
+            "carrierName": "Summit Freight",
+            "dockAssignmentTime": "2026-03-17 12:30",
+            "driverName": "Samir Khan",
+            "driverPhone": "(901) 555-0171",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806962",
+            "usdotNumber": "28184327",
+            "isEmpty": false
+          }
+        },
+        "dock:building-4:dock-6:10": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:10",
+          "locationName": "Facility",
+          "slotLabel": "10",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-6:9": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:9",
+          "locationName": "Facility",
+          "slotLabel": "9",
+          "type": "dock",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 07:45",
+            "carrierName": "Northstar Haul",
+            "dockAssignmentTime": "2026-03-17 08:30",
+            "driverName": "Chris Walker",
+            "driverPhone": "(214) 555-0132",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806518",
+            "usdotNumber": "28182939",
+            "isEmpty": false
+          },
+          "remoteMoveTaskRole": "destination"
+        },
+        "dock:building-4:dock-6:8": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:8",
+          "locationName": "Facility",
+          "slotLabel": "8",
+          "type": "dock",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 12:45",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 13:00",
+            "driverName": "Jordan Lee",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806074",
+            "usdotNumber": "28181551",
+            "isEmpty": false
+          },
+          "remoteMoveTaskRole": "destination"
+        },
+        "dock:building-4:dock-6:7": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:7",
+          "locationName": "Facility",
+          "slotLabel": "7",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-6:6": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:6",
+          "locationName": "Facility",
+          "slotLabel": "6",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-6:5": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:5",
+          "locationName": "Facility",
+          "slotLabel": "5",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-6:4": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:4",
+          "locationName": "Facility",
+          "slotLabel": "4",
+          "type": "dock",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 14:45",
+            "carrierName": "BlueLine Logistics",
+            "dockAssignmentTime": "2026-03-17 15:30",
+            "driverName": "Samir Khan",
+            "driverPhone": "(615) 555-0184",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806296",
+            "usdotNumber": "28182245",
+            "isEmpty": false
+          },
+          "remoteMoveTaskRole": "destination"
+        },
+        "dock:building-4:dock-6:3": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:3",
+          "locationName": "Facility",
+          "slotLabel": "3",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-6:2": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:2",
+          "locationName": "Facility",
+          "slotLabel": "2",
+          "type": "dock",
+          "state": "default",
+          "trailer": null
+        },
+        "dock:building-4:dock-6:1": {
+          "edge": "left",
+          "groupName": "Docks",
+          "key": "dock:building-4:dock-6:1",
+          "locationName": "Facility",
+          "slotLabel": "1",
+          "type": "dock",
+          "state": "in-progress",
+          "trailer": {
+            "arrivalTime": "2026-03-17 09:15",
+            "carrierName": "Summit Freight",
+            "dockAssignmentTime": "2026-03-17 10:00",
+            "driverName": "Maya Patel",
+            "driverPhone": "(901) 555-0171",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8809737",
+            "usdotNumber": "28193002",
+            "isEmpty": true
+          }
+        },
+        "row:row-7:1": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:1",
+          "locationName": "Row 1",
+          "slotLabel": "1",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 09:15",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 10:00",
+            "driverName": "Maya Patel",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807739",
+            "usdotNumber": "28186756",
+            "isEmpty": true
+          }
+        },
+        "row:row-7:2": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:2",
+          "locationName": "Row 1",
+          "slotLabel": "2",
+          "type": "yard",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 12:45",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 13:00",
+            "driverName": "Jordan Lee",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806074",
+            "usdotNumber": "28181551",
+            "isEmpty": false
+          },
+          "remoteMoveTaskRole": "source"
+        },
+        "row:row-7:3": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:3",
+          "locationName": "Row 1",
+          "slotLabel": "3",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:4": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:4",
+          "locationName": "Row 1",
+          "slotLabel": "4",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:5": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:5",
+          "locationName": "Row 1",
+          "slotLabel": "5",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:6": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:6",
+          "locationName": "Row 1",
+          "slotLabel": "6",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:7": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:7",
+          "locationName": "Row 1",
+          "slotLabel": "7",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:8": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:8",
+          "locationName": "Row 1",
+          "slotLabel": "8",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:9": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:9",
+          "locationName": "Row 1",
+          "slotLabel": "9",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:10": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:10",
+          "locationName": "Row 1",
+          "slotLabel": "10",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:11": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:11",
+          "locationName": "Row 1",
+          "slotLabel": "11",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 06:15",
+            "carrierName": "Redwood Cargo",
+            "dockAssignmentTime": "2026-03-17 07:00",
+            "driverName": "Maya Patel",
+            "driverPhone": "(312) 555-0166",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808405",
+            "usdotNumber": "28188838",
+            "isEmpty": true
+          }
+        },
+        "row:row-7:12": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:12",
+          "locationName": "Row 1",
+          "slotLabel": "12",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:13": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:13",
+          "locationName": "Row 1",
+          "slotLabel": "13",
+          "type": "yard",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 08:15",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 09:30",
+            "driverName": "Elena Flores",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806629",
+            "usdotNumber": "28183286",
+            "isEmpty": true
+          },
+          "remoteMoveTaskRole": "source"
+        },
+        "row:row-7:14": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:14",
+          "locationName": "Row 1",
+          "slotLabel": "14",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 07:15",
+            "carrierName": "Summit Freight",
+            "dockAssignmentTime": "2026-03-17 08:30",
+            "driverName": "Avery Brooks",
+            "driverPhone": "(901) 555-0171",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807517",
+            "usdotNumber": "28186062",
+            "isEmpty": true
+          }
+        },
+        "row:row-7:15": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:15",
+          "locationName": "Row 1",
+          "slotLabel": "15",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:16": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:16",
+          "locationName": "Row 1",
+          "slotLabel": "16",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 06:45",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 07:00",
+            "driverName": "Jordan Lee",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8809404",
+            "usdotNumber": "28191961",
+            "isEmpty": false
+          }
+        },
+        "row:row-7:17": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:17",
+          "locationName": "Row 1",
+          "slotLabel": "17",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 07:45",
+            "carrierName": "BlueLine Logistics",
+            "dockAssignmentTime": "2026-03-17 08:30",
+            "driverName": "Chris Walker",
+            "driverPhone": "(615) 555-0184",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808516",
+            "usdotNumber": "28189185",
+            "isEmpty": false
+          }
+        },
+        "row:row-7:18": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:18",
+          "locationName": "Row 1",
+          "slotLabel": "18",
+          "type": "yard",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 13:15",
+            "carrierName": "Redwood Cargo",
+            "dockAssignmentTime": "2026-03-17 14:30",
+            "driverName": "Avery Brooks",
+            "driverPhone": "(312) 555-0166",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806185",
+            "usdotNumber": "28181898",
+            "isEmpty": true
+          },
+          "remoteMoveTaskRole": "source"
+        },
+        "row:row-7:19": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:19",
+          "locationName": "Row 1",
+          "slotLabel": "19",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-7:20": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-7:20",
+          "locationName": "Row 1",
+          "slotLabel": "20",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-8:21": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:21",
+          "locationName": "Row 2",
+          "slotLabel": "21",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 12:15",
+            "carrierName": "BlueLine Logistics",
+            "dockAssignmentTime": "2026-03-17 13:00",
+            "driverName": "Maya Patel",
+            "driverPhone": "(615) 555-0184",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8809071",
+            "usdotNumber": "28190920",
+            "isEmpty": true
+          }
+        },
+        "row:row-8:22": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:22",
+          "locationName": "Row 2",
+          "slotLabel": "22",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-8:23": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:23",
+          "locationName": "Row 2",
+          "slotLabel": "23",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-8:24": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:24",
+          "locationName": "Row 2",
+          "slotLabel": "24",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 10:45",
+            "carrierName": "Redwood Cargo",
+            "dockAssignmentTime": "2026-03-17 11:30",
+            "driverName": "Chris Walker",
+            "driverPhone": "(312) 555-0166",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807850",
+            "usdotNumber": "28187103",
+            "isEmpty": false
+          }
+        },
+        "row:row-8:25": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:25",
+          "locationName": "Row 2",
+          "slotLabel": "25",
+          "type": "yard",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 06:15",
+            "carrierName": "Summit Freight",
+            "dockAssignmentTime": "2026-03-17 07:00",
+            "driverName": "Maya Patel",
+            "driverPhone": "(901) 555-0171",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806407",
+            "usdotNumber": "28182592",
+            "isEmpty": true
+          },
+          "remoteMoveTaskRole": "source"
+        },
+        "row:row-8:26": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:26",
+          "locationName": "Row 2",
+          "slotLabel": "26",
+          "type": "yard",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 14:45",
+            "carrierName": "BlueLine Logistics",
+            "dockAssignmentTime": "2026-03-17 15:30",
+            "driverName": "Samir Khan",
+            "driverPhone": "(615) 555-0184",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806296",
+            "usdotNumber": "28182245",
+            "isEmpty": false
+          },
+          "remoteMoveTaskRole": "source"
+        },
+        "row:row-8:27": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:27",
+          "locationName": "Row 2",
+          "slotLabel": "27",
+          "type": "yard",
+          "state": "move-task",
+          "trailer": {
+            "arrivalTime": "2026-03-17 07:45",
+            "carrierName": "Northstar Haul",
+            "dockAssignmentTime": "2026-03-17 08:30",
+            "driverName": "Chris Walker",
+            "driverPhone": "(214) 555-0132",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806518",
+            "usdotNumber": "28182939",
+            "isEmpty": false
+          },
+          "remoteMoveTaskRole": "source"
+        },
+        "row:row-8:28": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:28",
+          "locationName": "Row 2",
+          "slotLabel": "28",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-8:29": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:29",
+          "locationName": "Row 2",
+          "slotLabel": "29",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-8:30": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:30",
+          "locationName": "Row 2",
+          "slotLabel": "30",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 08:15",
+            "carrierName": "Summit Freight",
+            "dockAssignmentTime": "2026-03-17 09:30",
+            "driverName": "Elena Flores",
+            "driverPhone": "(901) 555-0171",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808627",
+            "usdotNumber": "28189532",
+            "isEmpty": true
+          }
+        },
+        "row:row-8:31": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:31",
+          "locationName": "Row 2",
+          "slotLabel": "31",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 12:15",
+            "carrierName": "Northstar Haul",
+            "dockAssignmentTime": "2026-03-17 13:00",
+            "driverName": "Maya Patel",
+            "driverPhone": "(214) 555-0132",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8807073",
+            "usdotNumber": "28184674",
+            "isEmpty": true
+          }
+        },
+        "row:row-8:32": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:32",
+          "locationName": "Row 2",
+          "slotLabel": "32",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 08:45",
+            "carrierName": "BlueLine Logistics",
+            "dockAssignmentTime": "2026-03-17 09:30",
+            "driverName": "Samir Khan",
+            "driverPhone": "(615) 555-0184",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8809626",
+            "usdotNumber": "28192655",
+            "isEmpty": false
+          }
+        },
+        "row:row-8:33": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:33",
+          "locationName": "Row 2",
+          "slotLabel": "33",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 10:45",
+            "carrierName": "Northstar Haul",
+            "dockAssignmentTime": "2026-03-17 11:30",
+            "driverName": "Chris Walker",
+            "driverPhone": "(214) 555-0132",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8809848",
+            "usdotNumber": "28193349",
+            "isEmpty": false
+          }
+        },
+        "row:row-8:34": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:34",
+          "locationName": "Row 2",
+          "slotLabel": "34",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 13:15",
+            "carrierName": "Northstar Haul",
+            "dockAssignmentTime": "2026-03-17 14:30",
+            "driverName": "Avery Brooks",
+            "driverPhone": "(214) 555-0132",
+            "taskAssigneeName": "Tom Jones",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808183",
+            "usdotNumber": "28188144",
+            "isEmpty": true
+          }
+        },
+        "row:row-8:35": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:35",
+          "locationName": "Row 2",
+          "slotLabel": "35",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 14:45",
+            "carrierName": "Atlas Transport",
+            "dockAssignmentTime": "2026-03-17 15:30",
+            "driverName": "Samir Khan",
+            "driverPhone": "(404) 555-0198",
+            "taskAssigneeName": "Jordan Lee",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8808294",
+            "usdotNumber": "28188491",
+            "isEmpty": false
+          }
+        },
+        "row:row-8:36": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:36",
+          "locationName": "Row 2",
+          "slotLabel": "36",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 14:15",
+            "carrierName": "Northstar Haul",
+            "dockAssignmentTime": "2026-03-17 15:30",
+            "driverName": "Elena Flores",
+            "driverPhone": "(214) 555-0132",
+            "taskAssigneeName": "Avery Brooks",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8809293",
+            "usdotNumber": "28191614",
+            "isEmpty": true
+          }
+        },
+        "row:row-8:37": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:37",
+          "locationName": "Row 2",
+          "slotLabel": "37",
+          "type": "yard",
+          "state": "occupied",
+          "trailer": {
+            "arrivalTime": "2026-03-17 09:45",
+            "carrierName": "Redwood Cargo",
+            "dockAssignmentTime": "2026-03-17 10:00",
+            "driverName": "Jordan Lee",
+            "driverPhone": "(312) 555-0166",
+            "taskAssigneeName": "Chris Walker",
+            "arrivedAtDockTime": null,
+            "trailerNumber": "T-8806740",
+            "usdotNumber": "28183633",
+            "isEmpty": false
+          }
+        },
+        "row:row-8:38": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:38",
+          "locationName": "Row 2",
+          "slotLabel": "38",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-8:39": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:39",
+          "locationName": "Row 2",
+          "slotLabel": "39",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        },
+        "row:row-8:40": {
+          "edge": "bottom",
+          "groupName": "Parking Row",
+          "key": "row:row-8:40",
+          "locationName": "Row 2",
+          "slotLabel": "40",
+          "type": "yard",
+          "state": "default",
+          "trailer": null
+        }
+      },
+      "rows": [
+        {
+          "end": {
+            "x": 54,
+            "y": 527.40625
+          },
+          "id": "row-7",
+          "settings": {
+            "side": "Right",
+            "slots": 20,
+            "alignment": "Left",
+            "direction": "Left to right",
+            "prefix": "",
+            "startNumber": 1,
+            "showLeadingZeros": false,
+            "rotateLabels": false,
+            "width": 9,
+            "depth": 25,
+            "gap": 1
+          },
+          "start": {
+            "x": 760,
+            "y": 527.40625
+          }
+        },
+        {
+          "end": {
+            "x": 840,
+            "y": 542.40625
+          },
+          "id": "row-8",
+          "settings": {
+            "side": "Right",
+            "slots": 20,
+            "alignment": "Left",
+            "direction": "Left to right",
+            "prefix": "",
+            "startNumber": 21,
+            "showLeadingZeros": false,
+            "rotateLabels": false,
+            "width": 9,
+            "depth": 25,
+            "gap": 1
+          },
+          "start": {
+            "x": 83,
+            "y": 542.40625
+          }
+        }
+      ],
+      "viewport": {
+        "scale": 1,
+        "x": 0,
+        "y": 0
+      },
+      "idCounter": 9
+    }
+  ]
+}

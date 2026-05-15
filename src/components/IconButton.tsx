@@ -294,7 +294,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
         display:       'inline-flex',
         alignItems:    'center',
         justifyContent:'center',
-        gap:           8,
+        gap:           12,
         height:        36,
         padding:       '9px 17px',
         // Appearance

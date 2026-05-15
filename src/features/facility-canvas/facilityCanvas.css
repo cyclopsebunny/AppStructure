@@ -25,11 +25,12 @@
   flex-direction: column;
   gap: 8px;
   min-height: 0;
+  min-width: 0;
   padding: 8px;
   background: var(--surface-card, rgba(255, 255, 255, 0.75));
   border: 0.75px solid var(--accent-border-light, #d3e4f2);
   border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 2px 48px 0px var(--shadow-card, rgba(0, 0, 0, 0.15));
 }
 
 .details-panel {

@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import './facilityCanvas.css';
+import demoData from './demoData.json';
 import { toPng } from 'html-to-image';
 import { ListDefaultIcon, LocationOutlinedIcon, MoreVerticalIcon, PlusMinusPlusIcon } from '@component-library/core';
 import { SearchBar } from '../../components/SearchBar';
@@ -7,6 +8,7 @@ import { IconButton } from '../../components/IconButton';
 import { TrailerListView } from '../../components/TrailerListView';
 import type { TrailerRow } from '../../components/TrailerListView';
 import type { SearchOption } from '../../components/SearchBar';
+import { useBreakpoint } from '../../hooks/useBreakpoint';
 
 type Edge = 'top' | 'right' | 'bottom' | 'left';
 type Alignment = 'Left' | 'Center' | 'Right';
@@ -297,7 +299,8 @@ type FileSystemFileHandleLike = {
 // Module-level cache — survives route navigation (component unmount/remount).
 // Stores the last known document payload and file handle so the canvas state
 // is preserved when the user leaves and returns to the Trailers page.
-let _cachedFacilityDoc: FacilityDocument | null = null;
+// Seeded with demo data so the app opens with a pre-built facility layout.
+let _cachedFacilityDoc: FacilityDocument | null = demoData as FacilityDocument;
 let _cachedFacilityHandle: FileSystemFileHandleLike | null = null;
 
 // Live component state written every render so the debug panel can read it even
@@ -355,9 +358,9 @@ export interface FacilityPublicState {
 }
 
 let _facilityPublicState: FacilityPublicState = {
-  appMode: 'build',
-  hasLayout: false,
-  unassignedTrailers: [],
+  appMode: (demoData as { appMode?: string }).appMode === 'operations' ? 'operations' : 'build',
+  hasLayout: true,
+  unassignedTrailers: (demoData as { unassignedTrailers?: FacilityPublicState['unassignedTrailers'] }).unassignedTrailers ?? [],
   selectedTrailer: null,
   sidePanelsVisible: true,
 };
@@ -1556,6 +1559,18 @@ export function FacilityCanvas() {
   const [editingCombinedBuildingId, setEditingCombinedBuildingId] = useState<string | null>(null);
   const [appMode, setAppMode] = useState<AppMode>('build');
   const [viewMode, setViewMode] = useState<'canvas' | 'list'>('canvas');
+
+  const canvasBreakpoint = useBreakpoint();
+  const isMobileCanvas   = canvasBreakpoint === 'mobile';
+
+  // Auto-switch to list view on mobile; restore canvas on desktop
+  useEffect(() => {
+    if (isMobileCanvas) {
+      setViewMode('list');
+    } else {
+      setViewMode((prev) => prev === 'list' ? 'canvas' : prev);
+    }
+  }, [isMobileCanvas]);
   const [operationsAssignments, setOperationsAssignments] = useState<OperationsAssignments>({});
   const [unassignedTrailers, setUnassignedTrailers] = useState<UnassignedTrailerRecord[]>([]);
   const [moveTaskSelectionOverride, setMoveTaskSelectionOverride] = useState<string | null>(null);
@@ -4865,7 +4880,7 @@ export function FacilityCanvas() {
 
   // Derive flat list of occupied trailer rows for the list view
   const trailerListRows: TrailerRow[] = React.useMemo(() => {
-    return Object.values(operationsAssignments)
+    const assigned: TrailerRow[] = Object.values(operationsAssignments)
       .filter((a) => a.trailer !== null)
       .map((a) => ({
         key:           a.key,
@@ -4881,7 +4896,26 @@ export function FacilityCanvas() {
         state:         a.state,
         isEmpty:       a.trailer!.isEmpty ?? false,
       }));
-  }, [operationsAssignments]);
+
+    if (!isMobileCanvas || unassignedTrailers.length === 0) return assigned;
+
+    const unassignedRows: TrailerRow[] = unassignedTrailers.map((ut) => ({
+      key:           `unassigned-${ut.id}`,
+      trailerNumber: ut.trailerNumber,
+      carrierName:   ut.carrier,
+      usdotNumber:   '',
+      driverName:    '',
+      driverPhone:   '',
+      arrivalTime:   '',
+      groupName:     'Unassigned',
+      slotLabel:     'Unassigned',
+      locationType:  'yard' as const,
+      state:         'default' as const,
+      isEmpty:       false,
+    }));
+
+    return [...assigned, ...unassignedRows];
+  }, [operationsAssignments, isMobileCanvas, unassignedTrailers]);
 
   // Emit shared state so sibling components (TrailersPage) can react
   useEffect(() => {

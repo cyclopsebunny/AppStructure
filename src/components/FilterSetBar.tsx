@@ -180,8 +180,8 @@ const FilterSet: React.FC<FilterSetProps> = ({
 }) => {
   // 2px accent selected ring via box-shadow — no layout shift
   const boxShadow = selected
-    ? '0 0 0 1px var(--accent-primary, #0a76db), inset 0 0 0 1px var(--accent-primary, #0a76db)'
-    : 'none';
+    ? '0px 2px 48px 0px var(--shadow-card), 0 0 0 1px var(--accent-primary, #0a76db), inset 0 0 0 1px var(--accent-primary, #0a76db)'
+    : '0px 2px 48px 0px var(--shadow-card)';
 
   const borderColor = selected
     ? 'var(--accent-primary, #0a76db)'

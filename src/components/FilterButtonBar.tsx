@@ -108,7 +108,7 @@ export const FilterButtonBar: React.FC<FilterButtonBarProps> = ({
               display:    'flex',
               alignItems: 'center',
               height:     '100%',
-              paddingLeft:  groupIndex === 0 ? 0 : 16,
+              paddingLeft:  16,
               paddingRight: 8,
               flexShrink: 0,
             }}

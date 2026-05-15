@@ -92,21 +92,30 @@ export function AppShell() {
   const activeSection =
     navSections.find((s) => routerLocation.pathname.startsWith(s.basePath))?.id ?? '';
 
+  const navWithTransition = useCallback(
+    (path: string) => {
+      if ('startViewTransition' in document) {
+        document.startViewTransition(() => { navigate(path); });
+      } else {
+        navigate(path);
+      }
+    },
+    [navigate],
+  );
+
   // Navigate to the first sub-route (or basePath for sections with no sub-routes)
   const handleNavClick = useCallback(
     (id: string) => {
       const section = navSections.find((s) => s.id === id);
       if (section) {
-        if (section.subRoutes.length > 0) {
-          navigate(section.subRoutes[0].path);
-        } else {
-          navigate(section.basePath);
-        }
+        navWithTransition(
+          section.subRoutes.length > 0 ? section.subRoutes[0].path : section.basePath,
+        );
       }
       setMobileMoreOpen(false);
       setTopNavOpen(false);
     },
-    [navSections, navigate],
+    [navSections, navWithTransition],
   );
 
   // Navigate to the new app's first page after location selection
@@ -118,9 +127,9 @@ export function AppShell() {
       const sections =
         loc.appType === 'community' ? COMMUNITY_NAV_SECTIONS : ENTERPRISE_NAV_SECTIONS;
       const first = sections[0];
-      navigate(first.subRoutes.length > 0 ? first.subRoutes[0].path : first.basePath);
+      navWithTransition(first.subRoutes.length > 0 ? first.subRoutes[0].path : first.basePath);
     },
-    [navigate],
+    [navWithTransition],
   );
 
   const isDesktop = breakpoint === 'desktop';

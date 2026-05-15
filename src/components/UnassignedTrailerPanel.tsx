@@ -154,7 +154,7 @@ export const UnassignedTrailerPanelHeader: React.FC<HeaderProps> = ({
           onMouseMove={() => setBackHovered(true)}
           onMouseLeave={() => setBackHovered(false)}
           style={{
-            display: 'flex', alignItems: 'center', gap: 8,
+            display: 'flex', alignItems: 'center', gap: 4,
             flex: '1 0 0', minWidth: 0,
             padding: '0 0 0 12px', height: '100%',
             border: 'none', background: backHovered ? 'var(--accent-wash-6, rgba(10,118,219,0.06))' : 'transparent',
@@ -169,9 +169,8 @@ export const UnassignedTrailerPanelHeader: React.FC<HeaderProps> = ({
             <ChevronLeft />
           </div>
           <span style={{
-            fontSize: 16, fontWeight: 500, lineHeight: '19px',
+            fontSize: 14, fontWeight: 500, lineHeight: '24px',
             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-            letterSpacing: '0.0066px',
           }}>
             Back
           </span>
@@ -201,7 +200,7 @@ export const UnassignedTrailerPanelHeader: React.FC<HeaderProps> = ({
             onMouseEnter={() => setActionsHovered(true)}
             onMouseLeave={() => setActionsHovered(false)}
             style={{
-              display: 'flex', alignItems: 'center', gap: 4,
+              display: 'flex', alignItems: 'center', gap: 12,
               height: 36, padding: '0 17px',
               border: '1px solid var(--accent-border-light, #d3e4f2)',
               borderRadius: 12,
