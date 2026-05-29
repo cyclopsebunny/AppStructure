@@ -99,6 +99,7 @@ type SideSection =
   | 'dockitem'
   | 'iconbutton'
   | 'shipmentpanel'
+  | 'unassignedtrailer'
   | 'searchbar'
   | 'switch'
   | 'icons'
@@ -136,12 +137,13 @@ function ChevronIcon() {
 
 // ── Layout primitives ─────────────────────────────────────────────────────────
 
-function Section({ title, description, children }: { title: string; description?: string; children: React.ReactNode }) {
+function Section({ title, description, subtitle, children }: { title: string; description?: string; subtitle?: string; children: React.ReactNode }) {
+  const sub = description ?? subtitle;
   return (
     <section style={{ marginBottom: 64 }}>
       <h2 style={{ fontSize: 22, fontWeight: 600, color: '#17191c', margin: '0 0 4px' }}>{title}</h2>
-      {description && <p style={{ fontSize: 14, color: '#575d69', margin: '0 0 24px', lineHeight: 1.6 }}>{description}</p>}
-      {!description && <div style={{ marginBottom: 24 }} />}
+      {sub && <p style={{ fontSize: 14, color: '#575d69', margin: '0 0 24px', lineHeight: 1.6 }}>{sub}</p>}
+      {!sub && <div style={{ marginBottom: 24 }} />}
       {children}
     </section>
   );
@@ -158,7 +160,7 @@ function Row({ label, children, vertical }: { label?: string; children: React.Re
   );
 }
 
-function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
+function Card({ children, style, title }: { children: React.ReactNode; style?: React.CSSProperties; title?: string }) {
   return (
     <div style={{
       background: 'rgba(255,255,255,0.85)',
@@ -168,6 +170,11 @@ function Card({ children, style }: { children: React.ReactNode; style?: React.CS
       backdropFilter: 'blur(8px)',
       ...style,
     }}>
+      {title && (
+        <h3 style={{ fontSize: 14, fontWeight: 600, color: '#17191c', margin: '0 0 16px', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          {title}
+        </h3>
+      )}
       {children}
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './facilityCanvas.css';
 import demoData from './demoData.json';
 import { toPng } from 'html-to-image';
@@ -336,7 +336,9 @@ type FileSystemFileHandleLike = {
 // Stores the last known document payload and file handle so the canvas state
 // is preserved when the user leaves and returns to the Trailers page.
 // Seeded with demo data so the app opens with a pre-built facility layout.
-let _cachedFacilityDoc: FacilityDocument | null = demoData as FacilityDocument;
+// Use `unknown` first because the JSON predates newer DockSettings fields
+// (e.g. `padding`) — normalizers fill them in on load.
+let _cachedFacilityDoc: FacilityDocument | null = demoData as unknown as FacilityDocument;
 let _cachedFacilityHandle: FileSystemFileHandleLike | null = null;
 
 // Live component state written every render so the debug panel can read it even
@@ -1793,7 +1795,9 @@ export function FacilityCanvas() {
       _setSidePanelsVisibleFn = null;
       _liveDebug = { mounted: false, buildings: 0, rows: 0, hasHandle: false };
       if (_isRestoringRef.current) return;
-      _cachedFacilityDoc = _getDocPayloadRef.current(_appModeRef.current);
+      if (_getDocPayloadRef.current) {
+        _cachedFacilityDoc = _getDocPayloadRef.current(_appModeRef.current);
+      }
       _cachedFacilityHandle = _handleRef.current;
     };
   }, []); // intentionally empty — run once on mount, cleanup once on unmount
@@ -2964,7 +2968,6 @@ export function FacilityCanvas() {
     setSelection(null);
 
     if (nextMode === 'operations') {
-      const isFirstTime = Object.keys(operationsAssignments).length === 0;
       setOperationsAssignments((current) =>
         Object.keys(current).length === 0
           ? applyDockDoorBindingsToAssignments(
@@ -7152,7 +7155,7 @@ export function FacilityCanvas() {
           )}
         </div>
 
-        {appMode !== 'operations' && (<>
+        {(appMode as AppMode) !== 'operations' && (<>
         <div className="panel-resize-handle" onMouseDown={handlePanelResizeStart} aria-hidden="true" />
         <aside className="details-panel">
           <header className="details-panel__header">

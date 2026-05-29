@@ -69,9 +69,9 @@ export interface FilterSetBarProps {
 
 // ── FilterSetChip ─────────────────────────────────────────────────────────────
 
-interface FilterSetChipProps extends FilterSetChipData {
+interface FilterSetChipProps extends Omit<FilterSetChipData, 'onClick'> {
   active?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 const FilterSetChip: React.FC<FilterSetChipProps> = ({
@@ -171,7 +171,7 @@ const FilterSet: React.FC<FilterSetProps> = ({
           key={chip.id}
           {...chip}
           active={activeChipIds.has(chip.id)}
-          onClick={selected && onChipClick ? (e) => {
+          onClick={selected && onChipClick ? (e: React.MouseEvent) => {
             e.stopPropagation();
             onChipClick(chip.id);
           } : undefined}

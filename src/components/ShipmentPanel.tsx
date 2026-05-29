@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { PalletFilledIcon } from '@component-library/core';
 import { ShipmentItem } from './ShipmentItem';
 import type { ShipmentItemProps } from './ShipmentItem';
