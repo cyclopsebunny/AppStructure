@@ -198,11 +198,13 @@ export function SectionLayout() {
         </div>
       )}
 
-      {/* Footer below the card — same layout as tablet on all breakpoints (sidebar has no footer on desktop) */}
-      <Footer
-        breakpoint={isMobile ? 'mobile' : 'tablet'}
-        links={footerLinks}
-      />
+      {/* Footer below the card — tablet only; not shown on mobile (gradient bleeds through on small screens) */}
+      {!isMobile && (
+        <Footer
+          breakpoint="tablet"
+          links={footerLinks}
+        />
+      )}
     </div>
   );
 }

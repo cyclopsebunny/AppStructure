@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   FilterDefaultIcon,
   ReorderV3DefaultIcon,
-  DockMgmtDockNumberIcon,
 } from '@component-library/core';
 import { FilterButtonBar } from '../components/FilterButtonBar';
 import { DockItemGrid } from '../components/DockItemGrid';
+import { DockDetailPanel } from '../components/DockDetailPanel';
 import { SearchBar } from '../components/SearchBar';
 import { IconButton } from '../components/IconButton';
 import { Switch } from '../components/Switch';
@@ -13,7 +13,6 @@ import { MobileSlidePanel } from '../components/MobileSlidePanel';
 import { useBreakpoint } from '../hooks/useBreakpoint';
 import type { FilterButtonGroup } from '../components/FilterButtonBar';
 import type { DockItemData } from '../components/DockItemGrid';
-import type { DockStatus } from '../components/DockItem';
 
 // ── Filter data ───────────────────────────────────────────────────────────────
 
@@ -50,15 +49,6 @@ const SEARCH_OPTIONS = [
   { value: 'dock',    label: 'Dock',    placeholder: 'Search by dock number…' },
   { value: 'carrier', label: 'Carrier', placeholder: 'Search by carrier name…' },
   { value: 'trailer', label: 'Trailer', placeholder: 'Search by trailer ID…' },
-];
-
-// ── Actions dropdown ──────────────────────────────────────────────────────────
-
-const DOCK_ACTIONS = [
-  { id: 'assign',      label: 'Assign Trailer'  },
-  { id: 'checkout',    label: 'Checkout'         },
-  { id: 'close',       label: 'Close Session'    },
-  { id: 'maintenance', label: 'Set Maintenance', dividerBefore: true },
 ];
 
 // ── Mock dock data ────────────────────────────────────────────────────────────
@@ -104,344 +94,6 @@ const MOCK_DOCKS: DockItemData[] = [
   { id: 'B12', status: 'available',          statusLabel: 'Door Closed'                                                                                                     },
   { id: 'B13', status: 'active',             title: 'Gordon Food Service', reference: '890109876',       statusLabel: 'Loading',              time: '25 min'               },
 ];
-
-// ── X close icon ──────────────────────────────────────────────────────────────
-
-function XIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ display: 'block', flexShrink: 0 }}>
-      <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-// ── Dock detail panel ─────────────────────────────────────────────────────────
-
-interface DockDetailPanelProps {
-  dock: DockItemData;
-  onClose: () => void;
-  /** When provided a chevron-left back button replaces the X close (mobile). */
-  onBack?: () => void;
-  style?: React.CSSProperties;
-}
-
-function DockDetailPanel({ dock, onClose, onBack, style }: DockDetailPanelProps) {
-  const [actionsHovered, setActionsHovered] = useState(false);
-  const [closeHovered,   setCloseHovered]   = useState(false);
-  const [backHovered,    setBackHovered]     = useState(false);
-
-  const titleText = dock.title
-    ? `${dock.id} · ${dock.title}`
-    : `Dock ${dock.id}`;
-
-  // Derive a session start time label from the time field
-  const sessionAge = dock.time ?? null;
-
-  const directionLabel =
-    dock.status === 'in-detention' || dock.status === 'close-to-detention'
-      ? 'IB / DL'
-      : dock.status === 'active'
-        ? 'IB'
-        : null;
-
-  // Fake appointment time relative to "now"
-  const appointmentTime = '08:30 AM';
-  const scheduledDate   = 'May 15, 2026';
-
-  return (
-    <div
-      style={{
-        width:         426,
-        flexShrink:    0,
-        display:       'flex',
-        flexDirection: 'column',
-        background:    'var(--surface-card, rgba(255,255,255,0.75))',
-        backdropFilter:       'blur(6px)',
-        WebkitBackdropFilter: 'blur(6px)',
-        border:        '1px solid var(--border-default, rgba(0,0,0,0.08))',
-        borderRadius:  20,
-        boxShadow:     '0px 2px 48px 0px var(--shadow-card, rgba(0,0,0,0.15))',
-        overflow:      'hidden',
-        ...style,
-      }}
-    >
-      {/* ── Header ── */}
-      <div
-        style={{
-          display:      'flex',
-          alignItems:   'center',
-          gap:          4,
-          padding:      '8px 8px 8px 0',
-          height:       52,
-          flexShrink:   0,
-          borderBottom: '1px solid var(--border-default, rgba(0,0,0,0.08))',
-        }}
-      >
-        {/* Back button (mobile) — replaces X close */}
-        {onBack && (
-          <button
-            type="button"
-            aria-label="Go back"
-            onMouseEnter={() => setBackHovered(true)}
-            onMouseLeave={() => setBackHovered(false)}
-            onClick={onBack}
-            style={{
-              width:      36,
-              height:     36,
-              flexShrink: 0,
-              border:     'none',
-              background: backHovered ? 'var(--surface-hover, rgba(255,255,255,0.9))' : 'transparent',
-              color:      'var(--text-secondary, rgba(0,0,0,0.6))',
-              borderRadius: 10,
-              cursor:     'pointer',
-              display:    'flex',
-              alignItems:     'center',
-              justifyContent: 'center',
-              transition: 'background 0.12s',
-              marginLeft: 4,
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        )}
-
-        {/* Title */}
-        <div
-          style={{
-            display:    'flex',
-            alignItems: 'center',
-            gap:        12,
-            flex:       '1 0 0',
-            minWidth:   0,
-            paddingLeft: onBack ? 4 : 16,
-          }}
-        >
-          <div
-            style={{
-              width:   24,
-              height:  24,
-              flexShrink: 0,
-              display: 'flex',
-              alignItems:     'center',
-              justifyContent: 'center',
-              color: 'var(--accent-dark, #143c5c)',
-            }}
-          >
-            <DockMgmtDockNumberIcon size={24} />
-          </div>
-          <span
-            style={{
-              fontSize:     14,
-              fontWeight:   500,
-              lineHeight:   '24px',
-              color:        'var(--accent-dark, #143c5c)',
-              overflow:     'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace:   'nowrap',
-              letterSpacing: '0.0066px',
-            }}
-          >
-            {titleText}
-          </span>
-        </div>
-
-        {/* Actions dropdown */}
-        <div style={{ flexShrink: 0 }}>
-          <IconButton
-            label="Actions"
-            items={DOCK_ACTIONS}
-            onItemClick={() => {}}
-          />
-        </div>
-
-        {/* X close — hidden on mobile when onBack is provided */}
-        {!onBack && (
-          <button
-            type="button"
-            aria-label="Close panel"
-            onMouseEnter={() => setCloseHovered(true)}
-            onMouseLeave={() => setCloseHovered(false)}
-            onClick={onClose}
-            style={{
-              width:      36,
-              height:     36,
-              flexShrink: 0,
-              border:     'none',
-              background: closeHovered ? 'var(--surface-hover, rgba(255,255,255,0.9))' : 'transparent',
-              color:      'var(--text-secondary, rgba(0,0,0,0.6))',
-              borderRadius: 10,
-              cursor:     'pointer',
-              display:    'flex',
-              alignItems:     'center',
-              justifyContent: 'center',
-              transition: 'background 0.12s',
-            }}
-          >
-            <XIcon />
-          </button>
-        )}
-      </div>
-
-      {/* ── Body ── */}
-      <div
-        style={{
-          flex:      1,
-          overflowY: 'auto',
-          overflowX: 'hidden',
-          minHeight: 0,
-          padding:   16,
-          display:   'flex',
-          flexDirection: 'column',
-          gap:       12,
-        }}
-      >
-        {/* Status card */}
-        <div
-          style={{
-            background:   'var(--surface-elevated, rgba(255,255,255,0.5))',
-            border:       '1px solid var(--border-default, rgba(0,0,0,0.08))',
-            borderRadius: 12,
-            padding:      '12px 16px',
-            display:      'flex',
-            flexDirection: 'column',
-            gap:          8,
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Status
-            </span>
-            <span style={{ fontSize: 13, fontWeight: 600, color: getStatusColor(dock.status) }}>
-              {dock.statusLabel ?? dock.status}
-            </span>
-          </div>
-          {sessionAge && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Session Time
-              </span>
-              <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary, rgba(0,0,0,0.8))' }}>
-                {sessionAge}
-              </span>
-            </div>
-          )}
-          {directionLabel && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Direction
-              </span>
-              <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary, rgba(0,0,0,0.8))' }}>
-                {directionLabel}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Appointment card */}
-        {dock.title && (
-          <div
-            style={{
-              background:   'var(--surface-elevated, rgba(255,255,255,0.5))',
-              border:       '1px solid var(--border-default, rgba(0,0,0,0.08))',
-              borderRadius: 12,
-              padding:      '12px 16px',
-              display:      'flex',
-              flexDirection: 'column',
-              gap:          8,
-            }}
-          >
-            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary, rgba(0,0,0,0.6))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Appointment
-            </span>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Carrier
-              </span>
-              <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary, rgba(0,0,0,0.8))' }}>
-                {dock.title}
-              </span>
-            </div>
-            {dock.reference && (
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-                <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                  Reference
-                </span>
-                <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary, rgba(0,0,0,0.8))', fontFamily: 'monospace' }}>
-                  {dock.reference}
-                </span>
-              </div>
-            )}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-              <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Scheduled
-              </span>
-              <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary, rgba(0,0,0,0.8))' }}>
-                {scheduledDate} · {appointmentTime}
-              </span>
-            </div>
-          </div>
-        )}
-
-        {/* Dock info card */}
-        <div
-          style={{
-            background:   'var(--surface-elevated, rgba(255,255,255,0.5))',
-            border:       '1px solid var(--border-default, rgba(0,0,0,0.08))',
-            borderRadius: 12,
-            padding:      '12px 16px',
-            display:      'flex',
-            flexDirection: 'column',
-            gap:          8,
-          }}
-        >
-          <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary, rgba(0,0,0,0.6))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-            Dock Info
-          </span>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Dock ID
-            </span>
-            <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary, rgba(0,0,0,0.8))' }}>
-              {dock.id}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Group
-            </span>
-            <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary, rgba(0,0,0,0.8))' }}>
-              {dock.id.startsWith('C') ? 'Bottom Row' : 'Left Row'}
-            </span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
-            <span style={{ fontSize: 12, fontWeight: 500, color: 'var(--text-muted, rgba(0,0,0,0.4))', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Restraint
-            </span>
-            <span style={{ fontSize: 13, fontWeight: 500, color: dock.status === 'restraint-bypass' ? '#d13b0b' : 'var(--text-primary, rgba(0,0,0,0.8))' }}>
-              {dock.status === 'restraint-bypass' ? 'Bypassed' : 'Active'}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function getStatusColor(status: DockStatus): string {
-  const map: Record<DockStatus, string> = {
-    'active':             '#348516',
-    'in-detention':       '#ac6008',
-    'close-to-detention': '#806c00',
-    'available':          '#0078ab',
-    'maintenance':        '#6b6b6b',
-    'offline':            '#9e2d08',
-    'restraint-bypass':   '#9e2d08',
-    'other':              '#6b6b6b',
-  };
-  return map[status] ?? 'var(--text-secondary)';
-}
 
 // ── DockMainColumn ────────────────────────────────────────────────────────────
 
@@ -541,13 +193,48 @@ function DockMainColumn({
 export function DockPositionsPage() {
   const [activeFilterIds, setActiveFilterIds] = useState<string[]>([]);
   const [selectedDockId,  setSelectedDockId]  = useState<string | undefined>();
-
-  const breakpoint = useBreakpoint();
-  const isMobile   = breakpoint === 'mobile';
+  const [sidePanelWidth,  setSidePanelWidth]  = useState(426);
+  const [isDragging,      setIsDragging]      = useState(false);
+  const panelDragRef = useRef<{ startX: number; startWidth: number } | null>(null);
 
   const selectedDock = selectedDockId
     ? MOCK_DOCKS.find((d) => d.id === selectedDockId) ?? null
     : null;
+
+  // Keep the last selected dock alive during the panel close animation.
+  const [frozenDock, setFrozenDock] = useState<typeof selectedDock>(selectedDock);
+  const dockExitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (selectedDock) {
+      if (dockExitTimer.current) { clearTimeout(dockExitTimer.current); dockExitTimer.current = null; }
+      setFrozenDock(selectedDock);
+    } else {
+      dockExitTimer.current = setTimeout(() => setFrozenDock(null), 370);
+    }
+    return () => { if (dockExitTimer.current) clearTimeout(dockExitTimer.current); };
+  }, [selectedDock]);
+
+  const breakpoint = useBreakpoint();
+  const isMobile   = breakpoint === 'mobile';
+
+  const handlePanelResizeStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+    panelDragRef.current = { startX: e.clientX, startWidth: sidePanelWidth };
+    const onMove = (ev: MouseEvent) => {
+      if (!panelDragRef.current) return;
+      const delta = panelDragRef.current.startX - ev.clientX;
+      setSidePanelWidth(Math.min(700, Math.max(280, panelDragRef.current.startWidth + delta)));
+    };
+    const onUp = () => {
+      setIsDragging(false);
+      panelDragRef.current = null;
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('mouseup', onUp);
+    };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+  };
 
   const handleFilterClick = (id: string) => {
     setActiveFilterIds((prev) =>
@@ -605,14 +292,35 @@ export function DockPositionsPage() {
           ) : undefined}
         />
       ) : (
-        <div style={{ flex: 1, display: 'flex', gap: 16, minHeight: 0 }}>
+        <div style={{ flex: 1, display: 'flex', gap: 0, minHeight: 0 }}>
           <DockMainColumn selectedDockId={selectedDockId} onDockClick={handleDockClick} />
-          {selectedDock && (
-            <DockDetailPanel
-              dock={selectedDock}
-              onClose={() => setSelectedDockId(undefined)}
-            />
-          )}
+          {/* Animated panel wrapper — always rendered so it can slide in/out */}
+          <div style={{
+            width:      selectedDock ? sidePanelWidth + 16 : 0,
+            flexShrink: 0,
+            overflow:   'hidden',
+            display:    'flex',
+            transition: isDragging ? 'none' : 'width 0.32s cubic-bezier(0.4, 0, 0.2, 1)',
+          }}>
+            <div
+              onMouseDown={handlePanelResizeStart}
+              aria-hidden="true"
+              style={{ width: 16, flexShrink: 0, cursor: 'col-resize', position: 'relative' }}
+            >
+              <div
+                style={{ position: 'absolute', inset: '0 5px', borderRadius: 2, transition: 'background 0.15s' }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(0,0,0,0.10)')}
+                onMouseLeave={e => (e.currentTarget.style.background = '')}
+              />
+            </div>
+            {frozenDock && (
+              <DockDetailPanel
+                dock={frozenDock}
+                onClose={() => setSelectedDockId(undefined)}
+                style={{ width: sidePanelWidth, flexShrink: 0 }}
+              />
+            )}
+          </div>
         </div>
       )}
     </div>

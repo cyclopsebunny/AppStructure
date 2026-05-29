@@ -36,6 +36,7 @@ type DockSettings = {
   width: number;
   depth: number;
   gap: number;
+  padding: number;
 };
 
 type RowSettings = {
@@ -50,6 +51,9 @@ type RowSettings = {
   width: number;
   depth: number;
   gap: number;
+  name?: string;
+  labelX?: number;
+  labelY?: number;
 };
 
 type CanvasRect = {
@@ -107,6 +111,14 @@ type ParkingRow = {
   start: { x: number; y: number };
 };
 
+type Lot = {
+  id: string;
+  name: string;
+  rowIds: string[];
+  labelX?: number;
+  labelY?: number;
+};
+
 type TrailerRecord = {
   arrivalTime: string;
   carrierName: string;
@@ -142,6 +154,7 @@ type Selection =
   | { buildingId: string; type: 'building' }
   | { buildingId: string; dockId: string; type: 'dock' }
   | { rowId: string; type: 'row' }
+  | { lotId: string; type: 'lot' }
   | { spaceKey: string; type: 'space' }
   | null;
 
@@ -229,6 +242,27 @@ type RowHandleDrag = {
   rowId: string;
 };
 
+type LotDrag = {
+  lotId: string;
+  startPoint: { x: number; y: number };
+  initialPositions: Record<string, {
+    start: { x: number; y: number };
+    end: { x: number; y: number };
+  }>;
+};
+
+type LotLabelDrag = {
+  lotId: string;
+  offsetX: number;
+  offsetY: number;
+};
+
+type RowLabelDrag = {
+  rowId: string;
+  offsetX: number;
+  offsetY: number;
+};
+
 type CanvasViewport = {
   scale: number;
   x: number;
@@ -250,6 +284,7 @@ type CanvasSnapshot = {
   operationsAssignments: OperationsAssignments;
   dockDoorEnabledBySpaceKey: Record<string, boolean>;
   rows: ParkingRow[];
+  lots?: Lot[];
   viewport: CanvasViewport;
   idCounter: number;
 };
@@ -261,6 +296,7 @@ type FacilityDocument = {
   idCounter: number;
   operationsAssignments?: OperationsAssignments;
   rows: ParkingRow[];
+  lots?: Lot[];
   viewport: CanvasViewport;
   unassignedTrailers?: UnassignedTrailerRecord[];
   // Multi-canvas support (remote locations).
@@ -424,9 +460,10 @@ const dockDefaults: DockSettings = {
   prefix: '',
   startNumber: 1,
   showLeadingZeros: false,
-  width: 9,
-  depth: 25,
-  gap: 1,
+  width: 32,
+  depth: 88,
+  gap: 4,
+  padding: 0,
 };
 
 const rowDefaults: RowSettings = {
@@ -438,10 +475,57 @@ const rowDefaults: RowSettings = {
   startNumber: 1,
   showLeadingZeros: false,
   rotateLabels: false,
-  width: 9,
-  depth: 25,
-  gap: 1,
+  width: 32,
+  depth: 88,
+  gap: 4,
+  name: '',
+  labelX: 50,
+  labelY: 0,
 };
+
+/**
+ * Legacy conversion factor: how many canvas pixels a setting "in feet" used to represent.
+ * Retained only so `normalizeDockSettings` / `normalizeRowSettings` can migrate any
+ * pre-existing values (DockSettings/RowSettings.width/depth/gap/padding) that were
+ * saved in feet before the unit switch. New values are entered in pixels directly.
+ */
+const PX_PER_FT = 3.5;
+/** Fixed pixel height of the dock-head (the building-wall stub). */
+const DOCK_HEAD_PX = 16;
+
+/**
+ * Heuristic threshold (in pixels) below which a Width/Depth value almost certainly
+ * came from the old feet-based settings (defaults were 9 ft and 25 ft). Anything
+ * smaller than this gets multiplied by PX_PER_FT during a one-time normalization
+ * on read so existing layouts don't visually shrink after the unit switch.
+ */
+const LEGACY_FT_THRESHOLD_PX = 15;
+
+function normalizeDockSettings(settings: DockSettings): DockSettings {
+  // If width or depth is below the threshold, treat all dim values as feet.
+  if (settings.width < LEGACY_FT_THRESHOLD_PX || settings.depth < LEGACY_FT_THRESHOLD_PX) {
+    return {
+      ...settings,
+      width: Math.round(settings.width * PX_PER_FT),
+      depth: Math.round(settings.depth * PX_PER_FT),
+      gap: Math.round(settings.gap * PX_PER_FT),
+      padding: Math.round((settings.padding ?? 0) * PX_PER_FT),
+    };
+  }
+  return settings;
+}
+
+function normalizeRowSettings(settings: RowSettings): RowSettings {
+  if (settings.width < LEGACY_FT_THRESHOLD_PX || settings.depth < LEGACY_FT_THRESHOLD_PX) {
+    return {
+      ...settings,
+      width: Math.round(settings.width * PX_PER_FT),
+      depth: Math.round(settings.depth * PX_PER_FT),
+      gap: Math.round(settings.gap * PX_PER_FT),
+    };
+  }
+  return settings;
+}
 
 const mockCarrierNames = ['BlueLine Logistics', 'Summit Freight', 'Northstar Haul', 'Atlas Transport', 'Redwood Cargo'];
 const mockDriverNames = ['Maya Patel', 'Chris Walker', 'Elena Flores', 'Jordan Lee', 'Avery Brooks', 'Samir Khan'];
@@ -522,10 +606,7 @@ function buildOperationsAssignments(
     )
   );
   const rowSlots = rows.flatMap((row, rowIndex) =>
-    getDockNumbers({
-      ...row.settings,
-      name: '',
-    }).map((slotLabel) => ({
+    getDockNumbers(row.settings).map((slotLabel) => ({
       edge: (row.settings.side === 'Left' ? 'top' : 'bottom') as Edge,
       groupName: 'Parking Row',
       key: getRowSpaceKey(row.id, slotLabel),
@@ -652,10 +733,7 @@ function buildRandomOperationsAssignments(
   );
 
   const rowSlots = rows.flatMap((row, rowIndex) =>
-    getDockNumbers({
-      ...row.settings,
-      name: '',
-    }).map((slotLabel) => ({
+    getDockNumbers(row.settings).map((slotLabel) => ({
       edge: (row.settings.side === 'Left' ? 'top' : 'bottom') as Edge,
       groupName: 'Parking Row',
       key: getRowSpaceKey(row.id, slotLabel),
@@ -874,10 +952,7 @@ function reconcileOperationsAssignments(
       )
     ),
     ...rows.flatMap((row, rowIndex) =>
-      getDockNumbers({
-        ...row.settings,
-        name: '',
-      }).map((slotLabel) => ({
+      getDockNumbers(row.settings).map((slotLabel) => ({
         edge: (row.settings.side === 'Left' ? 'top' : 'bottom') as Edge,
         groupName: 'Parking Row',
         key: getRowSpaceKey(row.id, slotLabel),
@@ -931,7 +1006,13 @@ function reconcileOperationsAssignments(
   return changed || normalized !== assignments ? normalized : assignments;
 }
 
-function getDockNumbers(settings: DockSettings) {
+function getDockNumbers(settings: {
+  slots: number;
+  direction: Direction;
+  startNumber: number;
+  showLeadingZeros: boolean;
+  prefix: string;
+}) {
   return Array.from({ length: settings.slots }, (_, index) => {
     const value =
       settings.direction === 'Left to right'
@@ -953,6 +1034,62 @@ function getLineMetrics(start: { x: number; y: number }, end: { x: number; y: nu
   return {
     angle: Math.atan2(deltaY, deltaX) * (180 / Math.PI),
     length: Math.hypot(deltaX, deltaY),
+  };
+}
+
+function computeLotAABB(
+  lot: { rowIds: string[] },
+  rows: ParkingRow[],
+  padding = 16
+): { x: number; y: number; width: number; height: number } | null {
+  const members = rows.filter((row) => lot.rowIds.includes(row.id));
+  if (members.length === 0) {
+    return null;
+  }
+
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+
+  for (const row of members) {
+    const { length } = getLineMetrics(row.start, row.end);
+    if (length < 1) {
+      continue;
+    }
+
+    const dx = (row.end.x - row.start.x) / length;
+    const dy = (row.end.y - row.start.y) / length;
+    const perpX = -dy;
+    const perpY = dx;
+    const sign = row.settings.side === 'Right' ? 1 : -1;
+    const px = normalizeRowSettings(row.settings);
+    const depth = Math.max(20, px.depth);
+
+    const corners = [
+      { x: row.start.x, y: row.start.y },
+      { x: row.end.x, y: row.end.y },
+      { x: row.start.x + sign * perpX * depth, y: row.start.y + sign * perpY * depth },
+      { x: row.end.x + sign * perpX * depth, y: row.end.y + sign * perpY * depth },
+    ];
+
+    for (const corner of corners) {
+      if (corner.x < minX) minX = corner.x;
+      if (corner.y < minY) minY = corner.y;
+      if (corner.x > maxX) maxX = corner.x;
+      if (corner.y > maxY) maxY = corner.y;
+    }
+  }
+
+  if (!Number.isFinite(minX)) {
+    return null;
+  }
+
+  return {
+    x: minX - padding,
+    y: minY - padding,
+    width: maxX - minX + padding * 2,
+    height: maxY - minY + padding * 2,
   };
 }
 
@@ -1383,20 +1520,20 @@ function realignDockPlacements(
   });
 }
 
-function getDockStripStyle(anchor: DockAnchor) {
+function getDockStripStyle(anchor: DockAnchor, bodyDepthPx: number) {
   if (anchor.edge === 'top') {
-    return { left: `${anchor.x}px`, top: `${anchor.y - 70}px`, width: `${anchor.length}px` };
+    return { left: `${anchor.x}px`, top: `${anchor.y - bodyDepthPx}px`, width: `${anchor.length}px` };
   }
 
   if (anchor.edge === 'bottom') {
-    return { left: `${anchor.x}px`, top: `${anchor.y - 16}px`, width: `${anchor.length}px` };
+    return { left: `${anchor.x}px`, top: `${anchor.y - DOCK_HEAD_PX}px`, width: `${anchor.length}px` };
   }
 
   if (anchor.edge === 'left') {
-    return { left: `${anchor.x - 70}px`, top: `${anchor.y}px`, height: `${anchor.length}px` };
+    return { left: `${anchor.x - bodyDepthPx}px`, top: `${anchor.y}px`, height: `${anchor.length}px` };
   }
 
-  return { left: `${anchor.x - 16}px`, top: `${anchor.y}px`, height: `${anchor.length}px` };
+  return { left: `${anchor.x - DOCK_HEAD_PX}px`, top: `${anchor.y}px`, height: `${anchor.length}px` };
 }
 
 function getPointInBuildingLocalSpace(building: BuildingItem, point: { x: number; y: number }) {
@@ -1509,6 +1646,7 @@ export function FacilityCanvas() {
   const buildingPointerDownRef = useRef(false);
   const buildingDragDrawRef = useRef(false);
   const skipCanvasClickRef = useRef(false);
+  const skipNextRowClickRef = useRef(false);
   const panStartRef = useRef<{ clientX: number; clientY: number; x: number; y: number } | null>(null);
   const skipNextSpaceSelectClearRef = useRef(false);
   const [addMenuOpen, setAddMenuOpen] = useState(false);
@@ -1557,25 +1695,31 @@ export function FacilityCanvas() {
   const [rowDrag, setRowDrag] = useState<RowDrag | null>(null);
   const [rowHandleDrag, setRowHandleDrag] = useState<RowHandleDrag | null>(null);
   const [editingCombinedBuildingId, setEditingCombinedBuildingId] = useState<string | null>(null);
+  const [lots, setLots] = useState<Lot[]>([]);
+  const [selectedRowIds, setSelectedRowIds] = useState<string[]>([]);
+  const [editingLotId, setEditingLotId] = useState<string | null>(null);
+  const [lotDrag, setLotDrag] = useState<LotDrag | null>(null);
+  const [lotLabelDrag, setLotLabelDrag] = useState<LotLabelDrag | null>(null);
+  const [rowLabelDrag, setRowLabelDrag] = useState<RowLabelDrag | null>(null);
   const [appMode, setAppMode] = useState<AppMode>('build');
   const [sidePanelWidth, setSidePanelWidth] = useState<number>(272);
   const panelDragRef = useRef<{ startX: number; startWidth: number } | null>(null);
   useEffect(() => {
     setSidePanelWidth(appMode === 'operations' ? 426 : 272);
   }, [appMode]);
-  const [viewMode, setViewMode] = useState<'canvas' | 'list'>('canvas');
+  const [userViewMode, setUserViewMode] = useState<'canvas' | 'list'>(
+    () => (sessionStorage.getItem('fc-view-mode') as 'canvas' | 'list') || 'canvas',
+  );
+  const setAndPersistViewMode = (mode: 'canvas' | 'list') => {
+    sessionStorage.setItem('fc-view-mode', mode);
+    setUserViewMode(mode);
+  };
 
   const canvasBreakpoint = useBreakpoint();
   const isMobileCanvas   = canvasBreakpoint === 'mobile';
 
-  // Auto-switch to list view on mobile; restore canvas on desktop
-  useEffect(() => {
-    if (isMobileCanvas) {
-      setViewMode('list');
-    } else {
-      setViewMode((prev) => prev === 'list' ? 'canvas' : prev);
-    }
-  }, [isMobileCanvas]);
+  // On mobile always show list; on desktop/tablet honour the user's chosen mode.
+  const viewMode = isMobileCanvas ? 'list' : userViewMode;
   const [operationsAssignments, setOperationsAssignments] = useState<OperationsAssignments>({});
   const [unassignedTrailers, setUnassignedTrailers] = useState<UnassignedTrailerRecord[]>([]);
   const [moveTaskSelectionOverride, setMoveTaskSelectionOverride] = useState<string | null>(null);
@@ -1653,6 +1797,22 @@ export function FacilityCanvas() {
       _cachedFacilityHandle = _handleRef.current;
     };
   }, []); // intentionally empty — run once on mount, cleanup once on unmount
+
+  // One-time unit migration: convert any DockSettings/RowSettings still in feet
+  // (e.g. HMR-preserved or cached layouts predating the unit switch) into pixel
+  // values so the UI and renderer agree. Idempotent — the normalizer returns the
+  // same reference when nothing needs to change.
+  useEffect(() => {
+    setDockSettings((s) => normalizeDockSettings(s));
+    setRowSettings((s) => normalizeRowSettings(s));
+    setBuildings((prev) =>
+      prev.map((b) => ({
+        ...b,
+        docks: b.docks.map((d) => ({ ...d, settings: normalizeDockSettings(d.settings) })),
+      })),
+    );
+    setRows((prev) => prev.map((r) => ({ ...r, settings: normalizeRowSettings(r.settings) })));
+  }, []); // run once on mount
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -1759,6 +1919,7 @@ export function FacilityCanvas() {
           ? applyDockDoorBindingsToAssignments(operationsAssignments, dockDoorEnabledBySpaceKey)
           : {},
     rows,
+    lots,
     viewport,
     unassignedTrailers,
 
@@ -1781,6 +1942,7 @@ export function FacilityCanvas() {
               ? applyDockDoorBindingsToAssignments(operationsAssignments, dockDoorEnabledBySpaceKey)
               : {},
         rows,
+        lots,
         viewport,
         idCounter: idRef.current,
       },
@@ -1893,7 +2055,7 @@ export function FacilityCanvas() {
     setOpenedFileName(null);
     resetInteractions();
     setAppMode('build');
-    setViewMode('canvas');
+    setAndPersistViewMode('canvas');
 
     setActiveCanvasId('canvas-1');
     setRemoteCanvasSnapshots([]);
@@ -1902,6 +2064,9 @@ export function FacilityCanvas() {
 
     setBuildings([]);
     setRows([]);
+    setLots([]);
+    setSelectedRowIds([]);
+    setEditingLotId(null);
     setOperationsAssignments({});
     setUnassignedTrailers([]);
     setCanvasBackgroundColor('#eaeaea');
@@ -1971,6 +2136,7 @@ export function FacilityCanvas() {
           buildings: Array.isArray(loc.buildings) ? loc.buildings : [],
           dockDoorEnabledBySpaceKey: loc.dockDoorEnabledBySpaceKey ?? {},
           rows: Array.isArray(loc.rows) ? loc.rows : [],
+          lots: Array.isArray(loc.lots) ? loc.lots : [],
           viewport: loc.viewport ?? { scale: 1, x: 0, y: 0 },
           operationsAssignments: applyDockDoorBindingsToAssignments(
             loc.operationsAssignments ?? {},
@@ -1998,6 +2164,7 @@ export function FacilityCanvas() {
         setDockDoorEnabledBySpaceKey(nextActive.dockDoorEnabledBySpaceKey ?? {});
         setBuildings(nextActive.buildings);
         setRows(nextActive.rows);
+        setLots(nextActive.lots ?? []);
         setViewport(nextActive.viewport);
         setOperationsAssignments(
           nextMode === 'operations'
@@ -2028,6 +2195,7 @@ export function FacilityCanvas() {
       } else {
         const nextBuildings = Array.isArray(doc.buildings) ? doc.buildings : [];
         const nextRows = Array.isArray(doc.rows) ? doc.rows : [];
+        const nextLots = Array.isArray(doc.lots) ? doc.lots : [];
 
         setAppMode(nextMode);
         setActiveCanvasId('canvas-1');
@@ -2047,6 +2215,7 @@ export function FacilityCanvas() {
           )
         );
         setRows(nextRows);
+        setLots(nextLots);
         setViewport(doc.viewport ?? { scale: 1, x: 0, y: 0 });
         idRef.current = typeof doc.idCounter === 'number' ? doc.idCounter : 1;
       }
@@ -2062,6 +2231,8 @@ export function FacilityCanvas() {
       setSelection(null);
       setSelectedBuildingIds([]);
       setEditingCombinedBuildingId(null);
+      setSelectedRowIds([]);
+      setEditingLotId(null);
       setAddMenuOpen(false);
       setMoreMenuOpen(false);
     } catch (err) {
@@ -2103,6 +2274,8 @@ export function FacilityCanvas() {
     setPullTaskSelectionOverride(null);
     setSpaceDrag(null);
     setEditingCombinedBuildingId(null);
+    setSelectedRowIds([]);
+    setEditingLotId(null);
     setCanvasPan(null);
     buildingPointerDownRef.current = false;
     buildingDragDrawRef.current = false;
@@ -2117,6 +2290,7 @@ export function FacilityCanvas() {
     operationsAssignments: applyDockDoorBindingsToAssignments(operationsAssignments, dockDoorEnabledBySpaceKey),
     dockDoorEnabledBySpaceKey,
     rows,
+    lots,
     viewport,
     idCounter: idRef.current,
   });
@@ -2133,6 +2307,7 @@ export function FacilityCanvas() {
     setDockDoorEnabledBySpaceKey(snapshot.dockDoorEnabledBySpaceKey ?? {});
     setBuildings(snapshot.buildings);
     setRows(snapshot.rows);
+    setLots(snapshot.lots ?? []);
     setViewport(snapshot.viewport);
     setOperationsAssignments(
       applyDockDoorBindingsToAssignments(snapshot.operationsAssignments, snapshot.dockDoorEnabledBySpaceKey ?? {})
@@ -2203,6 +2378,7 @@ export function FacilityCanvas() {
     dockDoorEnabledBySpaceKey,
     buildings,
     rows,
+    lots,
     viewport,
     operationsAssignments,
   ]);
@@ -2261,6 +2437,7 @@ export function FacilityCanvas() {
     setDockDoorEnabledBySpaceKey({});
     setBuildings([]);
     setRows([]);
+    setLots([]);
     setOperationsAssignments({});
     setViewport({ scale: 1, x: 0, y: 0 });
   };
@@ -2586,7 +2763,7 @@ export function FacilityCanvas() {
           const ny = ux;
 
           const rowEdge = row.settings.side === 'Left' ? 'top' : 'bottom';
-          const slotLabels = getDockNumbers({ ...row.settings, name: '' });
+          const slotLabels = getDockNumbers(row.settings);
           const slotCount = Math.max(1, slotLabels.length);
 
           const maxTicks = 12;
@@ -2782,7 +2959,7 @@ export function FacilityCanvas() {
       return;
     }
 
-    if (nextMode === 'build') setViewMode('canvas');
+    if (nextMode === 'build') setAndPersistViewMode('canvas');
     resetInteractions();
     setSelection(null);
 
@@ -2827,6 +3004,8 @@ export function FacilityCanvas() {
     setRowDrag(null);
     setRowHandleDrag(null);
     setEditingCombinedBuildingId(null);
+    setSelectedRowIds([]);
+    setEditingLotId(null);
     buildingPointerDownRef.current = false;
     buildingDragDrawRef.current = false;
     skipCanvasClickRef.current = false;
@@ -2857,6 +3036,8 @@ export function FacilityCanvas() {
     setRowDrag(null);
     setRowHandleDrag(null);
     setEditingCombinedBuildingId(null);
+    setSelectedRowIds([]);
+    setEditingLotId(null);
     buildingPointerDownRef.current = false;
     buildingDragDrawRef.current = false;
     skipCanvasClickRef.current = false;
@@ -3243,6 +3424,82 @@ export function FacilityCanvas() {
       return;
     }
 
+    if (lotDrag) {
+      const deltaX = point.x - lotDrag.startPoint.x;
+      const deltaY = point.y - lotDrag.startPoint.y;
+      if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+        skipNextRowClickRef.current = true;
+        skipCanvasClickRef.current = true;
+      }
+      setRows((current) =>
+        current.map((row) => {
+          const init = lotDrag.initialPositions[row.id];
+          if (!init) {
+            return row;
+          }
+          return {
+            ...row,
+            start: { x: init.start.x + deltaX, y: init.start.y + deltaY },
+            end: { x: init.end.x + deltaX, y: init.end.y + deltaY },
+          };
+        })
+      );
+      return;
+    }
+
+    if (lotLabelDrag) {
+      const lot = lots.find((l) => l.id === lotLabelDrag.lotId);
+      if (!lot) {
+        return;
+      }
+      const aabb = computeLotAABB(lot, rows);
+      if (!aabb) {
+        return;
+      }
+      const nextLocalX = Math.max(0, Math.min(point.x - aabb.x - lotLabelDrag.offsetX, aabb.width));
+      const nextLocalY = Math.max(0, Math.min(point.y - aabb.y - lotLabelDrag.offsetY, aabb.height));
+      setLots((current) =>
+        current.map((l) =>
+          l.id === lot.id
+            ? {
+                ...l,
+                labelX: (nextLocalX / Math.max(1, aabb.width)) * 100,
+                labelY: (nextLocalY / Math.max(1, aabb.height)) * 100,
+              }
+            : l
+        )
+      );
+      return;
+    }
+
+    if (rowLabelDrag) {
+      const targetRow = rows.find((r) => r.id === rowLabelDrag.rowId);
+      if (!targetRow) {
+        return;
+      }
+      const aabb = computeLotAABB({ rowIds: [targetRow.id] }, rows);
+      if (!aabb) {
+        return;
+      }
+      const nextLocalX = Math.max(0, Math.min(point.x - aabb.x - rowLabelDrag.offsetX, aabb.width));
+      const nextLocalY = Math.max(0, Math.min(point.y - aabb.y - rowLabelDrag.offsetY, aabb.height));
+      setRows((current) =>
+        current.map((r) =>
+          r.id === targetRow.id
+            ? {
+                ...r,
+                settings: {
+                  ...r.settings,
+                  labelX: (nextLocalX / Math.max(1, aabb.width)) * 100,
+                  labelY: (nextLocalY / Math.max(1, aabb.height)) * 100,
+                },
+              }
+            : r
+        )
+      );
+      return;
+    }
+
     if (buildingResize && canvasRef.current) {
       const visibleWorldBounds = getVisibleWorldBounds();
 
@@ -3376,6 +3633,9 @@ export function FacilityCanvas() {
     setBuildingComponentResize(null);
     setRowDrag(null);
     setRowHandleDrag(null);
+    setLotDrag(null);
+    setLotLabelDrag(null);
+    setRowLabelDrag(null);
     buildingPointerDownRef.current = false;
     buildingDragDrawRef.current = false;
     if (selectingEdge) {
@@ -3393,6 +3653,9 @@ export function FacilityCanvas() {
     setBuildingComponentResize(null);
     setRowDrag(null);
     setRowHandleDrag(null);
+    setLotDrag(null);
+    setLotLabelDrag(null);
+    setRowLabelDrag(null);
 
     if (isDrawingBuilding && buildingPointerDownRef.current && buildingDraftStart) {
       const point = getCanvasPoint(event.clientX, event.clientY) ?? buildingDraftCurrent ?? buildingDraftStart;
@@ -3484,12 +3747,15 @@ export function FacilityCanvas() {
       const snappedPoint = snapPointToGuides(getSnappedRowPoint(rowDraftStart, point));
 
       const nextRowId = `row-${idRef.current++}`;
+      const autoName = rowSettings.name && rowSettings.name.length > 0
+        ? rowSettings.name
+        : `Row ${rows.length + 1}`;
       setRows((current) => [
         ...current,
         {
           end: snappedPoint,
           id: nextRowId,
-          settings: { ...rowSettings },
+          settings: { ...rowSettings, name: autoName },
           start: rowDraftStart,
         },
       ]);
@@ -3512,6 +3778,8 @@ export function FacilityCanvas() {
     setOperationsTrailerActionModal(null);
     setSelectedBuildingIds([]);
     setEditingCombinedBuildingId(null);
+    setSelectedRowIds([]);
+    setEditingLotId(null);
   };
 
   const handleResizeStart = (event: React.MouseEvent<HTMLButtonElement>, building: BuildingItem, edge: Edge) => {
@@ -3602,7 +3870,28 @@ export function FacilityCanvas() {
   };
 
   const handleRowMoveStart = (event: React.MouseEvent<HTMLDivElement>, row: ParkingRow) => {
-    if (selectingEdge || isDrawingBuilding || isDrawingRow) {
+    if (selectingEdge || isDrawingBuilding || isDrawingRow || event.shiftKey) {
+      return;
+    }
+
+    const memberLot = lots.find((lot) => lot.rowIds.includes(row.id)) ?? null;
+
+    if (
+      memberLot &&
+      selection?.type === 'lot' &&
+      selection.lotId === memberLot.id &&
+      editingLotId !== memberLot.id
+    ) {
+      handleLotMoveStart(event, memberLot);
+      return;
+    }
+
+    const allowRowDrag =
+      !memberLot ||
+      editingLotId === memberLot.id ||
+      (selection?.type === 'row' && selection.rowId === row.id);
+
+    if (!allowRowDrag) {
       return;
     }
 
@@ -3613,7 +3902,11 @@ export function FacilityCanvas() {
     }
 
     event.stopPropagation();
+    if (!memberLot) {
+      setEditingLotId(null);
+    }
     setSelection({ rowId: row.id, type: 'row' });
+    setSelectedRowIds([]);
     setSelectedBuildingIds([]);
     setEditingCombinedBuildingId(null);
     setBuildingDrag(null);
@@ -3638,6 +3931,7 @@ export function FacilityCanvas() {
 
     event.stopPropagation();
     setSelection({ rowId: row.id, type: 'row' });
+    setSelectedRowIds([]);
     setSelectedBuildingIds([]);
     setBuildingDrag(null);
     setBuildingResize(null);
@@ -3652,6 +3946,8 @@ export function FacilityCanvas() {
     if (shiftKey) {
       setSelection(null);
       setEditingCombinedBuildingId(null);
+      setSelectedRowIds([]);
+      setEditingLotId(null);
       setSelectedBuildingIds((current) => {
         const next = current.includes(buildingId)
           ? current.filter((id) => id !== buildingId)
@@ -3669,6 +3965,8 @@ export function FacilityCanvas() {
     setSelectedBuildingIds([buildingId]);
     setSelection({ buildingId, type: 'building' });
     setEditingCombinedBuildingId(null);
+    setSelectedRowIds([]);
+    setEditingLotId(null);
   };
 
   const handleCombineBuildings = () => {
@@ -3715,6 +4013,205 @@ export function FacilityCanvas() {
     setSelectedBuildingIds([nextBuildingId]);
     setSelection({ buildingId: nextBuildingId, type: 'building' });
     setEditingCombinedBuildingId(null);
+  };
+
+  const handleRowSelection = (rowId: string, shiftKey: boolean) => {
+    if (skipNextRowClickRef.current) {
+      skipNextRowClickRef.current = false;
+      return;
+    }
+    const memberLot = lots.find((lot) => lot.rowIds.includes(rowId)) ?? null;
+
+    if (shiftKey) {
+      setSelection(null);
+      setSelectedBuildingIds([]);
+      setEditingCombinedBuildingId(null);
+      setEditingLotId(null);
+      setSelectedRowIds((current) => {
+        const next = current.includes(rowId)
+          ? current.filter((id) => id !== rowId)
+          : [...current, rowId];
+
+        if (next.length === 1) {
+          setSelection({ rowId: next[0], type: 'row' });
+        }
+
+        return next;
+      });
+      return;
+    }
+
+    setSelectedBuildingIds([]);
+    setEditingCombinedBuildingId(null);
+
+    if (memberLot) {
+      const alreadyInLotContext =
+        (selection?.type === 'lot' && selection.lotId === memberLot.id) ||
+        editingLotId === memberLot.id;
+
+      if (alreadyInLotContext) {
+        setSelectedRowIds([rowId]);
+        setEditingLotId(memberLot.id);
+        setSelection({ rowId, type: 'row' });
+      } else {
+        setSelectedRowIds([]);
+        setEditingLotId(null);
+        setSelection({ lotId: memberLot.id, type: 'lot' });
+      }
+      return;
+    }
+
+    setSelectedRowIds([rowId]);
+    setEditingLotId(null);
+    setSelection({ rowId, type: 'row' });
+  };
+
+  const handleGroupRowsIntoLot = () => {
+    if (selectedRowIds.length < 2) {
+      return;
+    }
+
+    const conflict = selectedRowIds.some((rowId) =>
+      lots.some((lot) => lot.rowIds.includes(rowId))
+    );
+    if (conflict) {
+      return;
+    }
+
+    const orderedRows = selectedRowIds
+      .map((rowId) => rows.find((row) => row.id === rowId))
+      .filter((row): row is ParkingRow => Boolean(row));
+
+    if (orderedRows.length < 2) {
+      return;
+    }
+
+    const baseStart = orderedRows[0].settings.startNumber;
+    const updatedRowsById = new Map<string, ParkingRow>();
+    let cumulative = 0;
+    for (const row of orderedRows) {
+      updatedRowsById.set(row.id, {
+        ...row,
+        settings: {
+          ...row.settings,
+          startNumber: baseStart + cumulative,
+        },
+      });
+      cumulative += row.settings.slots;
+    }
+
+    setRows((current) => current.map((row) => updatedRowsById.get(row.id) ?? row));
+
+    const lotId = `lot-${idRef.current++}`;
+    const lotName = `Lot ${lots.length + 1}`;
+    setLots((current) => [
+      ...current,
+      { id: lotId, name: lotName, rowIds: orderedRows.map((row) => row.id) },
+    ]);
+    setSelectedRowIds([]);
+    setSelection({ lotId, type: 'lot' });
+    setEditingLotId(null);
+  };
+
+  const handleUngroupLot = (lotId: string) => {
+    setLots((current) => current.filter((lot) => lot.id !== lotId));
+    if (editingLotId === lotId) {
+      setEditingLotId(null);
+    }
+    setSelection((current) =>
+      current?.type === 'lot' && current.lotId === lotId ? null : current
+    );
+  };
+
+  const handleLotMoveStart = (event: React.MouseEvent<HTMLDivElement>, lot: Lot) => {
+    if (selectingEdge || isDrawingBuilding || isDrawingRow || event.shiftKey) {
+      return;
+    }
+
+    const point = getCanvasPoint(event.clientX, event.clientY);
+    if (!point) {
+      return;
+    }
+
+    event.stopPropagation();
+    setSelection({ lotId: lot.id, type: 'lot' });
+    setSelectedRowIds([]);
+    setSelectedBuildingIds([]);
+    setEditingCombinedBuildingId(null);
+    setEditingLotId(null);
+    setBuildingDrag(null);
+    setBuildingResize(null);
+    setRowDrag(null);
+    setRowHandleDrag(null);
+
+    const initialPositions: LotDrag['initialPositions'] = {};
+    for (const row of rows) {
+      if (lot.rowIds.includes(row.id)) {
+        initialPositions[row.id] = {
+          start: { ...row.start },
+          end: { ...row.end },
+        };
+      }
+    }
+
+    setLotDrag({ lotId: lot.id, startPoint: point, initialPositions });
+  };
+
+  const handleRowLabelDragStart = (event: React.MouseEvent<HTMLSpanElement>, row: ParkingRow) => {
+    if (selectingEdge || isDrawingBuilding || isDrawingRow) {
+      return;
+    }
+
+    const point = getCanvasPoint(event.clientX, event.clientY);
+    if (!point) {
+      return;
+    }
+
+    const aabb = computeLotAABB({ rowIds: [row.id] }, rows);
+    if (!aabb) {
+      return;
+    }
+
+    event.stopPropagation();
+    const labelLocalX = ((row.settings.labelX ?? 50) / 100) * aabb.width;
+    const labelLocalY = ((row.settings.labelY ?? 0) / 100) * aabb.height;
+    const offsetX = point.x - (aabb.x + labelLocalX);
+    const offsetY = point.y - (aabb.y + labelLocalY);
+
+    setSelection({ rowId: row.id, type: 'row' });
+    setSelectedRowIds([row.id]);
+    setSelectedBuildingIds([]);
+    setEditingCombinedBuildingId(null);
+    setEditingLotId(null);
+    setRowLabelDrag({ rowId: row.id, offsetX, offsetY });
+  };
+
+  const handleLotLabelDragStart = (event: React.MouseEvent<HTMLSpanElement>, lot: Lot) => {
+    if (selectingEdge || isDrawingBuilding || isDrawingRow) {
+      return;
+    }
+
+    const point = getCanvasPoint(event.clientX, event.clientY);
+    if (!point) {
+      return;
+    }
+
+    const aabb = computeLotAABB(lot, rows);
+    if (!aabb) {
+      return;
+    }
+
+    event.stopPropagation();
+    const labelLocalX = ((lot.labelX ?? 50) / 100) * aabb.width;
+    const labelLocalY = ((lot.labelY ?? 0) / 100) * aabb.height;
+    const offsetX = point.x - (aabb.x + labelLocalX);
+    const offsetY = point.y - (aabb.y + labelLocalY);
+
+    setSelection({ lotId: lot.id, type: 'lot' });
+    setSelectedRowIds([]);
+    setSelectedBuildingIds([]);
+    setEditingLotId(null);
+    setLotLabelDrag({ lotId: lot.id, offsetX, offsetY });
   };
 
   const handleRecreateMockTrailerData = () => {
@@ -4682,6 +5179,22 @@ export function FacilityCanvas() {
         })
       : [];
   const selectedRow = selection?.type === 'row' ? rows.find((row) => row.id === selection.rowId) ?? null : null;
+  const lotByRowId: Record<string, Lot> = {};
+  for (const lot of lots) {
+    for (const rowId of lot.rowIds) {
+      lotByRowId[rowId] = lot;
+    }
+  }
+  const selectedLot =
+    selection?.type === 'lot'
+      ? lots.find((lot) => lot.id === selection.lotId) ?? null
+      : null;
+  const editingLot =
+    editingLotId !== null ? lots.find((lot) => lot.id === editingLotId) ?? null : null;
+  const lotOfSelectedRow = selectedRow ? lotByRowId[selectedRow.id] ?? null : null;
+  const activeLot = selectedLot ?? editingLot ?? lotOfSelectedRow;
+  const isMultiRowSelection = selectedRowIds.length > 1;
+  const hasLotMemberInRowSelection = selectedRowIds.some((rowId) => Boolean(lotByRowId[rowId]));
   const selectedSpaceAssignment =
     selection?.type === 'space' ? operationsAssignments[selection.spaceKey] ?? null : null;
   const selectedMoveTaskTrailerNumber =
@@ -5306,6 +5819,16 @@ export function FacilityCanvas() {
     );
   };
 
+  const updateSelectedLot = (updates: Partial<Lot>) => {
+    if (!selectedLot) {
+      return;
+    }
+
+    setLots((current) =>
+      current.map((lot) => (lot.id === selectedLot.id ? { ...lot, ...updates } : lot))
+    );
+  };
+
   const isMultiBuildingSelection = selectedBuildingIds.length > 1;
   const isEditingCombinedBuilding =
     selection?.type === 'building' &&
@@ -5360,13 +5883,17 @@ export function FacilityCanvas() {
         : 'Operations'
       : isMultiBuildingSelection
         ? 'Building Selection'
-        : selection?.type === 'row' || isDrawingRow
-          ? 'Row Settings'
-          : selection?.type === 'dock' || selectingEdge
-            ? 'Dock Settings'
-            : selection?.type === 'building'
-              ? 'Building Settings'
-              : 'General Setting';
+        : isMultiRowSelection
+          ? 'Row Selection'
+          : selection?.type === 'lot'
+            ? 'Lot Settings'
+            : selection?.type === 'row' || isDrawingRow
+              ? 'Row Settings'
+              : selection?.type === 'dock' || selectingEdge
+                ? 'Dock Settings'
+                : selection?.type === 'building'
+                  ? 'Building Settings'
+                  : 'General Setting';
   const previewRect =
     isDrawingBuilding && buildingDraftStart && buildingDraftCurrent
       ? normalizeRect(buildingDraftStart, buildingDraftCurrent)
@@ -5424,13 +5951,13 @@ export function FacilityCanvas() {
                   icon={<LocationOutlinedIcon size={16} />}
                   label="Map View"
                   active={false}
-                  onClick={() => setViewMode('canvas')}
+                  onClick={() => setAndPersistViewMode('canvas')}
                 />
               ) : (
                 <IconButton
                   icon={<ListDefaultIcon size={16} />}
                   label="List View"
-                  onClick={() => setViewMode('list')}
+                  onClick={() => setAndPersistViewMode('list')}
                 />
               )
             )}
@@ -5531,7 +6058,7 @@ export function FacilityCanvas() {
               background:  'var(--surface-card, rgba(255,255,255,0.75))',
               borderRadius: 12,
               border:      '0.75px solid var(--accent-border-light, #d3e4f2)',
-              boxShadow:   '0px 2px 48px 0px var(--shadow-card, rgba(0,0,0,0.15))',
+              boxShadow:   'none',
               margin:      0,
               position:    'relative',
               zIndex:      0,
@@ -5640,12 +6167,20 @@ export function FacilityCanvas() {
 
                 // Left-click drag on canvas background: record potential pan origin,
                 // promoted to real pan in handleCanvasMove once mouse moves > 5px.
-                // Skip when clicking on interactive elements (spaces, buildings, buttons).
+                // Skip when clicking on interactive elements. The set of "interactive"
+                // elements differs by mode:
+                //   - Operations mode: only a draggable trailer (.dock--draggable) and
+                //     buttons should block panning. Buildings, rows, and empty docks
+                //     are pan-through so users can move the canvas freely.
+                //   - Build mode: buildings, rows, lot frames, and labels are
+                //     selection/drag targets, so panning is suppressed over them too.
                 if (event.button === 0 && !isDrawingBuilding && !isDrawingRow) {
                   const target = event.target as HTMLElement;
-                  const onInteractive = !!target.closest(
-                    'button, [role="button"], .building-card, .parking-row'
-                  );
+                  const onInteractive = appMode === 'operations'
+                    ? !!target.closest('button, [role="button"], .dock--draggable')
+                    : !!target.closest(
+                        'button, [role="button"], .building-card, .parking-row, .lot-frame, .lot-label, .row-label'
+                      );
                   if (!onInteractive) {
                     panStartRef.current = {
                       clientX: event.clientX,
@@ -5681,6 +6216,114 @@ export function FacilityCanvas() {
                   transformOrigin: 'top left',
                 }}
               >
+                {appMode === 'build' && activeLot
+                  ? (() => {
+                      const aabb = computeLotAABB(activeLot, rows);
+                      if (!aabb) {
+                        return null;
+                      }
+                      return (
+                        <div
+                          className={[
+                            'lot-frame',
+                            selection?.type === 'lot' && selection.lotId === activeLot.id
+                              ? 'lot-frame--selected'
+                              : '',
+                          ]
+                            .filter(Boolean)
+                            .join(' ')}
+                          key={`lot-frame-${activeLot.id}`}
+                          onMouseDown={(event) => handleLotMoveStart(event, activeLot)}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setSelection({ lotId: activeLot.id, type: 'lot' });
+                            setSelectedRowIds([]);
+                            setSelectedBuildingIds([]);
+                            setEditingCombinedBuildingId(null);
+                            setEditingLotId(null);
+                          }}
+                          style={{
+                            left: `${aabb.x}px`,
+                            top: `${aabb.y}px`,
+                            width: `${aabb.width}px`,
+                            height: `${aabb.height}px`,
+                          }}
+                        />
+                      );
+                    })()
+                  : null}
+                {appMode === 'build'
+                  ? lots.map((lot) => {
+                      const aabb = computeLotAABB(lot, rows);
+                      if (!aabb) {
+                        return null;
+                      }
+                      const labelX = lot.labelX ?? 50;
+                      const labelY = lot.labelY ?? 0;
+                      const lotActive = selection?.type === 'lot' && selection.lotId === lot.id;
+                      return (
+                        <span
+                          key={`lot-label-${lot.id}`}
+                          className={['lot-label', lotActive ? 'lot-label--active' : '']
+                            .filter(Boolean)
+                            .join(' ')}
+                          onMouseDown={(event) => handleLotLabelDragStart(event, lot)}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setSelection({ lotId: lot.id, type: 'lot' });
+                            setSelectedRowIds([]);
+                            setSelectedBuildingIds([]);
+                            setEditingCombinedBuildingId(null);
+                            setEditingLotId(null);
+                          }}
+                          style={{
+                            left: `${aabb.x + (labelX / 100) * aabb.width}px`,
+                            top: `${aabb.y + (labelY / 100) * aabb.height}px`,
+                          }}
+                        >
+                          {lot.name}
+                        </span>
+                      );
+                    })
+                  : null}
+                {appMode === 'build'
+                  ? rows.map((row) => {
+                      if (lotByRowId[row.id]) {
+                        return null;
+                      }
+                      const aabb = computeLotAABB({ rowIds: [row.id] }, rows);
+                      if (!aabb) {
+                        return null;
+                      }
+                      const labelText = row.settings.name && row.settings.name.length > 0 ? row.settings.name : 'Row';
+                      const labelX = row.settings.labelX ?? 50;
+                      const labelY = row.settings.labelY ?? 0;
+                      const rowActive = selection?.type === 'row' && selection.rowId === row.id;
+                      return (
+                        <span
+                          key={`row-label-${row.id}`}
+                          className={['row-label', rowActive ? 'row-label--active' : '']
+                            .filter(Boolean)
+                            .join(' ')}
+                          onMouseDown={(event) => handleRowLabelDragStart(event, row)}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setSelection({ rowId: row.id, type: 'row' });
+                            setSelectedRowIds([row.id]);
+                            setSelectedBuildingIds([]);
+                            setEditingCombinedBuildingId(null);
+                            setEditingLotId(null);
+                          }}
+                          style={{
+                            left: `${aabb.x + (labelX / 100) * aabb.width}px`,
+                            top: `${aabb.y + (labelY / 100) * aabb.height}px`,
+                          }}
+                        >
+                          {labelText}
+                        </span>
+                      );
+                    })
+                  : null}
                 {rows.map((row) => (
                   <ParkingRowView
                     appMode={appMode}
@@ -5703,6 +6346,13 @@ export function FacilityCanvas() {
                     registerSpaceRef={registerSpaceRef}
                     row={row}
                     selected={appMode === 'build' && selection?.type === 'row' && selection.rowId === row.id}
+                    multiSelected={appMode === 'build' && isMultiRowSelection && selectedRowIds.includes(row.id)}
+                    lotHighlight={
+                      appMode === 'build' &&
+                      activeLot !== null &&
+                      activeLot !== undefined &&
+                      activeLot.rowIds.includes(row.id)
+                    }
                     selectedMoveTaskSpaceKeys={selectedMoveTaskSpaceKeys}
                     selectedMoveTaskTrailerNumber={selectedMoveTaskTrailerNumber}
                     selectedPullTaskTrailerNumber={selectedPullTaskTrailerNumber}
@@ -5752,10 +6402,9 @@ export function FacilityCanvas() {
                     }
                     handleSpaceDrop(spaceKey);
                   }}
-                    onSelect={() => {
+                    onSelect={(shiftKey) => {
                       if (appMode === 'build') {
-                        setEditingCombinedBuildingId(null);
-                        setSelection({ rowId: row.id, type: 'row' });
+                        handleRowSelection(row.id, shiftKey);
                       }
                     }}
                     searchQuery={searchQuery}
@@ -5979,7 +6628,17 @@ export function FacilityCanvas() {
                       ))}
                     </div>
                   ) : null}
-                  {building.docks.map((dockPlacement) => (
+                  {building.docks.map((dockPlacement) => {
+                    const dockSettingsPx  = normalizeDockSettings(dockPlacement.settings);
+                    const dockWidthPx     = Math.max(1, Math.round(dockSettingsPx.width));
+                    const dockBodyDepthPx = Math.max(20, Math.round(dockSettingsPx.depth) - DOCK_HEAD_PX);
+                    const dockGapPx       = Math.max(0, Math.round(dockSettingsPx.gap));
+                    const dockPaddingPx   = Math.max(0, Math.round(dockSettingsPx.padding ?? 0));
+                    const isHorizontalEdge = dockPlacement.edge === 'top' || dockPlacement.edge === 'bottom';
+                    const dockRowPaddingStyle: React.CSSProperties = isHorizontalEdge
+                      ? { paddingLeft: `${dockPaddingPx}px`, paddingRight: `${dockPaddingPx}px` }
+                      : { paddingTop: `${dockPaddingPx}px`, paddingBottom: `${dockPaddingPx}px` };
+                    return (
                     <div
                       className={[
                         'dock-strip',
@@ -5988,7 +6647,7 @@ export function FacilityCanvas() {
                         selection?.type === 'dock' && selection.dockId === dockPlacement.id ? 'dock-strip--selected' : '',
                       ].join(' ')}
                       key={dockPlacement.id}
-                      style={getDockStripStyle(dockPlacement.anchor)}
+                      style={getDockStripStyle(dockPlacement.anchor, dockBodyDepthPx)}
                     >
                       <div
                         className={`dock-strip__group dock-strip__group--${dockPlacement.edge}`}
@@ -6011,6 +6670,7 @@ export function FacilityCanvas() {
                             'dock-strip__dock-row',
                             `dock-strip__dock-row--edge-${dockPlacement.edge}`,
                           ].join(' ')}
+                          style={{ gap: `${dockGapPx}px`, ...dockRowPaddingStyle }}
                         >
                           {getDockNumbers(dockPlacement.settings).map((dock) => {
                             const spaceKey = getDockSpaceKey(building.id, dockPlacement.id, dock);
@@ -6137,6 +6797,8 @@ export function FacilityCanvas() {
                                 trailerNumber={trailerNumber}
                                 suggestionTier={dockSuggestionBySpaceKey[spaceKey] ?? null}
                                 type={assignment?.type ?? 'dock'}
+                                widthPx={dockWidthPx}
+                                bodyDepthPx={dockBodyDepthPx}
                               />
                             );
                           })}
@@ -6146,7 +6808,8 @@ export function FacilityCanvas() {
                         </div>
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                   </div>
                 ))}
                 {previewRect ? (
@@ -6172,7 +6835,7 @@ export function FacilityCanvas() {
                     onSpaceDragMove={() => undefined}
                     onSpaceDragStart={() => false}
                     onSpaceDragPreview={() => undefined}
-                    onSelect={() => undefined}
+                    onSelect={(_shiftKey) => undefined}
                     onSpaceSelect={() => undefined}
                     onSpaceHoverEnter={() => undefined}
                     onSpaceHoverLeave={() => undefined}
@@ -6666,8 +7329,61 @@ export function FacilityCanvas() {
                   Combine Buildings
                 </button>
               </>
+            ) : isMultiRowSelection ? (
+              <>
+                <Field label="Selected Rows">
+                  <div className="details-panel__selection-count">{selectedRowIds.length} rows</div>
+                </Field>
+                <Field label="Lot">
+                  <div className="details-panel__selection-count">
+                    {hasLotMemberInRowSelection
+                      ? 'One or more selected rows already belong to a lot. Ungroup before regrouping.'
+                      : 'Group these rows into a lot. Space numbering will be continuous across rows in the order they were selected.'}
+                  </div>
+                </Field>
+                <button
+                  className={['panel-button', 'panel-button--wide'].join(' ')}
+                  onClick={handleGroupRowsIntoLot}
+                  disabled={hasLotMemberInRowSelection}
+                  type="button"
+                >
+                  Group into Lot
+                </button>
+              </>
+            ) : selection?.type === 'lot' && selectedLot ? (
+              <>
+                <Field label="Lot Name">
+                  <input
+                    value={selectedLot.name}
+                    onChange={(event) => updateSelectedLot({ name: event.target.value })}
+                  />
+                </Field>
+                <Field label="Member Rows">
+                  <div className="details-panel__selection-count">{selectedLot.rowIds.length} rows</div>
+                </Field>
+                <Field label="Tip">
+                  <div className="details-panel__selection-count">
+                    Click a row in this lot on the canvas to edit it.
+                  </div>
+                </Field>
+                <button
+                  className={['panel-button', 'panel-button--wide'].join(' ')}
+                  onClick={() => handleUngroupLot(selectedLot.id)}
+                  type="button"
+                >
+                  Ungroup Lot
+                </button>
+              </>
             ) : selection?.type === 'row' || isDrawingRow ? (
               <>
+                {selectedRow && !lotByRowId[selectedRow.id] ? (
+                  <Field label="Name">
+                    <input
+                      value={selectedRow.settings.name ?? ''}
+                      onChange={(event) => updateSelectedRowSettings({ name: event.target.value })}
+                    />
+                  </Field>
+                ) : null}
                 <Field label="Number of Spaces">
                   <input
                     min={1}
@@ -6818,7 +7534,7 @@ export function FacilityCanvas() {
                 </label>
 
                 <div className="field-grid field-grid--three">
-                  <Field label="Width (ft)">
+                  <Field label="Width (px)">
                     <input
                       min={1}
                       type="number"
@@ -6833,7 +7549,7 @@ export function FacilityCanvas() {
                       }
                     />
                   </Field>
-                  <Field label="Depth (ft)">
+                  <Field label="Depth (px)">
                     <input
                       min={1}
                       type="number"
@@ -6848,7 +7564,7 @@ export function FacilityCanvas() {
                       }
                     />
                   </Field>
-                  <Field label="Gap (ft)">
+                  <Field label="Gap (px)">
                     <input
                       min={0}
                       type="number"
@@ -6982,8 +7698,8 @@ export function FacilityCanvas() {
                   </button>
                 </label>
 
-                <div className="field-grid field-grid--three">
-                  <Field label="Width (ft)">
+                <div className="field-grid field-grid--four">
+                  <Field label="Width (px)">
                     <input
                       min={1}
                       type="number"
@@ -6998,7 +7714,7 @@ export function FacilityCanvas() {
                       }
                     />
                   </Field>
-                  <Field label="Depth (ft)">
+                  <Field label="Depth (px)">
                     <input
                       min={1}
                       type="number"
@@ -7013,7 +7729,7 @@ export function FacilityCanvas() {
                       }
                     />
                   </Field>
-                  <Field label="Gap (ft)">
+                  <Field label="Gap (px)">
                     <input
                       min={0}
                       type="number"
@@ -7024,6 +7740,21 @@ export function FacilityCanvas() {
                           : setDockSettings((current) => ({
                               ...current,
                               gap: Math.max(0, Number(event.target.value) || 0),
+                            }))
+                      }
+                    />
+                  </Field>
+                  <Field label="Padding (px)">
+                    <input
+                      min={0}
+                      type="number"
+                      value={selectedDock?.settings.padding ?? dockSettings.padding}
+                      onChange={(event) =>
+                        selectedDock
+                          ? updateSelectedDockSettings({ padding: Math.max(0, Number(event.target.value) || 0) })
+                          : setDockSettings((current) => ({
+                              ...current,
+                              padding: Math.max(0, Number(event.target.value) || 0),
                             }))
                       }
                     />
@@ -7167,9 +7898,19 @@ export function FacilityCanvas() {
                 className={['panel-button', 'panel-button--danger', 'panel-button--icon'].join(' ')}
                 onClick={() => {
                   if (selection?.type === 'row' && selectedRow) {
-                    setRows((current) => current.filter((row) => row.id !== selectedRow.id));
+                    const deletedRowId = selectedRow.id;
+                    setRows((current) => current.filter((row) => row.id !== deletedRowId));
+                    setLots((current) =>
+                      current
+                        .map((lot) => ({
+                          ...lot,
+                          rowIds: lot.rowIds.filter((id) => id !== deletedRowId),
+                        }))
+                        .filter((lot) => lot.rowIds.length >= 2)
+                    );
                     setMoveTaskSelectionOverride(null);
                     setSelection(null);
+                    setEditingLotId(null);
                     return;
                   }
 
@@ -7524,6 +8265,8 @@ function Dock({
   trailerNumber,
   type = 'dock',
   remoteMoveTaskRole = null,
+  widthPx = 32,
+  bodyDepthPx = 70,
 }: {
   controlRef?: (node: HTMLSpanElement | null) => void;
   dimmed?: boolean;
@@ -7551,6 +8294,10 @@ function Dock({
   type?: 'dock' | 'yard';
   remoteMoveTaskRole?: 'source' | 'destination' | null;
   suggestionTier?: DockSuggestionTier | null;
+  /** Width of the space in canvas pixels (default 32). */
+  widthPx?: number;
+  /** Height of the body (parking area) in canvas pixels (default 70). */
+  bodyDepthPx?: number;
 }) {
   const hasTrailer = Boolean(trailerNumber);
   const showOpenDoor = hasTrailer && state !== 'move-task' && state !== 'pull-task';
@@ -7592,7 +8339,12 @@ function Dock({
         .filter(Boolean)
         .join(' ')}
       ref={spaceRef}
-      style={dimmed ? { opacity: 0.2, transition: 'opacity 0.15s' } : { transition: 'opacity 0.15s' }}
+      style={{
+        ...(dimmed ? { opacity: 0.2 } : {}),
+        transition: 'opacity 0.15s',
+        '--dock-w': `${widthPx}px`,
+        '--dock-d': `${bodyDepthPx}px`,
+      } as React.CSSProperties}
       draggable={draggable}
       onClick={(event) => {
         if (onClick) {
@@ -7725,6 +8477,8 @@ function ParkingRowView({
   registerSpaceRef,
   row,
   selected,
+  lotHighlight = false,
+  multiSelected = false,
   selectedMoveTaskSpaceKeys,
   selectedMoveTaskTrailerNumber,
   selectedPullTaskTrailerNumber,
@@ -7751,7 +8505,7 @@ function ParkingRowView({
     pointer: { x: number; y: number }
   ) => boolean;
   onSpaceDragPreview: (event: React.DragEvent<HTMLDivElement>) => void;
-  onSelect: () => void;
+  onSelect: (shiftKey: boolean) => void;
   onSpaceSelect: (spaceKey: string) => void;
   onSpaceHoverEnter: (spaceKey: string) => void;
   onSpaceHoverLeave: (spaceKey: string) => void;
@@ -7761,6 +8515,8 @@ function ParkingRowView({
   registerSpaceRef: (spaceKey: string, node: HTMLDivElement | null) => void;
   row: ParkingRow;
   selected: boolean;
+  lotHighlight?: boolean;
+  multiSelected?: boolean;
   selectedMoveTaskSpaceKeys: Set<string>;
   selectedMoveTaskTrailerNumber: string | null;
   selectedPullTaskTrailerNumber: string | null;
@@ -7779,10 +8535,11 @@ function ParkingRowView({
 }) {
   const metrics = getLineMetrics(row.start, row.end);
   const rowEdge = row.settings.side === 'Left' ? 'top' : 'bottom';
-  const slotLabels = getDockNumbers({
-    ...row.settings,
-    name: '',
-  });
+  const rowSettingsPx  = normalizeRowSettings(row.settings);
+  const rowWidthPx     = Math.max(1, Math.round(rowSettingsPx.width));
+  const rowBodyDepthPx = Math.max(20, Math.round(rowSettingsPx.depth) - DOCK_HEAD_PX);
+  const rowGapPx       = Math.max(0, Math.round(rowSettingsPx.gap));
+  const slotLabels = getDockNumbers(row.settings);
 
   if (metrics.length < 1) {
     return null;
@@ -7793,6 +8550,8 @@ function ParkingRowView({
       className={[
         'parking-row',
         selected ? 'parking-row--selected' : '',
+        multiSelected ? 'parking-row--multi-selected' : '',
+        lotHighlight ? 'parking-row--lot-member' : '',
         isPreview ? 'parking-row--preview' : '',
       ]
         .filter(Boolean)
@@ -7830,11 +8589,11 @@ function ParkingRowView({
           onClick={(event) => {
             if (!isPreview && appMode === 'build') {
               event.stopPropagation();
-              onSelect();
+              onSelect(event.shiftKey);
             }
           }}
         >
-          <div className="parking-row__slots">
+          <div className="parking-row__slots" style={{ gap: `${rowGapPx}px` }}>
             {slotLabels.map((slot) => {
               const spaceKey = getRowSpaceKey(row.id, slot);
               const assignment = operationsAssignments[spaceKey];
@@ -7899,6 +8658,8 @@ function ParkingRowView({
                   suggestionTier={dockSuggestionBySpaceKey[spaceKey] ?? null}
                   trailerNumber={trailerNumber}
                   type="yard"
+                  widthPx={rowWidthPx}
+                  bodyDepthPx={rowBodyDepthPx}
                 />
               );
             })}

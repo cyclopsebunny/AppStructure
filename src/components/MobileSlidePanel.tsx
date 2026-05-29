@@ -1,7 +1,9 @@
-import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 
 // ── MobileSlidePanel ──────────────────────────────────────────────────────────
+
+const SLIDE_MS = 320; // must match slideEasing duration below
 
 export interface MobileSlidePanelProps {
   /** Whether the detail panel is visible */
@@ -9,9 +11,9 @@ export interface MobileSlidePanelProps {
   /** Called when the user taps Back or completes a right-swipe gesture */
   onBack: () => void;
   /** Content for the main (left) panel — always mounted, slides out left when detail opens */
-  main: React.ReactNode;
+  main: ReactNode;
   /** Content for the detail (right) panel — slides in from the right when open */
-  detail?: React.ReactNode;
+  detail?: ReactNode;
 }
 
 /**
@@ -33,6 +35,24 @@ export function MobileSlidePanel({ open, onBack, main, detail }: MobileSlidePane
   const [dragPx, setDragPx] = useState(0);
   const touchStartX = useRef(0);
   const dragging    = useRef(false);
+
+  // Keep detail content alive during the exit animation so the slide-out plays
+  // before the node is unmounted. The parent clears `detail` at the same time
+  // it sets `open=false`, which would otherwise cause an instant blink.
+  const [frozenDetail, setFrozenDetail] = useState<ReactNode>(detail);
+  const clearTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (open) {
+      // Opening (or content change while open): cancel pending clear, update.
+      if (clearTimer.current) { clearTimeout(clearTimer.current); clearTimer.current = null; }
+      setFrozenDetail(detail);
+    } else {
+      // Closing: let content persist until the slide-out animation finishes.
+      clearTimer.current = setTimeout(() => { setFrozenDetail(undefined); }, SLIDE_MS + 50);
+    }
+    return () => { if (clearTimer.current) clearTimeout(clearTimer.current); };
+  }, [open, detail]);
 
   const measure = () => {
     if (!sentinelRef.current) return;
@@ -117,7 +137,7 @@ export function MobileSlidePanel({ open, onBack, main, detail }: MobileSlidePane
         transform:  `translateX(${detailX})`,
         transition: dragPx > 0 ? 'none' : slideEasing,
       }}>
-        {detail}
+        {frozenDetail}
       </div>
     </div>,
     document.body,
